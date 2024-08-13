@@ -11,30 +11,37 @@ class ChecqueSerial extends Model
     use HasFactory;
 //    use Searchable;
 
-    protected $fillable = ['checque_id', 'checque_serial', 'is_used', 'status'];
+    protected $fillable = [
+        'checque_serial',
+        'is_used',
+        'status',
+        'bank_checque_id',
+    ];
 
     protected $searchableFields = ['*'];
 
     protected $table = 'checque_serials';
-    protected  static $checque_serial;
+
+    protected  static $checque;
 
     public static function createOrUpdateUser ($request, $id = null)
     {
         if (isset($id))
         {
-            self::$checque_serial = ChecqueSerial::find($id);
+            self::$checque = ChecqueSerial::find($id);
         } else {
-            self::$checque_serial = new ChecqueSerial();
+            self::$checque = new ChecqueSerial();
         }
-        self::$checque_serial->checque_id                   = $request->checque_id ?? '';
-        self::$checque_serial->checque_serial               = $request->checque_serial ?? '';
-        self::$checque_serial->is_used                      = $request->is_used ?? '';
-        self::$checque_serial->status                       = $request->status ?? '';
-        self::$checque_serial->save();
-        return self::$checque_serial;
+        self::$checque->checque_serial                   = $request->checque_serial ?? '';
+        self::$checque->is_used                          = $request->is_used ?? '';
+        self::$checque->bank_checque_id                  = $request->bank_checque_id ?? '';
+        self::$checque->status                           = $request->status ?? '';
+        self::$checque->save();
+
+        return self::$checque;
     }
-    public function checque()
+    public function bankChecque()
     {
-        return $this->belongsTo(Checque::class);
+        return $this->belongsTo(BankChecque::class);
     }
 }

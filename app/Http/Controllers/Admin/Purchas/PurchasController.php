@@ -13,6 +13,7 @@ use App\Models\Color;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Product;
+use App\Models\ProductSerial;
 use App\Models\ProductTransection;
 use App\Models\Purchas;
 use App\Models\Size;
@@ -84,9 +85,7 @@ class PurchasController extends Controller
          $amount['amount']=$request->due_amount + $request->payment_amount;
          $amount['paid_amount']=$request->payment_amount;
          $amount['due_amount']=$request->due_amount;
-//        $amount['user_id']=
-//        $amount['branch_id']=
-//        $amount['company_id']=
+
          if ($request->payment_amount == 0){
              $amount['status']='unpaid';
              $request['status']=0;
@@ -126,10 +125,6 @@ class PurchasController extends Controller
          $amount['paid_amount']=$request->payment_amount;
          $amount['due_amount']=$request->due_amount;
 
-//        $amount['user_id']=
-//        $amount['branch_id']=
-//        $amount['company_id']=
-
          if ($request->payment_amount == 0){
              $amount['status']='unpaid';
              $request['status']=0;
@@ -141,19 +136,6 @@ class PurchasController extends Controller
              $amount['status']='partial';
              $request['status']=2;
          }
-
-//         if (isset($bank_amount['bank_type']) && $bank_amount['bank_type']=='bank'){
-//             $bank=BankAccount::where('id',$bank_amount['bank_id'])->first();
-//             $bank_name=Bank::where('id',$bank->bank_id)->first();
-//
-//             $bank->balance=$bank->balance - $bank_amount['payment_amount'];
-//             $bank->update();
-//         }elseif (isset($bank_amount['bank_type']) && $bank_amount['bank_type']=='mobile'){
-//             $bank=BankMobile::where('id',$bank_amount['bank_id'])->first();
-//             $bank->balance=$bank->balance - $bank_amount['payment_amount'];
-//             $bank->update();
-//         }
-
      }
 
 
@@ -163,6 +145,8 @@ class PurchasController extends Controller
         $sessionProducts = session()->get('purchase_products', []);
 //        return $sessionProducts;
         foreach ($sessionProducts as $key=>$product){
+
+//            return $product['serial'];
             $data['product_id']=$product['id'];
             $data['color_id']=$product['color'];
             $data['size_id']=$product['size'];
@@ -177,22 +161,23 @@ class PurchasController extends Controller
             $data['vat_type']=$product['vat_type'];
             $data['vat']=$product['vat'];
             $data['pur_id']=$store->id;
-//            $data['pro_in']=$product['id'];
-//            $data['pro_out']=$product['id'];
-//            $data['pro_sell']=$product['id'];
-//            $data['pro_loc']=$product['id'];
+
+            foreach ($product['serial'] as $poserial){
+                $serial['product_id']=$product['id'];
+                $serial['serial_number']=$poserial;
+                $serial['emei_number']=' ';
+                $serial['is_sold']='0';
+                $serial['status']=' ';
+            $serial=ProductSerial::createOrUpdateUser($serial);
+            }
+
             $tranjection=ProductTransection::createOrUpdateUser($data,'pur',$store->id);
             $stock=Stock::createOrUpdateUser($data);
-//            return $tranjection;
-//            return $stock;
         }
         session()->forget('purchase_walkin');
         session()->forget('purchase_additional');
         session()->forget('purchase_products');
         session()->forget('bank_info');
-//        return $sessionProducts;
-//        $tranjection=ProductTransection::createOrUpdateUser($request,'pur',$store->id);
-//        return $store;
 
         return redirect()->route('purchasOrderCreate')->with('success','Purchas create successfully');
     }
@@ -215,7 +200,20 @@ class PurchasController extends Controller
     {
 //        abort_if(!auth()->user()->can('update product'),403,__('User does not have the right permissions.'));
 
-//        $product=Product::find($id);
+        $purchas=Product::find($id);
+        $pro_trns=ProductTransection::where('trans_type','pur')->where('trans_id',$id)->get();
+        foreach ($pro_trns as $product){
+                return $product;
+            $stock=Stock::where('pur_id',$id)->where('product_id',$product->product_id)->first();
+            $stock->sotck_qty = $stock->sotck_qty - $product->qty;
+            $stock->update();
+            $product->delete();
+            $serial=ProductSerial::where('product_id',$product->product_id)->get();
+            foreach ($serial as $sr){
+                $sr->delete();
+            }
+        }
+//        $invoice=Invoice::where('id',$delete->inv_id)->first();
         return view('admin.purchas.purchas_order.edit',[
             'purchas'=>Purchas::find($id),
             'products' => Product::get(),
@@ -252,10 +250,15 @@ class PurchasController extends Controller
             $delete=Purchas::find($id);
             $pro_trns=ProductTransection::where('trans_type','pur')->where('trans_id',$id)->get();
             foreach ($pro_trns as $product){
+//                return $product;
                 $stock=Stock::where('pur_id',$id)->where('product_id',$product->product_id)->first();
                 $stock->sotck_qty=$stock->sotck_qty - $product->qty;
                 $stock->update();
                 $product->delete();
+                $serial=ProductSerial::where('product_id',$product->product_id)->get();
+                foreach ($serial as $sr){
+                    $sr->delete();
+                }
             }
             $invoice=Invoice::where('id',$delete->inv_id)->first();
         if (isset($invoice->bank_type) && $invoice->bank_type =='bank'){
@@ -397,7 +400,7 @@ class PurchasController extends Controller
         $sessionProducts = session()->get('purchase_products', []);
         if ($quantity < 1) {
             return response()->json(['status' => true, 'products' => array_reverse($sessionProducts)]);
-            return response()->json(['status' => false, 'message' => 'Invalid quantity']);
+//            return response()->json(['status' => false, 'message' => 'Invalid quantity']);
         }
 //        return $quantity;
         $product = Product::find($productId);

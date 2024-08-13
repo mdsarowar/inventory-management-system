@@ -34,11 +34,11 @@ class ProductSerial extends Model
         } else {
             self::$product_serial = new ProductSerial();
         }
-        self::$product_serial->product_id                   = $request->product_id ?? '';
-        self::$product_serial->serial_number                = $request->serial_number ?? '';
-        self::$product_serial->emei_number                  = $request->emei_number ?? '';
-        self::$product_serial->is_sold                      = $request->is_sold ?? '';
-        self::$product_serial->status                       = $request->status ?? '';
+        self::$product_serial->product_id                   = $request['product_id'] ?? '';
+        self::$product_serial->serial_number                = $request['serial_number'] ?? '';
+        self::$product_serial->emei_number                  = $request['emei_number'] ?? '';
+        self::$product_serial->is_sold                      = $request['is_sold'] ?? '';
+        self::$product_serial->status                       = $request['status'] ?? '';
         self::$product_serial->save();
 
         return self::$product_serial;

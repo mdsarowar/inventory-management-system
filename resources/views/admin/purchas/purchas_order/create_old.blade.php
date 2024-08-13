@@ -9,11 +9,11 @@
         }
         .pos-products .product-info {
             padding: 10px;
-            color: #b8bcc9;
+            color: #B8BCC9;
             -webkit-transition: all 0.5s ease;
             -ms-transition: all 0.5s ease;
             transition: all 0.5s ease;
-            border-radius: 10px;
+            border-radius: 10px
         }
         .pos-products .product-info .img-bg {
             height: 117px;
@@ -35,7 +35,7 @@
             position: absolute;
             top: 5px;
             right: 5px;
-            color: #28c76f;
+            color: #28C76F;
             font-size: 18px;
             display: none;
         }
@@ -46,10 +46,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 10px;
-            padding: 0 13px 13px 13px;
-            height: 70vh;
-            overflow-y: auto;
-            border-bottom: 1px solid #ebebeb;
+            padding: 16px;
         }
         .custom-product-img {
             transform: scale(1);
@@ -66,16 +63,13 @@
             font-weight: 700;
         }
         .pos-products .product-info h6.cat-name a {
-            color: #b8bcc9;
+            color: #B8BCC9;
         }
-        .pos-categories h5,
-        .pos-categories h6,
-        .order-list h5,
-        .order-list h6 {
-            color: #092c4c;
+        .pos-categories h5, .pos-categories h6, .order-list h5, .order-list h6 {
+            color: #092C4C;
         }
         .pos-products .product-info h6.product-name {
-            color: #092c4c;
+            color: #092C4C;
         }
         .pos-products .product-info .price {
             margin-top: 10px;
@@ -84,7 +78,7 @@
             color: #888888;
         }
         .pos-products .product-info .price p {
-            color: #ff9f43;
+            color: #FF9F43;
         }
         .btn-outline-primary {
             color: #6e6e6e;
@@ -99,7 +93,7 @@
             border-left: 1px solid #f3f6f9;
         }
         aside.product-order-list .head {
-            background-color: #fafbfe;
+            background-color: #FAFBFE;
             border-radius: 8px;
             padding: 10px;
             margin-bottom: 13px;
@@ -108,7 +102,7 @@
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 10px;
-            color: #1b2850;
+            color: #1B2850;
         }
         aside.product-order-list .customer-info .input-block {
             margin-bottom: 10px;
@@ -136,7 +130,7 @@
             justify-content: center;
             -webkit-justify-content: center;
             -ms-flex-pack: center;
-            background: #ff9f43;
+            background: #FF9F43;
             border-radius: 100%;
             color: #ffffff;
             font-size: 10px;
@@ -154,24 +148,23 @@
         }
         .product-wrap .qty-item input {
             padding: 1px 9px;
-            background: #fafbfe;
+            background: #FAFBFE;
             border-radius: 8px;
-            height: 33px;
-            width: 110px;
+            height: 28px;
+            width: 71px;
             text-align: center;
             font-size: 13px;
         }
         .product-wrap .qty-item .dec {
             left: 9px;
         }
-        .product-wrap .qty-item .dec,
-        .product-wrap .qty-item .inc {
+        .product-wrap .qty-item .dec, .product-wrap .qty-item .inc {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
             -webkit-transform: translateY(-50%);
             -ms-transform: translateY(-50%);
-            color: #092c4c;
+            color: #092C4C;
             -webkit-transition: all 0.5s ease;
             -ms-transition: all 0.5s ease;
             transition: all 0.5s ease;
@@ -180,7 +173,7 @@
             right: 9px;
         }
         .product-wrap input.product_cost_field {
-            width: 110px;
+            width: 80px;
             padding: 3px 5px;
             border: 1px solid #efefef;
             border-radius: 5px;
@@ -190,10 +183,9 @@
             padding: 15px;
             border-radius: 8px;
             margin: 20px 0;
-            border: 1px dotted #b1b1b1;
         }
         aside.product-order-list .order-total ul li {
-            color: #5b6670;
+            color: #5B6670;
             font-size: 15px;
             font-weight: 500;
             background: transparent;
@@ -219,7 +211,7 @@
             border-radius: 5px;
             cursor: pointer;
             margin: 0 5px;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
         }
         div.color_plate_btn.color_green {
             background-color: green;
@@ -262,72 +254,23 @@
             border: 1px solid #d7d7d7;
         }
         div.save_progress i {
-            color: #ff9f43;
+            color: #FF9F43;
             animation: spin 1s linear infinite;
         }
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         #alphabet-filter button {
             border-left: none;
             border-radius: 0;
         }
         #alphabet-filter button.all_btn {
-            border-left: 1px solid #ff9f43;
+            border-left: 1px solid #FF9F43;
         }
         #alphabet-filter button.active_alphabet {
             color: #ffffff;
-            background-color: #ff9f43;
-        }
-
-        .grand_total_container {
-            background-color: lightblue;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            width: fit-content;
-            padding: 13px;
-            border: 1px dotted #b3b3b3;
-            border-radius: 10px;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        }
-        .grand_total_container span {
-            color: #5c5c5c;
-            font-size: 20px;
-            font-weight: 800;
-            white-space: nowrap;
-            margin-right: 15px;
-        }
-        .grand_total_container input {
-            width: fit-content;
-        }
-
-        .cursor_pointer {
-            cursor: pointer;
-        }
-        .cursor_not_allowed {
-            cursor: not-allowed;
-        }
-
-        /* area collapse/expand */
-        .area_product_browser,
-        .area_product_calculation {
-            transition: width 0.5s ease;
-        }
-
-        /* serial offcanvas */
-        @keyframes spin {
-            0% { transform: rotate(0deg) scale(1); }
-            100% { transform: rotate(360deg) scale(1.1); }
-        }
-        .input-group-text.auto_generate_serial_btn:hover i {
-            animation: spin 1s linear infinite;
+            background-color: #FF9F43;
         }
     </style>
 @endsection
@@ -347,7 +290,7 @@
         </div>
         <!-- /add -->
         <div class="row">
-            <div class="col-md-6 area_product_browser">
+            <div class="col-md-6">
                 <div class="pos-products">
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -385,20 +328,20 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 area_product_calculation">
+            <div class="col-md-6">
                 <aside class="product-order-list">
                     <form action="{{route('purchases.store')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="customer-info block-section mb-2">
-                            {{--                            <h6>Walk-in Information</h6>--}}
+{{--                            <h6>Walk-in Information</h6>--}}
 
                             <div>
-                                <div class="d-flex flex-row align-items-center mb-3">
-                                    <a href="javascript:void(0)" class="area_toggler_btn me-3"><i class="fas fa-chevron-circle-left fa-2x"></i></a>
+                                <p>
                                     <button type="button" class="btn btn-primary btn-icon me-2" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                        <i class="fas fa-luggage-cart"></i> Walk-in Information
+                                        <i class="fas fa-luggage-cart"></i>  Walk-in Information
                                     </button>
-                                </div>
+
+                                </p>
                                 <div class="collapse" id="collapseExample">
                                     <div class="card card-body">
                                         <div class="selling-info">
@@ -415,7 +358,7 @@
                                                                 <label>
                                                                     <input type="radio" value="cus" name="vendor_type"> Customer
                                                                 </label>
-                                                                <label class="mx-3">
+                                                                <label>
                                                                     <input type="radio" value="sup" name="vendor_type"> Supplier
                                                                 </label>
                                                                 <label>
@@ -425,7 +368,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-5 col-12 mb-2">
+                                                <div class=" col-sm-5 col-12 mb-2">
                                                     <div class="input-block">
                                                         <div class="form-group" id="vendor_select_field">
                                                             <label>{{__('vendor')}}</label>
@@ -436,38 +379,38 @@
                                                                 {{--                                                    @endforeach--}}
                                                             </select>
                                                         </div>
+                                                        <div class="form-group" id="vendor_input_field">
+                                                            <label>{{__('vendor name')}}</label>
+                                                            <input type="text" class="form-control" name="vendor_name" id="" value="">
+                                                            <label>{{__('Phone')}}</label>
+                                                            <input type="text" class="form-control" name="phone" id="" value="">
+                                                            <label>{{__('Email')}}</label>
+                                                            <input type="text" class="form-control" name="Email" id="" value="">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="vendor_input_field">
-                                                <div class="row mt-2">
-                                                    <div class="col-md-6 mb-2">
-                                                        <label>{{__('Name')}}</label>
-                                                        <input type="text" class="form-control form-control-sm" name="vendor_name" id="" value="">
+                                        </div>
+                                        <div class="selling-info">
+                                            <div class="row">
+                                                <div class="col-sm-4 col-12 mb-2">
+                                                    <div class="input-block">
+                                                        <label>Reference
+                                                            <div class="save_progress d-none">
+                                                                <i class="fas fa-spinner"></i>
+                                                            </div>
+                                                        </label>
+                                                        <input type="text" class="form-control" name="ref" id="reference_field" value="">
                                                     </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <label>{{__('Phone')}}</label>
-                                                        <input type="text" class="form-control form-control-sm" name="phone" id="" value="">
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <label>{{__('Email')}}</label>
-                                                        <input type="text" class="form-control form-control-sm" name="email" id="" value="">
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <label>{{__('Address')}}</label>
-                                                        <input type="text" class="form-control form-control-sm" name="address" id="" value="">
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <label for="districtSelect" class="form-label">{{ __('District') }}</label>
-                                                        <select class="form-select form-select-sm" id="districtSelect">
-                                                            <option value="" disabled selected>Select District</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <label for="zoneSelect" class="form-label">{{ __('Zone') }}</label>
-                                                        <select class="form-select form-select-sm" id="zoneSelect">
-                                                            <option value="" disabled selected>Select Zone</option>
-                                                        </select>
+                                                </div>
+                                                <div class="col-sm-8 col-12">
+                                                    <div class="input-block">
+                                                        <label>Note
+                                                            <div class="save_progress d-none">
+                                                                <i class="fas fa-spinner"></i>
+                                                            </div>
+                                                        </label>
+                                                        <input type="text" class="form-control" name="note" id="note_field" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -475,29 +418,38 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 mb-2">
-                                <label>Barcode
-                                    <div class="save_progress d-none">
-                                        <i class="fas fa-spinner"></i>
-                                    </div>
-                                </label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text bg-white"><i class="fas fa-barcode"></i></span>
-                                    <input type="text" class="form-control" id="barcode_field" value="{{ $ssn_additional['barcode'] ?? '' }}" placeholder="e.g. 1234567890">
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mb-2">
-                                <label>Hertz
-                                    <div class="save_progress d-none">
-                                        <i class="fas fa-spinner"></i>
-                                    </div>
-                                </label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text bg-white"><i class="fas fa-wave-square"></i></span>
-                                    <input type="text" class="form-control form-control-sm" id="hertz_field" value="{{ $ssn_additional['hertz'] ?? '' }}" placeholder='e.g. 125Hz'>
-                                </div>
+{{--                            <div class="head d-flex align-items-center">--}}
+{{--                                <button type="button" class="btn btn-primary btn-icon me-2" data-bs-toggle="offcanvas" data-bs-target="#select_walkin_offcanvas">--}}
+{{--                                    <i class="fas fa-luggage-cart"></i>--}}
+{{--                                </button>--}}
+{{--                                <button type="button" class="btn btn-primary btn-icon me-2" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">--}}
+{{--                                    <i class="fas fa-luggage-cart"></i>--}}
+{{--                                </button>--}}
+
+{{--                                <div class="w-100">--}}
+{{--                                    <div id="walkin_details_container">--}}
+{{--                                        @if(!empty($ssn_walkin) && isset($ssn_walkin['name']) && isset($ssn_walkin['balance']))--}}
+{{--                                            <h6 class="mb-0">{{ $ssn_walkin['name'] }}</h6>--}}
+{{--                                            <div>৳{{ $ssn_walkin['balance'] }}</div>--}}
+{{--                                        @else--}}
+{{--                                            <p class="placeholder-glow d-inline">--}}
+{{--                                                <span class="placeholder w-50"></span>--}}
+{{--                                            </p>--}}
+{{--                                        @endif--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+                            <div class="d-gird">
+                                <button type="button" class="btn btn-light border btn-icon me-2 mb-2" data-bs-toggle="popover" data-bs-title="Barcode" data-bs-content="
+                            <input type='text' class='form-control' placeholder='e.g. 1234567890'>
+                            " id="popover_barcode">
+                                    <i class="fas fa-barcode"></i>
+                                </button>
+                                <button type="button" class="btn btn-light border btn-icon me-2 mb-2" data-bs-toggle="popover" data-bs-title="Hertz" data-bs-content="
+                            <input type='text' class='form-control' placeholder='e.g. 125Hz'>
+                            " id="popover_hertz">
+                                    <i class="fas fa-wave-square"></i>
+                                </button>
                             </div>
                         </div>
                         <div class="product-added block-section mb-2">
@@ -517,7 +469,7 @@
                                         <th><i class="fas fa-boxes"></i></th>
                                         <th>Serial</th>
                                         <th>Qty</th>
-                                        <th>Price</th>
+                                        <th>Cost</th>
                                         <th>SubTotal</th>
                                         <th><i class="fas fa-trash-alt"></i></th>
                                     </tr>
@@ -536,7 +488,7 @@
                                                     </div>
                                                     <div class="d-flex">
                                                         <input type="radio" name="serial{{ $product['id'] }}" class="me-1 serial-radio manual-radio" id="serial_manual{{ $product['id'] }}" value="{{ $product['id'] }}" data-serial-method="manual" {{ $product['serial_method'] === 'manual' ? 'checked' : '' }}>
-                                                        <label for="serial_manual{{ $product['id'] }}" class="cursor_pointer" data-bs-toggle="offcanvas" data-bs-target="#product_serial_offcanvas" role="button"><small>Manual</small></label>
+                                                        <label for="serial_manual{{ $product['id'] }}" class="cursor_pointer" data-bs-toggle="modal" data-bs-target="#product_serial_modal" role="button"><small>Manual</small></label>
                                                     </div>
                                                 </td>
                                                 <td class="py-1">
@@ -564,7 +516,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="text-center">there are no products selected</td>
+                                            <td colspan="5" class="text-center">there are no products selected</td>
                                         </tr>
                                     @endif
                                     </tbody>
@@ -578,107 +530,146 @@
                         <div class="block-section">
                             <div class="order-total">
                                 <div class="row">
-                                    {{--                                    <div class="col-6 d-flex align-items-center mb-2">SubTotal--}}
-                                    {{--                                        <div class="save_progress d-none ms-1">--}}
-                                    {{--                                            <i class="fas fa-spinner"></i>--}}
-                                    {{--                                        </div>--}}
-                                    {{--                                    </div>--}}
+{{--                                    <div class="col-6 d-flex align-items-center mb-2">SubTotal--}}
+{{--                                        <div class="save_progress d-none ms-1">--}}
+{{--                                            <i class="fas fa-spinner"></i>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                     <div class="col-6 mb-2">
                                         <label>SubTotal</label>
-                                        <input type="tel" class="form-control form-control-sm text-center" name="all_subtotal" id="sub_total_field" value="{{ isset($ssn_additional) ? $ssn_additional['subtotal'] : 0 }}">
+                                        <input type="tel" class="form-control text-center" name="all_subtotal" id="sub_total_field" value="{{ isset($ssn_additional) ? $ssn_additional['subtotal'] : 0 }}">
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Discount</label>
-                                        <input type="tel" class="form-control form-control-sm text-center" name="all_discount" id="discount_field" value="{{ isset($ssn_additional) ? $ssn_additional['discount'] : 0 }}">
+                                        <input type="tel" class="form-control text-center" name="all_discount" id="discount_field" value="{{ isset($ssn_additional) ? $ssn_additional['discount'] : 0 }}">
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Vat</label>
-                                        <input type="tel" class="form-control form-control-sm text-center" name="all_vat" id="vat_field" value="{{ isset($ssn_additional) ? $ssn_additional['vat'] : 0 }}">
+                                        <input type="tel" class="form-control text-center" name="all_vat" id="vat_field" value="{{ isset($ssn_additional) ? $ssn_additional['vat'] : 0 }}">
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Tax</label>
-                                        <input type="tel" class="form-control form-control-sm text-center" name="all_tax" id="tax_field" value="{{ isset($ssn_additional) ? $ssn_additional['tax'] : 0 }}">
+                                        <input type="tel" class="form-control text-center" name="all_tax" id="tax_field" value="{{ isset($ssn_additional) ? $ssn_additional['tax'] : 0 }}">
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Speed Money</label>
-                                        <input type="tel" class="form-control form-control-sm text-center" name="all_speedmoney" id="speed_money_field" value="{{ isset($ssn_additional) && isset($ssn_additional['speed_money']) ? $ssn_additional['speed_money'] : 0 }}">
+                                        <input type="tel" class="form-control text-center" name="all_speedmoney" id="speed_money_field" value="{{ isset($ssn_additional) && isset($ssn_additional['speed_money']) ? $ssn_additional['speed_money'] : 0 }}">
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Freight</label>
-                                        <input type="tel" class="form-control form-control-sm text-center" name="all_freight" id="freight_field" value="{{ isset($ssn_additional) && isset($ssn_additional['freight']) ? $ssn_additional['freight'] : 0 }}">
+                                        <input type="tel" class="form-control text-center" name="all_freight" id="freight_field" value="{{ isset($ssn_additional) && isset($ssn_additional['freight']) ? $ssn_additional['freight'] : 0 }}">
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Fractional Discount</label>
-                                        <input type="tel" class="form-control form-control-sm text-center" name="fractional_dis" id="fractional_discount_field" value="{{ isset($ssn_additional) && isset($ssn_additional['fractional_discount']) ? $ssn_additional['fractional_discount'] : 0 }}">
+                                        <input type="tel" class="form-control text-center" name="fractional_dis" id="fractional_discount_field" value="{{ isset($ssn_additional) && isset($ssn_additional['fractional_discount']) ? $ssn_additional['fractional_discount'] : 0 }}">
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Payment Method</label>
-                                        <select class="form-select form-select-sm" name="payment_type" id="payment_type">
+                                        <select class="form-select" name="payment_type" id="payment_type">
                                             <option selected disabled>-- select one --</option>
-                                            <option value="cash">Cash</option>
+                                            <option value="cash" selected>Cash</option>
                                             <option value="bank" {{isset($bank_pay)? 'selected':''}}>Online</option>
                                         </select>
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Payment Amount</label>
-                                        <input type="text" class="form-control form-control-sm text-center" name="payment_amount" id="payment_amount" value="{{ isset($bank_pay) ? $bank_pay['payment_amount'] : 0 }}">
+                                        <input type="text" class="form-control text-center" name="payment_amount" id="payment_amount" value="{{ isset($bank_pay) ? $bank_pay['payment_amount'] : 0 }}">
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Due Amount</label>
-                                        <input type="text" class="form-control form-control-sm text-center" name="due_amount" id="due_amount" value="{{(isset($ssn_additional) ? $ssn_additional['grand_total'] : 0) - (isset($bank_pay) ? $bank_pay['payment_amount'] : 0) }}" readonly>
+                                        <input type="text" class="form-control text-center" name="due_amount" id="due_amount" value="{{(isset($ssn_additional) ? $ssn_additional['grand_total'] : 0) - (isset($bank_pay) ? $bank_pay['payment_amount'] : 0) }}" readonly>
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Issue Date</label>
-                                        <input type="date" class="form-control form-control-sm text-center" name="issue_date" id="" value="">
+                                        <input type="date" class="form-control text-center" name="issue_date" id="" value="">
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Due Date</label>
-                                        <input type="date" class="form-control form-control-sm text-center" name="due_date" id="" value="">
+                                        <input type="date" class="form-control text-center" name="due_date" id="" value="">
                                     </div>
+{{--                                    <div class="col-6 d-flex align-items-center mb-2">Discount--}}
+{{--                                        <div class="save_progress d-none ms-1">--}}
+{{--                                            <i class="fas fa-spinner"></i>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 mb-2">--}}
+{{--                                        <input type="tel" class="form-control text-center" name="all_discount" id="discount_field" value="{{ isset($ssn_additional) ? $ssn_additional['discount'] : 0 }}">--}}
+{{--                                    </div>--}}
+{{--                                    </div>--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-6 d-flex align-items-center mb-2">Vat--}}
+{{--                                        <div class="save_progress d-none ms-1">--}}
+{{--                                            <i class="fas fa-spinner"></i>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 mb-2">--}}
+{{--                                        <input type="tel" class="form-control text-center" name="all_vat" id="vat_field" value="{{ isset($ssn_additional) ? $ssn_additional['vat'] : 0 }}">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 d-flex align-items-center mb-2">Tax--}}
+{{--                                        <div class="save_progress d-none ms-1">--}}
+{{--                                            <i class="fas fa-spinner"></i>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 mb-2">--}}
+{{--                                        <input type="tel" class="form-control text-center" name="all_tax" id="tax_field" value="{{ isset($ssn_additional) ? $ssn_additional['tax'] : 0 }}">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 d-flex align-items-center mb-2">Speed Money--}}
+{{--                                        <div class="save_progress d-none ms-1">--}}
+{{--                                            <i class="fas fa-spinner"></i>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 mb-2">--}}
+{{--                                        <input type="tel" class="form-control text-center" name="all_speedmoney" id="speed_money_field" value="{{ isset($ssn_additional) && isset($ssn_additional['speed_money']) ? $ssn_additional['speed_money'] : 0 }}">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 d-flex align-items-center mb-2">Freight--}}
+{{--                                        <div class="save_progress d-none ms-1">--}}
+{{--                                            <i class="fas fa-spinner"></i>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 mb-2">--}}
+{{--                                        <input type="tel" class="form-control text-center" name="all_freight" id="freight_field" value="{{ isset($ssn_additional) && isset($ssn_additional['freight']) ? $ssn_additional['freight'] : 0 }}">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 d-flex align-items-center">Fractional Discount--}}
+{{--                                        <div class="save_progress d-none ms-1">--}}
+{{--                                            <i class="fas fa-spinner"></i>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 mb-2">--}}
+{{--                                        <input type="tel" class="form-control text-center" name="fractional_dis" id="fractional_discount_field" value="{{ isset($ssn_additional) && isset($ssn_additional['fractional_discount']) ? $ssn_additional['fractional_discount'] : 0 }}">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 d-flex align-items-center">Due Amount--}}
+{{--                                        <div class="save_progress d-none ms-1">--}}
+{{--                                            <i class="fas fa-spinner"></i>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6 mb-2">--}}
+{{--                                        <input type="text" class="form-control text-center" name="due_amount" id="due_amount" value="{{ isset($ssn_additional) ? $ssn_additional['grand_total'] : 0 }}" readonly>--}}
+{{--                                    </div>--}}
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6 mb-4">
-                                <div class="grand_total_container">
-                                    <span>Grand Total</span>
-                                    <input type="tel" class="form-control text-center" name="fractional_dis" id="grand_total" value="{{ isset($ssn_additional) ? $ssn_additional['grand_total'] : 0 }}" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 mb-2">
-                                <div class="input-block">
-                                    <label>Reference
-                                        <div class="save_progress d-none">
+                                    <div class="col-6 d-flex align-items-center">Grand Total
+                                        <div class="save_progress d-none ms-1">
                                             <i class="fas fa-spinner"></i>
                                         </div>
-                                    </label>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text bg-white"><i class="fas fa-retweet"></i></span>
-                                        <input type="text" class="form-control form-control-sm" name="ref" id="reference_field" value="{{ $ssn_additional['reference'] ?? '' }}">
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mb-2">
-                                <div class="input-block">
-                                    <label>Note
-                                        <div class="save_progress d-none">
-                                            <i class="fas fa-spinner"></i>
-                                        </div>
-                                    </label>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text bg-white"><i class="fas fa-pen-alt"></i></span>
-                                        <input type="text" class="form-control form-control-sm" name="note" id="note_field" value="{{ $ssn_additional['note'] ?? '' }}">
+                                    <div class="col-6 mb-2">
+                                        <input type="tel" class="form-control text-center" name="fractional_dis" id="grand_total" value="{{ isset($ssn_additional) ? $ssn_additional['grand_total'] : 0 }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
+{{--                        <div class="d-grid btn-block mb-2">--}}
+{{--                            <h6 class="text-dark mb-0"><strong>Grand Total: </strong>৳<span id="grand_total">{{ isset($ssn_additional) ? $ssn_additional['grand_total'] : 0 }}</span></h6>--}}
+{{--                            <h6 class="text-dark mb-0"><strong>Grand Total: </strong>৳<span id="grand_total"><input type="text" value="{{ isset($ssn_additional) ? $ssn_additional['grand_total'] : 0 }}" ></span></h6>--}}
 
+{{--                        </div>--}}
+                        <div class="head text-center">
+{{--                            <button type="button" class="btn btn-success btn-lg flex-fill" data-bs-toggle="offcanvas" data-bs-target="#payment_offcanvas"><i class="fas fa-credit"></i> Payment</button>--}}
+                            <h6 class="text-muted mb-0">No IMEI/Serial Information!</h6>
+                        </div>
+{{--                        </div>--}}
                         <div class="btn-row d-flex align-items-center justify-content-between mt-2">
                             <button type="button" class="btn btn-danger btn-lg flex-fill" id="destroy_all_ssn_btn"><i class="fas fa-trash-alt"></i> Empty</button>
-                            {{--                            <button type="button" class="btn btn-success btn-lg flex-fill" data-bs-toggle="offcanvas" data-bs-target="#payment_offcanvas"><i class="fas fa-credit"></i> Payment</button>--}}
+{{--                            <button type="button" class="btn btn-success btn-lg flex-fill" data-bs-toggle="offcanvas" data-bs-target="#payment_offcanvas"><i class="fas fa-credit"></i> Payment</button>--}}
                             <button type="submit" class="btn btn-success btn-lg flex-fill"><i class="fas fa-credit-card"></i> Checkout</button>
                         </div>
                     </form>
@@ -688,7 +679,7 @@
         <!-- /add -->
     </div>
 
-    {{--    <!-- payment bank offcanvas -->--}}
+{{--    <!-- walk-in selector offcanvas -->--}}
     <div class="offcanvas offcanvas-end w-50 h-auto" data-bs-scroll="true" tabindex="-1" id="payment_offcanvas" >
         <div class="offcanvas-header border-bottom pb-2">
             <h5 class="offcanvas-title"><i class="fas fa-search"></i> Bank Details</h5>
@@ -742,12 +733,9 @@
                     </div>
                 </div>
                 <div class="col-6 mb-2">
-                    {{--                    <input type="text" class="form-control text-center" name="" id="payment_amount" value="" >--}}
+{{--                    <input type="text" class="form-control text-center" name="" id="payment_amount" value="" >--}}
                     <input type="text" class="form-control text-center" name="bank_payment" id="bank_payment" value="">
 
-                </div>
-                <div class="text-dark mb-3">
-                    <strong>Grand Total: </strong><span id="grand_total_preview"></span>
                 </div>
 
                 <input type="submit" id="pay" class="form-control btn btn-outline-primary" value="pay">
@@ -840,20 +828,25 @@
 
 
     <!-- product serial modal -->
-    <div class="offcanvas offcanvas-end w-75" data-bs-scroll="true" tabindex="-1" id="product_serial_offcanvas">
-        <div class="offcanvas-header d-flex justify-content-between">
-            <h5 class="offcanvas-title"></h5>
-            <div>
-                <button type="button" class="btn btn-success btn-sm save_serial_values">Save</button>
-                <button type="button" class="btn btn-primary btn-sm auto_generate_serial_all_btn">Auto-Generate</button>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    <div class="modal fade modal-default" role="dialog" id="product_serial_modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5></h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                </div>
+                <div class="modal-body bg-light pb-0">
+                </div>
+                <div class="modal-footer border d-flex justify-content-between p-1">
+                    <button type="button" class="btn btn-secondary py-2" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary py-2" id="save_serial_numbers">Save Changes</button>
+                </div>
             </div>
         </div>
-        <div class="offcanvas-body pt-0">
-        </div>
     </div>
-
-    <!-- payment modal -->
+    <!-- product serial modal -->
     <div class="modal fade modal-default" role="dialog" id="payment_modal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -903,7 +896,7 @@
                 </div>
                 <div class="modal-footer border d-flex justify-content-between p-1">
                     <button type="button" class="btn btn-secondary py-2" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary py-2">Save Changes</button>
+                    <button type="button" class="btn btn-primary py-2" id="save_serial_numbers">Save Changes</button>
                 </div>
             </div>
         </div>
@@ -911,116 +904,13 @@
 @endsection
 @section('js')
     <script>
-        // area collapse/expand
-        $(document).ready(function() {
-            let toggled = false;
-
-            $('.area_toggler_btn').click(function() {
-                if (!toggled) {
-                    // Slide out and hide the browser area, expand the calculation area
-                    $('.area_product_browser').animate({ width: '0' }, 800, function() {
-                        $(this).hide();
-                    });
-                    $('.area_product_calculation').animate({ width: '100%' }, 800);
-                    $('.col-md-6').removeClass('col-md-6').addClass('col-md-12');
-                    // Change button icon to chevron right
-                    $(this).find('i').removeClass('fa-chevron-circle-left').addClass('fa-chevron-circle-right');
-                } else {
-                    // Show and slide back the browser area, reset the calculation area
-                    $('.area_product_browser').show().animate({ width: '50%' }, 800);
-                    $('.area_product_calculation').animate({ width: '50%' }, 800);
-                    $('.col-md-12').removeClass('col-md-12').addClass('col-md-6');
-                    // Change button icon to chevron left
-                    $(this).find('i').removeClass('fa-chevron-circle-right').addClass('fa-chevron-circle-left');
-                }
-
-                toggled = !toggled;
-            });
-        });
-    </script>
-    <script>
-        // walk-in district & zone selector
-        const districtZoneData = {
-            'Dhaka': ['Gulshan', 'Dhanmondi', 'Mirpur', 'Uttara', 'Mohammadpur', 'Khilgaon', 'Badda', 'Rampura', 'Jatrabari'].sort(),
-            'Chattogram': ['Panchlaish', 'Halishahar', 'Chandgaon', 'Bayezid', 'Double Mooring', 'Lalkhan Bazar', 'Kaptai'].sort(),
-            'Rajshahi': ['Rajshahi City', 'Bagmara', 'Puthia', 'Durgapur', 'Mohanpur', 'Tanore', 'Chapainawabganj'].sort(),
-            'Khulna': ['Khulna City', 'Rupsha', 'Dacope', 'Batiaghata', 'Koyra', 'Paikgachha', 'Satkhira'].sort(),
-            'Sylhet': ['Sylhet City', 'Jaintiapur', 'Companiganj', 'Gowainghat', 'Beanibazar', 'Osmaninagar'].sort(),
-            'Barisal': ['Barisal City', 'Wazirpur', 'Muladi', 'Bakerganj', 'Hizla', 'Banaripara', 'Ujirpur'].sort(),
-            'Rangpur': ['Rangpur City', 'Pirgachha', 'Mithapukur', 'Kawnia', 'Badarganj', 'Ranishwar', 'Dinajpur'].sort(),
-            'Mymensingh': ['Mymensingh City', 'Gaffargaon', 'Trishal', 'Ishwarganj', 'Haluaghat', 'Nandail'].sort(),
-            'Jashore': ['Jashore City', 'Benapole', 'Jhikargachha', 'Chandragati', 'Keshabpur', 'Abhaynagar', 'Monirampur'].sort(),
-            'Brahmanbaria': ['Brahmanbaria City', 'Nabinagar', 'Kasba', 'Bijoynagar', 'Bancharampur', 'Sarail'].sort(),
-            'Lakshmipur': ['Lakshmipur City', 'Ramganj', 'Ramgati', 'Lakshmipur Sadar', 'Raipur', 'Rameswar'].sort(),
-            'Narail': ['Narail City', 'Narail Sadar', 'Kalia', 'Lohagara', 'Dorihata', 'Balia'].sort(),
-            'Patuakhali': ['Patuakhali City', 'Galachipa', 'Bauphal', 'Mirzaganj', 'Patuakhali Sadar', 'Dumki', 'Kalapara'].sort(),
-            'Jamalpur': ['Jamalpur City', 'Jamalpur Sadar', 'Melandah', 'Islampur', 'Dewanganj', 'Bhaluka'].sort(),
-            'Gazipur': ['Gazipur City', 'Sreepur', 'Kaliakair', 'Kaliakoir', 'Kapasia', 'Tongi', 'Bhaluka'].sort(),
-            'Savar': ['Savar City', 'Hemayetpur', 'Uttara', 'Ashulia', 'Dhamsona', 'Sreepur', 'Nawabganj'].sort(),
-            'Tangail': ['Tangail City', 'Mirzapur', 'Basail', 'Nagarpur', 'Gopalpur', 'Kalihati', 'Delduar'].sort(),
-            'Moulvibazar': ['Moulvibazar City', 'Kulaura', 'Juri', 'Barlekha', 'Rashidpur', 'Srimangal'].sort(),
-            'Pabna': ['Pabna City', 'Pabna Sadar', 'Ishwardi', 'Bera', 'Chatmohar', 'Faridpur', 'Santhia'].sort(),
-            'Noakhali': ['Noakhali City', 'Begumganj', 'Chowmuhani', 'Hatiya', 'Senbagh', 'Companiganj', 'Subarnachar'].sort(),
-            'Kurigram': ['Kurigram City', 'Rajarhat', 'Bhurungamari', 'Nageshwari', 'Ulipur', 'Chilmari'].sort()
-        };
-
-        // Populate districts
-        const districtSelect = document.getElementById('districtSelect');
-        Object.keys(districtZoneData).forEach(district => {
-            const option = document.createElement('option');
-            option.value = district;
-            option.textContent = district;
-            districtSelect.appendChild(option);
-        });
-
-        // Event listener for district selection
-        districtSelect.addEventListener('change', function () {
-            const selectedDistrict = this.value;
-            const zoneSelect = document.getElementById('zoneSelect');
-
-            // Clear previous zones
-            zoneSelect.innerHTML = '<option value="" disabled selected>Select Zone</option>';
-
-            // Populate zones based on selected district
-            if (selectedDistrict && districtZoneData[selectedDistrict]) {
-                districtZoneData[selectedDistrict].forEach(zone => {
-                    const option = document.createElement('option');
-                    option.value = zone;
-                    option.textContent = zone;
-                    zoneSelect.appendChild(option);
-                });
-            }
-        });
-    </script>
-    <script>
-        // serial table collapse/expand
-        $('#collapsibleTable .clickable-header').click(function() {
-            let $tbody = $('#collapsibleTable .collapse-body');
-            let $actualHeaders = $('#collapsibleTable #actual-headers');
-            let $placeholderRow = $('#collapsibleTable #placeholder-row');
-            if ($tbody.is(':visible')) {
-                $tbody.animate({ height: '0px', opacity: 0 }, 300, function() {
-                    $tbody.hide();
-                    $actualHeaders.hide();
-                    $placeholderRow.show();
-                });
-            } else {
-                $placeholderRow.hide();
-                $actualHeaders.show();
-                $tbody.show().css({'height': 'auto', 'opacity': 0});
-                let fullHeight = $tbody.height();
-                $tbody.css('height', '0px').animate({ height: fullHeight, opacity: 1 }, 300);
-            }
-        });
-    </script>
-    <script>
         $(document).ready(function() {
             $('#bank_type').select2();
         });
     </script>
     <!-- Select2 JS -->
-    {{--    <script src="{{asset('/')}}assets/plugins/select2/js/select2.min.js"></script>--}}
-    {{--    <script src="{{asset('/')}}assets/plugins/select2/js/custom-select.js"></script>--}}
+{{--    <script src="{{asset('/')}}assets/plugins/select2/js/select2.min.js"></script>--}}
+{{--    <script src="{{asset('/')}}assets/plugins/select2/js/custom-select.js"></script>--}}
     <script>
 
         $(document).ready(function(){
@@ -1033,17 +923,17 @@
                 // console.log($total);
             })
 
-            $(document).on('change', '#payment_type',function(){
+            $(document).on('change','#payment_type',function(){
                 var optionSelected = this.value;
                 if(optionSelected != 'cash'){
                     // Show the offcanvas
                     var offcanvas = new bootstrap.Offcanvas(document.getElementById('payment_offcanvas'));
                     offcanvas.show();
-                    $('#grand_total_preview').text('৳'+$('#grand_total').val());
                     // $('#offcanvas').toggleClass('is-open');
                     // $('#payment_offcanvas').show();
                     console.log(optionSelected);
                 }
+
             });
             $(document).on('change','#bank_type',function(){
                 var bankvalue = this.value;
@@ -1056,21 +946,21 @@
 
                         var options = ' <option selected disabled>-- select one --</option>'; // Initialize options variable
 
-                        if(bankvalue == 'bank')
-                        {
-                            $.each(success.data, function(index, bank) {
-                                // Set the value attribute to vendor.id or another unique identifier
-                                options += `<option value="${bank.id}">${bank.branch_name}</option>`;
-                            });
-                        }
-                        else if(bankvalue == 'mobile')
+                      if(bankvalue == 'bank')
+                          {
+                              $.each(success.data, function(index, bank) {
+                                  // Set the value attribute to vendor.id or another unique identifier
+                                  options += `<option value="${bank.id}">${bank.branch_name}</option>`;
+                              });
+                          }
+                      else if(bankvalue == 'mobile')
                         {
                             $.each(success.data, function(index, bank) {
                                 // Set the value attribute to vendor.id or another unique identifier
                                 options += `<option value="${bank.id}">${bank.mfs_provider}</option>`;
                             });
                         }
-                        else if(bankvalue == 'cheque')
+                      else if(bankvalue == 'cheque')
                         {
                             $.each(success.data, function(index, bank) {
                                 // Set the value attribute to vendor.id or another unique identifier
@@ -1085,46 +975,46 @@
                 })
             });
 
-            $(document).on('change', '#bank', function() {
-                var bankId = this.value;
-                var bankType = $('#bank_type').val();
-                // console.log(bankType);
-                // Perform POST request
-                $.ajax({
-                    url: '{{route('get_bank_details')}}',
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        id: bankId,
-                        bank_type: bankType
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if(bankType == 'bank')
-                        {
-                            $('#bank_name').val(response.data.branch_name)
-                            $('#bank_amount').val(response.data.balance)
-                        }
-                        else if(bankType == 'mobile')
-                        {
-                            $('#bank_name').val(response.data.mfs_provider)
-                            $('#bank_amount').val(response.data.balance)
-                        }
-                        else if(bankType == 'cheque')
-                        {
-                            // $.each(success.data, function(index, bank) {
-                            //     // Set the value attribute to vendor.id or another unique identifier
-                            //     options += `<option value="${bank.id}">${bank.cheque_bank}</option>`;
-                            // });
-                        }
-
-                        // console.log('Post request successful:', response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Post request failed:', status, error);
+          $(document).on('change', '#bank', function() {
+            var bankId = this.value;
+            var bankType = $('#bank_type').val();
+            // console.log(bankType);
+            // Perform POST request
+            $.ajax({
+                url: '{{route('get_bank_details')}}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                     id: bankId,
+                    bank_type: bankType
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if(bankType == 'bank')
+                    {
+                        $('#bank_name').val(response.data.branch_name)
+                        $('#bank_amount').val(response.data.balance)
                     }
-                });
-            });
+                    else if(bankType == 'mobile')
+                    {
+                        $('#bank_name').val(response.data.mfs_provider)
+                        $('#bank_amount').val(response.data.balance)
+                    }
+                    else if(bankType == 'cheque')
+                    {
+                        // $.each(success.data, function(index, bank) {
+                        //     // Set the value attribute to vendor.id or another unique identifier
+                        //     options += `<option value="${bank.id}">${bank.cheque_bank}</option>`;
+                        // });
+                    }
+
+                    // console.log('Post request successful:', response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Post request failed:', status, error);
+                }
+             });
+          });
 
             $.ajaxSetup({
                 headers: {
@@ -1132,7 +1022,7 @@
                 }
             });
             // $(document).ready(function() {
-            // Handle form submission
+                // Handle form submission
             $('#payment_form').on('submit', function(event) {
                 event.preventDefault(); // Prevent the default form submission
 
@@ -1261,7 +1151,6 @@
                     },
                     success: function(response) {
                         displayProducts(response.products);
-                        serialTableGenerator(response.products);
                         updateCheckMark(response.products);
                         calculateAndUpdateSummary();
                     }
@@ -1283,7 +1172,6 @@
                     },
                     success: function(response) {
                         displayProducts(response.products);
-                        serialTableGenerator(response.products);
                         updateCheckMark(response.products);
                         calculateAndUpdateSummary();
                     }
@@ -1295,7 +1183,7 @@
                 let productRows = '';
 
                 if (products.length === 0) {
-                    $('#product_list_tbody').html(`<tr><td colspan="6" class="text-center">there are no products selected</td></tr>`);
+                    $('#product_list_tbody').html(`<tr><td colspan="5" class="text-center">there are no products selected</td></tr>`);
                 } else {
                     $.each(products, function(index, product) {
                         productRows += `
@@ -1308,7 +1196,7 @@
                             </div>
                             <div class="d-flex">
                                 <input type="radio" name="serial${product.id}" class="me-1 serial-radio manual-radio" id="serial_manual${product.id}" value="${product.id}" data-serial-method="manual" ${product.serial_method === 'manual' ? 'checked' : ''}>
-                                <label for="serial_manual${product.id}" class="cursor_pointer" data-bs-toggle="offcanvas" data-bs-target="#product_serial_offcanvas" role="button"><small>Manual</small></label>
+                                <label for="serial_manual${product.id}" class="cursor_pointer" data-bs-toggle="modal" data-bs-target="#product_serial_modal" role="button"><small>Manual</small></label>
                             </div>
                         </td>
                         <td class="py-1">
@@ -1338,53 +1226,6 @@
                 // product length counter
                 $('#product_len_counter').text(products.length);
             }
-
-            // serial/imei table generator
-            function serialTableGenerator(products) {
-                let productRows = '';
-                let globalIndex = 1;
-
-                if (products.length === 0) {
-                    $('.serial_container_tbody').html(`<tr><td colspan="4" class="text-center">There are no serial/IMEI found</td></tr>`);
-                } else {
-                    $.each(products, function(index, product) {
-                        // create rows based on product quantity
-                        for (let i = 0; i < product.quantity; i++) {
-                            productRows += `<tr>
-                                                <td>${globalIndex}</td>
-                                                <td>${product.name}</td>
-                                                <td><input type="text" class="form-control form-control-sm"></td>
-                                                <td class="text-center">
-                                                    <a href="javascript:void(0)" class="del_serial_item" data-id="${product.id}" data-qty="${product.quantity}"><i class="fas fa-times text-danger"></i></a>
-                                                </td>
-                                            </tr>`;
-                            globalIndex++;
-                        }
-                    });
-                    $('.serial_container_tbody').html(productRows);
-                }
-            }
-
-            // serial/imei field remover
-            $(document).on('click', '.del_serial_field_item', function() {
-                let productId = $(this).data('id');
-                let quantity = parseInt($(this).data('qty'));
-                updateQuantity(productId, --quantity);
-                // Find the parent container of the clicked delete icon
-                let serialField = $(this).closest('.d-flex').closest('.col-md-3.col-sm-4.col-12.mb-3');
-                // Remove the serial field from the UI
-                serialField.remove();
-            });
-            // serial/imei table tr remover
-            $(document).on('click', '.del_serial_item', function() {
-                let currentQty = parseInt($(this).data('qty'));
-                let productId = $(this).data('id');
-                if (currentQty > 0) {
-                    currentQty--;
-                    updateQuantity(productId, currentQty);
-                    $('.collapse-body').click();
-                }
-            });
 
             // update check icons based on product presence in session
             function updateCheckMark(products) {
@@ -1486,34 +1327,9 @@
                 });
             });
 
-            function populateOffcanvas(product) {
-                let quantity = product.quantity;
-                let serials = product.serial || [];
-                let offcanvasBody = $('#product_serial_offcanvas').find('.offcanvas-body');
-                offcanvasBody.empty();
-                let row = $('<div class="row"></div>');
-                for (let i = 1; i <= quantity; i++) {
-                    let serialNumber = serials[i - 1] || '';
-                    let inputGroup = `
-                        <div class="col-md-3 col-sm-4 col-12 mb-3">
-                            <div class="d-flex align-items-center">
-                                <div class="input-group me-2">
-                                    <input type="text" class="form-control form-control-sm w-75" placeholder="serial number ${i}" value="${serialNumber}">
-                                    <span class="input-group-text text-dark cursor_pointer auto_generate_serial_btn"><i class="fas fa-cog"></i></span>
-                                </div>
-                                <i class="fas fa-times text-danger cursor_pointer del_serial_field_item" data-id="${product.id}" data-qty="${quantity}"></i>
-                            </div>
-                        </div>
-                    `;
-                    row.append(inputGroup);
-                }
-                offcanvasBody.append(row);
-            }
-
             // product serial handler
             $(document).on('click', 'input[type=radio].manual-radio', function() {
                 let productId = $(this).val();
-
                 $.ajax({
                     url: "{{ route('pur_fetch_product_data') }}",
                     method: 'POST',
@@ -1523,62 +1339,33 @@
                     },
                     success: function(response) {
                         let product = response.product;
-                        // Update the offcanvas header with the product name
-                        $('#product_serial_offcanvas').find('.offcanvas-header h5').text(product.name);
-                        $('#product_serial_offcanvas').find('button.save_serial_values').attr('data-id', product.id);
-                        // Populate offcanvas with serial fields
-                        populateOffcanvas(product);
+                        let quantity = product.quantity;
 
-                        // Initialize and show the offcanvas
-                        var offcanvasElement = document.getElementById('product_serial_offcanvas');
-                        var myOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
-                        myOffcanvas.show();
+                        // Update the modal header with the product name
+                        $('#product_serial_modal').find('.modal-header h5').text(product.name);
+
+                        // Clear the existing input fields
+                        let modalBody = $('#product_serial_modal').find('.modal-body');
+                        modalBody.empty();
+
+                        // Create the input fields based on the product quantity
+                        for (let i = 1; i <= quantity; i++) {
+                            let inputGroup = `
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">SL-${i}</span>
+                            <input type="text" class="form-control" placeholder="Serial number ${i}">
+                        </div>`;
+                            modalBody.append(inputGroup);
+                        }
+
+                        // Show the modal
+                        $('#product_serial_modal').modal('show');
                     },
                     error: function(xhr, status, error) {
                         console.error('AJAX Error:', status, error);
                     }
                 });
             });
-
-
-            // Function to generate a serial number with leading zeros
-            function generateSerialNumber(number) {
-                return ('0000000000' + number).slice(-10);
-            }
-            // Function to get the highest existing serial number from input fields
-            function getMaxSerialNumber(fields) {
-                let maxNumber = 0;
-                fields.each(function() {
-                    let value = $(this).val();
-                    let number = parseInt(value.replace(/^0+/, ''), 10);
-                    if (!isNaN(number) && number > maxNumber) {
-                        maxNumber = number;
-                    }
-                });
-                return maxNumber;
-            }
-
-            // auto generate serial values for all available fields
-            $(document).on('click', '.auto_generate_serial_all_btn', function() {
-                $('#product_serial_offcanvas').find('.form-control').each(function(index) {
-                    // Generate serial number based on the index (1-based index for the display)
-                    let serialNumber = generateSerialNumber(index + 1);
-                    // Set the generated serial number into the input field
-                    $(this).val(serialNumber);
-                });
-            });
-
-            // Event handler for individual auto-generate button
-            $(document).on('click', '.auto_generate_serial_btn', function() {
-                // Find the input field associated with the clicked button
-                let inputField = $(this).siblings('input');
-                // Generate the next serial number for this input field
-                let currentMaxSerialNumber = getMaxSerialNumber($('#product_serial_offcanvas').find('.form-control'));
-                let serialNumber = generateSerialNumber(currentMaxSerialNumber + 1);
-                inputField.val(serialNumber);
-            });
-
-
 
             // update quantity on click + - buttons
             // handle click on minus button
@@ -1589,15 +1376,17 @@
                 if (currentQty > 1) {
                     currentQty--;
                     updateQuantity(productId, currentQty);
-                    $input.val(currentQty).focus();
+                    $input.val(currentQty);
                 }
             });
 
-            $(document).on('input', '.qty-input', function () {
-                let product_qty = $(this).val();
+            $(document).on('input','#product_qty',function (){
+                let $product_qty=$(this).val();
                 let productId = $(this).data('id');
-                let currentQty = parseInt(product_qty, 10);
+                let currentQty = parseInt($product_qty, 10);
                 updateQuantity(productId, currentQty);
+                // $input.val(currentQty);
+                // console.log(productId);
             });
 
             // handle click on plus button
@@ -1607,7 +1396,7 @@
                 let productId = $(this).data('id');
                 currentQty++;
                 updateQuantity(productId, currentQty);
-                $input.val(currentQty).focus();
+                $input.val(currentQty);
             });
             // handle click on plus button
             // $(document).on('click', '.inc', function() {
@@ -1631,13 +1420,10 @@
                     },
                     success: function(response) {
                         displayProducts(response.products);
-                        serialTableGenerator(response.products);
                         calculateAndUpdateSummary();
-                        populateOffcanvas(response.products.find(p => p.id === productId));
                     }
                 });
             }
-
 
             $(document).on('input', '.product_cost_field', function() {
                 $(this).closest('td').find('.save_progress').removeClass('d-none').addClass('d-inline');
@@ -1868,9 +1654,7 @@
                         $('.custom-product-item').removeClass('cursor_not_allowed').addClass('cursor_pointer');
                         $('#product_len_counter').text(0);
                         $('#product_list_tbody').html(`<tr><td colspan="5" class="text-center">there are no products selected</td></tr>`);
-                        $('.serial_container_tbody').html(`<tr><td colspan="4" class="text-center">There are no serial/IMEI found</td></tr>`);
                         calculateAndUpdateSummary();
-                        animateCollapseBody();
                     }
                 });
             });
@@ -1887,20 +1671,39 @@
                         $('.custom-product-item').removeClass('cursor_not_allowed').addClass('cursor_pointer');
                         $('#product_len_counter').text(0);
                         $('#product_list_tbody').html(`<tr><td colspan="5" class="text-center">there are no products selected</td></tr>`);
-                        $('.serial_container_tbody').html(`<tr><td colspan="4" class="text-center">There are no serial/IMEI found</td></tr>`);
                         $("#walkin_details_container").addClass("d-flex flex-column justify-content-center").html(`<p class="placeholder-glow d-inline"><span class="placeholder w-50"></span></p>`);
                         calculateAndUpdateSummary();
-                        animateCollapseBody();
                     }
                 });
             });
 
-            $(document).on('click', '.save_serial_values', function() {
-                let productId = $(this).data('id');
+
+
+            $('#popover_color_selector').popover({
+                placement: 'bottom',
+                html: true,
+                content: $('#popover_color_selector').data('bs-content')
+            });
+
+            $('#popover_barcode').popover({
+                placement: 'bottom',
+                html: true,
+                sanitize: false,
+                content: $('#popover_barcode').data('bs-content')
+            });
+
+            $('#popover_hertz').popover({
+                placement: 'bottom',
+                html: true,
+                sanitize: false,
+                content: $('#popover_hertz').data('bs-content')
+            });
+
+            $(document).on('click', '#save_serial_numbers', function() {
+                let productId = $('input[type=radio].manual-radio:checked').val();
                 let serialNumbers = [];
 
-                // Iterate over input fields in the offcanvas body
-                $('#product_serial_offcanvas').find('.offcanvas-body input').each(function() {
+                $('#product_serial_modal').find('.modal-body input').each(function() {
                     serialNumbers.push($(this).val());
                 });
 
@@ -1913,18 +1716,13 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-                        console.log(response);
-                        // Hide the offcanvas after successful AJAX call
-                        var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('product_serial_offcanvas'));
-                        offcanvas.hide();
+                        $('#product_serial_modal').modal('hide');
                     },
                     error: function(xhr, status, error) {
                         console.error('AJAX Error:', status, error);
                     }
                 });
             });
-
-
         });
     </script>
     <script>
@@ -1935,32 +1733,32 @@
             $("input[type='radio']").click(function(){
                 var radioValue = $("input[name='vendor_type']:checked").val();
                 console.log('sarowar');
-                if(radioValue != 'other'){
-                    $('#vendor_input_field').hide();
-                    $('#vendor_select_field').show();
-                    $.ajax({
-                        url:base_url+'/get_vendor/'+radioValue,
-                        type:'get',
-                        dataType:'json',
-                        success: function(success) {
-                            // console.log(success.data);
+               if(radioValue != 'other'){
+                   $('#vendor_input_field').hide();
+                   $('#vendor_select_field').show();
+                   $.ajax({
+                       url:base_url+'/get_vendor/'+radioValue,
+                       type:'get',
+                       dataType:'json',
+                       success: function(success) {
+                           // console.log(success.data);
 
-                            var options = ''; // Initialize options variable
+                           var options = ''; // Initialize options variable
 
-                            $.each(success.data, function(index, vendor) {
-                                // Set the value attribute to vendor.id or another unique identifier
-                                options += `<option value="${vendor.id}">${vendor.name}</option>`;
-                            });
+                           $.each(success.data, function(index, vendor) {
+                               // Set the value attribute to vendor.id or another unique identifier
+                               options += `<option value="${vendor.id}">${vendor.name}</option>`;
+                           });
 
-                            $('#select_vendor').html(options); // Update the select element with new options
+                           $('#select_vendor').html(options); // Update the select element with new options
 
-                            $('#select_vendor').select2();
-                        },
-                    })
-                }else {
-                    $('#vendor_select_field').hide();
-                    $('#vendor_input_field').show();
-                }
+                           $('#select_vendor').select2();
+                       },
+                   })
+               }else {
+                   $('#vendor_select_field').hide();
+                   $('#vendor_input_field').show();
+               }
                 // alert(radioValue)
                 // if(radioValue){
                 //     alert("Your are a - " + radioValue);

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin\Bank;
 
 use App\Http\Controllers\Controller;
-use App\Models\BankCheque;
+
+use App\Models\Checque;
+use App\Models\ChecqueSerial;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class BankChequeController extends Controller
@@ -15,7 +18,9 @@ class BankChequeController extends Controller
     {
         abort_if(!auth()->user()->can('view unit'),403,__('User does not have the right permissions.'));
         return view('admin.product.unit.index',[
-            'units'=>BankCheque::get(),
+            'units'=>Unit::get(),
+//            'units'=>Checque::get(),
+//            'units'=>ChecqueSerial::get(),
         ]);
     }
 

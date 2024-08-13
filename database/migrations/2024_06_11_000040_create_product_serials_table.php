@@ -10,12 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('checque_serials', function (Blueprint $table) {
+        Schema::create('product_serials', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('checque_serial')->nullable();
-            $table->string('is_used')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->string('serial_number')->nullable();
+            $table->string('emei_number')->nullable();
+            $table->string('is_sold')->nullable();
             $table->string('status')->nullable();
-            $table->unsignedBigInteger('bank_checque_id');
+
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('checque_serials');
+        Schema::dropIfExists('product_serials');
     }
 };

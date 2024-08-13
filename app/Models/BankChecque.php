@@ -6,31 +6,29 @@ use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class BankCheque extends Model
+class BankChecque extends Model
 {
     use HasFactory;
-    // use Searchable;
+    use Searchable;
 
     protected $fillable = [
         'bank_account_id',
-        'inv_type',
-        'cheque_no',
-        'cheque_date',
-        'cheque_bank',
+        'quntity',
+        'is_serial',
+        'reference',
         'issue_date',
         'amount',
-        'status',
-        'payee_name',
-        'payee_account_number',
         'note',
         'user_id',
+        'status',
+        'company_id',
         'branch_id',
-        'company_id'
     ];
 
     protected $searchableFields = ['*'];
 
-    protected $table = 'bank_cheques';
+    protected $table = 'bank_checques';
+
 
     protected static $transfer;
 
@@ -43,15 +41,12 @@ class BankCheque extends Model
             self::$transfer = new BankCheque();
         }
         self::$transfer->bank_account_id            = $request->bank_account_id ?? '';
-        self::$transfer->inv_type                   = $request->inv_type ?? '';
-        self::$transfer->cheque_no                  = $request->cheque_no ?? '';
-        self::$transfer->cheque_date                = $request->cheque_date ?? '';
-        self::$transfer->cheque_bank                = $request->cheque_bank ?? null;
+        self::$transfer->quntity                   = $request->quntity ?? '';
+        self::$transfer->is_serial                  = $request->is_serial ?? '';
+        self::$transfer->reference                = $request->reference ?? '';
         self::$transfer->issue_date                 = $request->issue_date ?? null;
         self::$transfer->amount                     = $request->amount ?? null;
         self::$transfer->status                     = $request->status ?? '';
-        self::$transfer->payee_name                 = $request->payee_name ?? '';
-        self::$transfer->payee_account_number       = $request->payee_account_number ?? '';
         self::$transfer->note                       = $request->note ?? '';
         self::$transfer->user_id                    = $request->user_id ?? null;
         self::$transfer->branch_id                  = $request->branch_id ?? null;
@@ -60,14 +55,15 @@ class BankCheque extends Model
         return self::$transfer;
     }
 
-    public function bank_account()
+
+    public function bankAccount()
     {
-        return $this->belongsTo(BankAccount::class, 'bank_account_id');
+        return $this->belongsTo(BankAccount::class);
     }
 
-    public function user()
+    public function company()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Company::class);
     }
 
     public function branch()
@@ -75,8 +71,13 @@ class BankCheque extends Model
         return $this->belongsTo(Branch::class);
     }
 
-    public function company()
+    public function payments()
     {
-        return $this->belongsTo(Company::class);
+        return $this->hasMany(Payment::class, 'bankChecque_id');
+    }
+
+    public function checqueSerials()
+    {
+        return $this->hasMany(ChecqueSerial::class);
     }
 }
