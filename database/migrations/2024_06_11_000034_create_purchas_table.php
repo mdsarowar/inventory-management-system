@@ -13,7 +13,12 @@ return new class extends Migration {
         Schema::create('purchas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('inv_id')->nullable();
-            $table->string('vendor_type')->nullable();
+            $table->string('pur_inv')->nullable();
+            $table->string('wkname')->nullable();
+            $table->string('wkphone')->nullable();
+            $table->string('wkemail')->nullable();
+            $table->string('wkaddress')->nullable();
+            $table->string('wkdistrict')->nullable();
             $table->string('vendor')->nullable();
             $table->string('dis_type')->nullable();
             $table->string('discount')->nullable();

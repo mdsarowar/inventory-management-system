@@ -236,6 +236,8 @@ Route::group(['middleware' => ['admin_access']], function() {
     Route::post('/product/update_serial_method',[PurchasController::class,'update_serial_method'])->name('pur_update_serial_method');
     Route::post('/product/store_product_serials', [PurchasController::class, 'store_serials'])->name('pur_store_product_serials');
 
+    Route::post('/update-product-serials', [ProductController::class, 'updateProductSerials']);
+
 
 //================================================ Purchas module end===================================================
 

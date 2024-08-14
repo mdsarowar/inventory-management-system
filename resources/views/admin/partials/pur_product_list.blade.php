@@ -17,7 +17,7 @@
                 </div>
                 <h6 class="product-name">{{ $product->name }}</h6>
                 <div class="d-flex align-items-center justify-content-between price">
-                    <span>{{ $product->quantity }} Qty</span>
+{{--                    <span>{{ $product->quantity }} Qty</span>--}}
                     <p>৳{{ $product->price }}</p>
                 </div>
             </div>

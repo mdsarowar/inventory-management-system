@@ -187,9 +187,21 @@ class PurchasController extends Controller
      */
     public function show(string $id)
     {
-        $product=Product::find($id);
-        return view('admin.product.product.show',[
-            'product'=>$product,
+//        return $id;
+//        $product=Product::find($id);
+        $purchas=Purchas::find($id);
+        if (empty($purchas->wkname)){
+            $sup=explode('-',$purchas->vendor);
+            if ($sup[0] == 'sup'){
+                $supplier=Supplier::find($sup[1])->first();
+            }else{
+                $supplier=Customer::find($sup[1])->first();
+            }
+        }
+//        return $sup[1];
+        return view('admin.purchas.view',[
+            'purchas'=>$purchas,
+            'supplier'=>$supplier,
         ]);
     }
 
@@ -303,6 +315,8 @@ class PurchasController extends Controller
 //        session()->forget('purchase_products');
 //        abort_if(!auth()->user()->can('view product'),403,__('User does not have the right permissions.'));
         return view('admin.purchas.purchas_order.create', [
+            'customers'=>Customer::get(),
+            'suppliers'=>Supplier::get(),
             'products' => Product::get(),
             'colors' => Color::get(),
             'sizes' => Size::get(),
@@ -312,17 +326,21 @@ class PurchasController extends Controller
 
     public function filter_products(Request $request)
     {
-//        return 'sarowar';
         $query = $request->input('query', '');
+
+//        $products = Product::where('name', 'LIKE', "%{$query}%")
+//            ->orWhere('description', 'LIKE', "%{$query}%")
+//            ->orWhere('category', 'LIKE', "%{$query}%")
+//            ->orWhere('sub_category_id', 'LIKE', "%{$query}%")
+//            ->orWhere('child_category_id', 'LIKE', "%{$query}%")
+//            ->get();
 
         if ($query === 'All') {
             $products = Product::all();
         } else {
 
-            $products = Product::where('name', 'like', $query . '%')->get();
+            $products = Product::where('name', 'LIKE', "%{$query}%")->get();
         }
-//        return $products;
-
         $html = view('admin.partials.pur_product_list', compact('products'))->render();
 
         return response()->json([
@@ -333,38 +351,41 @@ class PurchasController extends Controller
 
     public function get_product_data(Request $request)
     {
+//        return $request;
         $productId = $request->input('product_id');
         $product = Product::find($productId);
 
+//        return $product;
         if(!$product) {
             return response()->json(['status' => false, 'message' => 'Product not found']);
         }
 
         $sessionProducts = session()->get('purchase_products', []);
         $allamounts = session()->get('ssn_additional');
-//        return $allamounts;
+//        return $sessionProducts;
         if (!isset($sessionProducts[$productId])) {
             $productData = [
                 'id' => $product->id,
                 'name' => $product->name,
                 'price' => number_format($product->price, 0, '.', ''),
                 'quantity' => 1,
-                'serial_method' => 'auto',
+                'serial_method' => $product->purmode,
                 'serial' => [],
-                'discount_type' => $product->discount_type,
-                'discount' => number_format($product->discount, 0, '.', ''),
+                'discount_type' => '',
+                'discount' => 0,
                 'vat_type' => '',
                 'vat' => 0,
                 'tax_type' => '',
-                'tax' => $product->tax,
-                'size' => $product->size->name,
-                'color' => $product->color->name,
+                'tax' => 0,
+                'size' => '',
+                'color' =>'',
                 'warranty_days' => ''
             ];
             $sessionProducts[$productId] = $productData;
         }else{
             return response()->json(['status' => true, 'products' => array_reverse($sessionProducts)]);
         }
+//        return $product;
 
         $sessionProducts[$productId] = $productData;
         session(['purchase_products' => $sessionProducts]);

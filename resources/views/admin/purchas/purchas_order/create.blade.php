@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('title','Create Purchase')
+@section('title',__('Create Purchase'))
 @section('custom_css')
     <style>
         .btn-group-flex-wrap {
@@ -341,8 +341,8 @@
     <div class="content pt-0">
         <div class="page-header">
             <div class="page-title">
-                <h4>Purchase</h4>
-                <h6>Create New Purchase</h6>
+                <h4>{{__('Purchase')}}</h4>
+                <h6>{{__('Create New Purchase')}}</h6>
             </div>
         </div>
         <!-- /add -->
@@ -375,7 +375,7 @@
                                         </div>
                                         <h6 class="product-name">{{ $product->name }}</h6>
                                         <div class="d-flex align-items-center justify-content-between price">
-                                            <span>{{ $product->quantity }} Qty</span>
+{{--                                            <span>{{ $product->quantity }} Qty</span>--}}
                                             <p>৳{{ $product->price }}</p>
                                         </div>
                                     </div>
@@ -396,109 +396,135 @@
                                 <div class="d-flex flex-row align-items-center mb-3">
                                     <a href="javascript:void(0)" class="area_toggler_btn me-3"><i class="fas fa-chevron-circle-left fa-2x"></i></a>
                                     <button type="button" class="btn btn-primary btn-icon me-2" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                        <i class="fas fa-luggage-cart"></i> Walk-in Information
+                                        <i class="fas fa-luggage-cart"></i> {{__('Walk-in')}}
                                     </button>
+                                    <select class="form-control nested" name="vendor" >
+                                            <option selected="selected" value="">--Select--</option>
+                                        <optgroup label="Supplier">
+                                            @foreach($suppliers as $supplier)
+                                            <option value="sup-{{$supplier->id}}">sup-{{$supplier->name}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                        <optgroup label="Customer">
+                                            @foreach($customers as $customer)
+                                                <option value="cus-{{$customer->id}}">cus-{{$customer->name}}</option>
+                                            @endforeach
+                                        </optgroup>
+{{--                                        <optgroup label="Group3">--}}
+{{--                                            <option>white</option>--}}
+{{--                                            <option>purple</option>--}}
+{{--                                            <option>orange</option>--}}
+{{--                                        </optgroup>--}}
+                                    </select>
+{{--                                    <select class="form-select" name="vendor" id="select_vendor" >--}}
+{{--                                        <option>Select</option>--}}
+{{--                                        --}}{{--                                                    @foreach($companies as $company)--}}
+{{--                                        <option value="">select</option>--}}
+{{--                                        --}}{{--                                                    @endforeach--}}
+{{--                                    </select>--}}
                                 </div>
                                 <div class="collapse" id="collapseExample">
                                     <div class="card card-body">
                                         <div class="selling-info">
-                                            <div class="row">
-                                                <div class="col-sm-7 col-12">
-                                                    <div class="input-block">
-                                                        <label>Select Vendor
-                                                            <div class="save_progress d-none">
-                                                                <i class="fas fa-spinner"></i>
-                                                            </div>
-                                                        </label>
-                                                        <div class="col-md-10">
-                                                            <div class="radio" id="vendor_type">
-                                                                <label>
-                                                                    <input type="radio" value="cus" name="vendor_type"> Customer
-                                                                </label>
-                                                                <label class="mx-3">
-                                                                    <input type="radio" value="sup" name="vendor_type"> Supplier
-                                                                </label>
-                                                                <label>
-                                                                    <input type="radio" value="other" name="vendor_type"> Walk-in customer
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            <div class="row mt-2">
+                                                <div class="col-md-6 mb-2">
+                                                    <label>{{__('Name')}}</label>
+                                                    <input type="text" class="form-control form-control-sm" name="wkname" id="" value="">
                                                 </div>
-                                                <div class="col-sm-5 col-12 mb-2">
-                                                    <div class="input-block">
-                                                        <div class="form-group" id="vendor_select_field">
-                                                            <label>{{__('vendor')}}</label>
-                                                            <select class="form-select" name="vendor" id="select_vendor" >
-                                                                <option>Select</option>
-                                                                {{--                                                    @foreach($companies as $company)--}}
-                                                                <option value="">select</option>
-                                                                {{--                                                    @endforeach--}}
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label>{{__('Phone')}}</label>
+                                                    <input type="text" class="form-control form-control-sm" name="wkphone" id="" value="">
                                                 </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label>{{__('Email')}}</label>
+                                                    <input type="text" class="form-control form-control-sm" name="wkemail" id="" value="">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label>{{__('Address')}}</label>
+                                                    <input type="text" class="form-control form-control-sm" name="wkaddress" id="" value="">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label for="districtSelect" class="form-label">{{ __('District') }}</label>
+                                                    <select class="form-select form-select-sm select2" id="districtSelect" name="wkdistrict" >
+                                                        <option value="" disabled selected>Select District</option>
+                                                    </select>
+                                                </div>
+{{--                                                <div class="col-md-6 mb-2">--}}
+{{--                                                    <label for="zoneSelect" class="form-label">{{ __('Zone') }}</label>--}}
+{{--                                                    <select class="form-select form-select-sm" id="zoneSelect">--}}
+{{--                                                        <option value="" disabled selected>Select Zone</option>--}}
+{{--                                                    </select>--}}
+{{--                                                </div>--}}
                                             </div>
-                                            <div id="vendor_input_field">
-                                                <div class="row mt-2">
-                                                    <div class="col-md-6 mb-2">
-                                                        <label>{{__('Name')}}</label>
-                                                        <input type="text" class="form-control form-control-sm" name="vendor_name" id="" value="">
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <label>{{__('Phone')}}</label>
-                                                        <input type="text" class="form-control form-control-sm" name="phone" id="" value="">
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <label>{{__('Email')}}</label>
-                                                        <input type="text" class="form-control form-control-sm" name="email" id="" value="">
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <label>{{__('Address')}}</label>
-                                                        <input type="text" class="form-control form-control-sm" name="address" id="" value="">
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <label for="districtSelect" class="form-label">{{ __('District') }}</label>
-                                                        <select class="form-select form-select-sm" id="districtSelect">
-                                                            <option value="" disabled selected>Select District</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-6 mb-2">
-                                                        <label for="zoneSelect" class="form-label">{{ __('Zone') }}</label>
-                                                        <select class="form-select form-select-sm" id="zoneSelect">
-                                                            <option value="" disabled selected>Select Zone</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+{{--                                            <div class="row">--}}
+{{--                                                <div class="col-sm-7 col-12">--}}
+{{--                                                    <div class="input-block">--}}
+{{--                                                        <label>Select Vendor--}}
+{{--                                                            <div class="save_progress d-none">--}}
+{{--                                                                <i class="fas fa-spinner"></i>--}}
+{{--                                                            </div>--}}
+{{--                                                        </label>--}}
+{{--                                                        <div class="col-md-10">--}}
+{{--                                                            <div class="radio" id="vendor_type">--}}
+{{--                                                                <label>--}}
+{{--                                                                    <input type="radio" value="cus" name="vendor_type"> Customer--}}
+{{--                                                                </label>--}}
+{{--                                                                <label class="mx-3">--}}
+{{--                                                                    <input type="radio" value="sup" name="vendor_type"> Supplier--}}
+{{--                                                                </label>--}}
+{{--                                                                <label>--}}
+{{--                                                                    <input type="radio" value="other" name="vendor_type"> Walk-in customer--}}
+{{--                                                                </label>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="col-sm-5 col-12 mb-2">--}}
+{{--                                                    <div class="input-block">--}}
+{{--                                                        <div class="form-group" id="vendor_select_field">--}}
+{{--                                                            <label>{{__('vendor')}}</label>--}}
+{{--                                                            <select class="form-select" name="vendor" id="select_vendor" >--}}
+{{--                                                                <option>Select</option>--}}
+{{--                                                                --}}{{--                                                    @foreach($companies as $company)--}}
+{{--                                                                <option value="">select</option>--}}
+{{--                                                                --}}{{--                                                    @endforeach--}}
+{{--                                                            </select>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 mb-2">
-                                <label>Barcode
-                                    <div class="save_progress d-none">
-                                        <i class="fas fa-spinner"></i>
-                                    </div>
-                                </label>
+                            <div class="col-sm-6  mb-2 me-4">
+                                {{--                                <div class="col-sm-5 col-12 mb-2">--}}
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                    <select class="form-select" name="" id="product_search" >
+                                        <option value="">Product search</option>
+                                        @foreach($products as $product)
+                                        <option value="{{$product->id}}">{{$product->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4 ml-4 mb-2">
+{{--                                <label>Barcode--}}
+{{--                                    <div class="save_progress d-none">--}}
+{{--                                        <i class="fas fa-spinner"></i>--}}
+{{--                                    </div>--}}
+{{--                                </label>--}}
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-white"><i class="fas fa-barcode"></i></span>
-                                    <input type="text" class="form-control" id="barcode_field" value="{{ $ssn_additional['barcode'] ?? '' }}" placeholder="e.g. 1234567890">
+                                    <input type="text" class="form-control" id="barcode_field" value="{{ $ssn_additional['barcode'] ?? '' }}" placeholder="Barcode">
                                 </div>
                             </div>
-                            <div class="col-sm-6 mb-2">
-                                <label>Hertz
-                                    <div class="save_progress d-none">
-                                        <i class="fas fa-spinner"></i>
-                                    </div>
-                                </label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text bg-white"><i class="fas fa-wave-square"></i></span>
-                                    <input type="text" class="form-control form-control-sm" id="hertz_field" value="{{ $ssn_additional['hertz'] ?? '' }}" placeholder='e.g. 125Hz'>
-                                </div>
-                            </div>
+
                         </div>
                         <div class="product-added block-section mb-2">
                             <div class="head-text d-flex align-items-center justify-content-between mb-3">
@@ -515,7 +541,7 @@
                                     <thead>
                                     <tr>
                                         <th><i class="fas fa-boxes"></i></th>
-                                        <th>Serial</th>
+                                        <th>Serial/EMEI</th>
                                         <th>Qty</th>
                                         <th>Price</th>
                                         <th>SubTotal</th>
@@ -528,15 +554,19 @@
                                             <tr>
                                                 <td class="py-1">
                                                     <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">{{ $product['name'] }}</a>
+                                                    <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">Edit</a>
                                                 </td>
                                                 <td class="py-1">
+{{--                                                    <div class="d-flex">--}}
+{{--                                                        <input type="radio" name="serial{{ $product['id'] }}" class="me-1 serial-radio" id="serial_auto{{ $product['id'] }}" value="{{ $product['id'] }}" data-serial-method="auto" {{ $product['serial_method'] === 'auto' ? 'checked' : '' }}>--}}
+{{--                                                        <label for="serial_auto{{ $product['id'] }}" class="cursor_pointer"><small>Auto</small></label>--}}
+{{--                                                    </div>--}}
                                                     <div class="d-flex">
-                                                        <input type="radio" name="serial{{ $product['id'] }}" class="me-1 serial-radio" id="serial_auto{{ $product['id'] }}" value="{{ $product['id'] }}" data-serial-method="auto" {{ $product['serial_method'] === 'auto' ? 'checked' : '' }}>
-                                                        <label for="serial_auto{{ $product['id'] }}" class="cursor_pointer"><small>Auto</small></label>
-                                                    </div>
-                                                    <div class="d-flex">
-                                                        <input type="radio" name="serial{{ $product['id'] }}" class="me-1 serial-radio manual-radio" id="serial_manual{{ $product['id'] }}" value="{{ $product['id'] }}" data-serial-method="manual" {{ $product['serial_method'] === 'manual' ? 'checked' : '' }}>
-                                                        <label for="serial_manual{{ $product['id'] }}" class="cursor_pointer" data-bs-toggle="offcanvas" data-bs-target="#product_serial_offcanvas" role="button"><small>Manual</small></label>
+                                                        @if(!empty($product['serial_method']))
+                                                            <input type="radio" name="serial{{ $product['id'] }}" class="me-1 serial-radio manual-radio" id="serial_manual{{ $product['id'] }}" value="{{ $product['id'] }}" data-serial-method="manual" {{ $product['serial_method'] === 'manual' ? 'checked' : '' }}>
+                                                            <label for="serial_manual{{ $product['id'] }}" class="cursor_pointer" data-bs-toggle="offcanvas" data-bs-target="#product_serial_offcanvas" role="button"><small>Serial</small></label>
+                                                        @endif
+
                                                     </div>
                                                 </td>
                                                 <td class="py-1">
@@ -1016,6 +1046,8 @@
     <script>
         $(document).ready(function() {
             $('#bank_type').select2();
+            $('#product_search').select2();
+            $('.select2').select2();
         });
     </script>
     <!-- Select2 JS -->
@@ -1045,6 +1077,7 @@
                     console.log(optionSelected);
                 }
             });
+
             $(document).on('change','#bank_type',function(){
                 var bankvalue = this.value;
                 $.ajax({
@@ -1248,6 +1281,24 @@
                 filterProducts($(this).data('letter'));
             });
 
+            $(document).on('change','#product_search',function(){
+                var $search=this.value;
+                $.ajax({
+                    url: "{{ route('get_product_data') }}",
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        product_id: $search
+                    },
+                    success: function(response) {
+                        displayProducts(response.products);
+                        serialTableGenerator(response.products);
+                        updateCheckMark(response.products);
+                        calculateAndUpdateSummary();
+                    }
+                });
+            });
+
             // add product into session purchase_products[]
             $(document).on('click', '.custom-product-item', function() {
                 let productId = $(this).data('id');
@@ -1300,15 +1351,16 @@
                     $.each(products, function(index, product) {
                         productRows += `
                     <tr>
-                        <td class="py-1"><a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>${product.name}</a></td>
+                        <td class="py-1">
+<a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>${product.name}</a>
+<a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>Edit</a>
+</td>
                         <td class="py-1">
                             <div class="d-flex">
-                                <input type="radio" name="serial${product.id}" class="me-1 serial-radio" id="serial_auto${product.id}" value="${product.id}" data-serial-method="auto" ${product.serial_method === 'auto' ? 'checked' : ''}>
-                                <label for="serial_auto${product.id}" class="cursor_pointer"><small>Auto</small></label>
-                            </div>
-                            <div class="d-flex">
-                                <input type="radio" name="serial${product.id}" class="me-1 serial-radio manual-radio" id="serial_manual${product.id}" value="${product.id}" data-serial-method="manual" ${product.serial_method === 'manual' ? 'checked' : ''}>
-                                <label for="serial_manual${product.id}" class="cursor_pointer" data-bs-toggle="offcanvas" data-bs-target="#product_serial_offcanvas" role="button"><small>Manual</small></label>
+                                ${product.serial_method ? `
+                                    <input type="radio" name="serial${product.id}" class="me-1 serial-radio manual-radio" id="serial_manual${product.id}" value="${product.id}" data-serial-method="manual" ${product.serial_method === 'manual' ? 'checked' : ''}>
+                                    <label for="serial_manual${product.id}" class="cursor_pointer" data-bs-toggle="offcanvas" data-bs-target="#product_serial_offcanvas" role="button"><small>Serial</small></label>
+                                    ` : ''}
                             </div>
                         </td>
                         <td class="py-1">
@@ -1968,4 +2020,6 @@
             });
         });
     </script>
+
+
 @endsection
