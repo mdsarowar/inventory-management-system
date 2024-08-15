@@ -1671,6 +1671,23 @@
             });
         })
     </script>
+    <script src="{{ asset('admin/assets/js/printThis.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+
+            $("#invoice_print_btn").click(function() {
+                $("#invoice_print_content").printThis({
+                    importCSS: true,
+                    importStyle: true,
+                    pageTitle: "Invoice",
+                    printDelay: 1000,
+                    canvas: true
+                });
+            });
+
+
+        });
+    </script>
 @endsection
 
 

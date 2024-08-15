@@ -12,11 +12,10 @@ return new class extends Migration {
     {
         Schema::create('checque_serials', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('checque_id')->nullable();
             $table->string('checque_serial')->nullable();
             $table->string('is_used')->nullable();
             $table->string('status')->nullable();
-
+            $table->unsignedBigInteger('bank_checque_id');
             $table->timestamps();
         });
     }

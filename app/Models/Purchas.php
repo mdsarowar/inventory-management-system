@@ -14,8 +14,14 @@ class Purchas extends Model
 
     protected $fillable = [
         'inv_id',
-        'vendor_type',
+        'pur_inv',
+//        'vendor_type',
         'vendor',
+        'wkname',
+        'wkphone',
+        'wkemail',
+        'wkaddress',
+        'wkdistrict',
         'dis_type',
         'discount',
         'vat_type',
@@ -54,13 +60,19 @@ class Purchas extends Model
             self::$purchas = new Purchas();
         }
         self::$purchas->inv_id                  = $inv ?? '';
-        self::$purchas->vendor_type             = $request->vendor_type ?? '';
-        if ($request->vendor_type == 'other'){
-            self::$purchas->vendor                  = $request->vendor_name ?? '';
-        }else{
+//        self::$purchas->vendor_type             = $request->vendor_type ?? '';
+//        if ($request->vendor_type == 'other'){
             self::$purchas->vendor                  = $request->vendor ?? '';
-        }
+//        }else{
+//            self::$purchas->vendor                  = $request->vendor ?? '';
+//        }
+        self::$purchas->pur_inv                ='PUR-' .date('YmdHis');
         self::$purchas->dis_type                = $request->dis_type ?? '';
+        self::$purchas->wkname                = $request->wkname ?? '';
+        self::$purchas->wkphone                = $request->wkphone ?? '';
+        self::$purchas->wkemail                = $request->wkemail ?? '';
+        self::$purchas->wkaddress                = $request->wkaddress ?? '';
+        self::$purchas->wkdistrict                = $request->wkdistrict ?? '';
         self::$purchas->discount                = $request->all_discount ?? '';
         self::$purchas->vat_type                = $request->vat_type ?? '';
         self::$purchas->vat                     = $request->all_vat ?? '';

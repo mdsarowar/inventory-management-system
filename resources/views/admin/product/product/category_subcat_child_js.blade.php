@@ -8,7 +8,7 @@
                     type:'get',
                     dataType:'json',
                     success:function (data){
-                        option = '<option >'+'Select Sub Category'+'</option>';
+                        option = '<option value=" " >'+'--Select--'+'</option>';
                         $.each(data.data, function(i,data)
                         {
                             // console.log(i);
@@ -28,7 +28,7 @@
                 type:'get',
                 dataType:'json',
                 success:function (success){
-                    option='<option >'+'Select child Category'+'</option>';
+                    option='<option value=" " >'+'--Select--'+'</option>';
                     $.each(success.data,function (i,data){
                         option +='<option value=" '+data.id+' " >'+data.name+'</option>'
                     });

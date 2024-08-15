@@ -7,10 +7,10 @@
         <div class="page-header">
             <div class="page-title">
                 <h4>{{__('Product')}} {{__('List')}}</h4>
-                <h6>{{__('Manage your')}} {{__('products')}}</h6>
+                <h6>{{__('Manage your products')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('product.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img" class="me-1">Add</a>
+                <a href="{{route('product.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img" class="me-1">{{__('Add')}}</a>
             </div>
         </div>
 
@@ -113,27 +113,29 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Product image</th>
-                            <th>Product Name</th>
-                            <th>SKU</th>
-                            <th>price</th>
-                            <th>quantity</th>
-                            <th>min_quantity</th>
-                            <th>tex</th>
-                            <th>discount_type</th>
-                            <th>discount</th>
-                            <th>description</th>
-                            <th>brand</th>
-                            <th>category</th>
-                            <th>sub_category </th>
-                            <th>child_category</th>
-                            <th>size</th>
-                            <th>color</th>
-                            <th>unit</th>
-                            <th>manufacture</th>
-                            <th>Qty</th>
-                            <th>Created By</th>
-                            <th>Action</th>
+                            <th>{{__('Image')}}/{{__('Name')}}</th>
+{{--                            <th></th>--}}
+                            <th>{{__('Code')}}</th>
+                            <th>{{__('Price')}}</th>
+{{--                            <th>{{__('Quantity')}}</th>--}}
+
+{{--                            <th>min_quantity</th>--}}
+{{--                            <th>tex</th>--}}
+
+{{--                            <th>{{__('Discount Type')}}</th>--}}
+{{--                            <th>{{__('Discount')}}</th>--}}
+{{--                            <th>description</th>--}}
+                            <th>{{__('Brand')}}</th>
+                            <th>{{__('Category')}}</th>
+{{--                            <th>{{__('Sub Category')}}</th>--}}
+{{--                            <th>child_category</th>--}}
+{{--                            <th>{{__('Size')}}</th>--}}
+{{--                            <th>{{__('Color')}}</th>--}}
+{{--                            <th>unit</th>--}}
+                            <th>{{__('Manufacture')}}</th>
+{{--                            <th>Qty</th>--}}
+{{--                            <th>Created By</th>--}}
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -151,25 +153,25 @@
                                     </a>
                                     <a href="javascript:void(0);">Macbook pro</a>
                                 </td>
-                                <td>{{$product->name}}</td>
-                                <td>PT00{{$product->sku}}</td>
+{{--                                <td>{{$product->name}}</td>--}}
+                                <td>{{$product->code}}</td>
                                 <td>{{$product->price}}</td>
-                                <td>{{$product->quantity}}</td>
-                                <td>{{$product->min_quantity}}</td>
-                                <td>{{$product->tex}}</td>
-                                <td>{{$product->discount_type}}</td>
-                                <td>{{$product->discount}}</td>
-                                <td>{{$product->description}}</td>
+{{--                                <td>{{$product->quantity}}</td>--}}
+{{--                                <td>{{$product->min_quantity}}</td>--}}
+{{--                                <td>{{$product->tex}}</td>--}}
+{{--                                <td>{{$product->discount_type}}</td>--}}
+{{--                                <td>{{$product->discount}}</td>--}}
+{{--                                <td>{{$product->description}}</td>--}}
                                 <td>{{$product->brand->name}}</td>
                                 <td>{{$product->category->name}}</td>
-                                <td>{{$product->subCategory->name}}</td>
-                                <td>{{$product->childCategory->name}}</td>
-                                <td>{{$product->size->name}}</td>
-                                <td>{{$product->color->name}}</td>
-                                <td>{{$product->unit->name}}</td>
+{{--                                <td>{{$product->subCategory->name}}</td>--}}
+{{--                                <td>{{$product->childCategory->name}}</td>--}}
+{{--                                <td>{{$product->size->name}}</td>--}}
+{{--                                <td>{{$product->color->name}}</td>--}}
+{{--                                <td>{{$product->unit->name}}</td>--}}
                                 <td>{{$product->manufacture->name}}</td>
-                                <td>{{$product->quantity}}</td>
-                                <td>{{$product->created_by}}</td>
+{{--                                <td>{{$product->quantity}}</td>--}}
+{{--                                <td>{{$product->created_by}}</td>--}}
                                 <td>
                                     @can('update product')
                                         <a class="me-3" href="{{route('product.edit',$product->id)}}">

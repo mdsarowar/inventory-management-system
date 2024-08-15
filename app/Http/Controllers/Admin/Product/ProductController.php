@@ -7,10 +7,12 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ChildCategory;
 use App\Models\Color;
+use App\Models\Customer;
 use App\Models\Manufacture;
 use App\Models\Product;
 use App\Models\Size;
 use App\Models\SubCategory;
+use App\Models\Supplier;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
@@ -30,6 +32,7 @@ class ProductController extends Controller
             'products'=>Product::get()
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -142,6 +145,7 @@ class ProductController extends Controller
     {
 //        abort_if(!auth()->user()->can('view product'),403,__('User does not have the right permissions.'));
         return view('admin.product.product.select_product', [
+
             'products' => Product::get(),
             'colors' => Color::get(),
             'sizes' => Size::get(),
