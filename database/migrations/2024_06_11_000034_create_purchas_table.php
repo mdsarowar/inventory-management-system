@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('wkemail')->nullable();
             $table->string('wkaddress')->nullable();
             $table->string('wkdistrict')->nullable();
+            $table->string('fractional_dis')->nullable();
             $table->string('vendor')->nullable();
             $table->string('dis_type')->nullable();
             $table->string('discount')->nullable();

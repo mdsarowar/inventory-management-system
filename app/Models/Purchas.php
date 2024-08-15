@@ -22,6 +22,7 @@ class Purchas extends Model
         'wkemail',
         'wkaddress',
         'wkdistrict',
+        'fractional_dis',
         'dis_type',
         'discount',
         'vat_type',
@@ -83,6 +84,7 @@ class Purchas extends Model
         self::$purchas->other_amount            = $request->other_amount ?? '';
         self::$purchas->issue_date              = $request->issue_date ?? '';
         self::$purchas->freight                 = $request->all_freight ?? '';
+        self::$purchas->fractional_dis                 = $request->fractional_dis ?? '';
         self::$purchas->less                    = $request->less ?? '';
         self::$purchas->add_money               = $request->add_money ?? '';
         self::$purchas->cur_id                  = $request->cur_id ?? '';

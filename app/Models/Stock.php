@@ -50,7 +50,7 @@ class Stock extends Model
         }
         self::$stock->product_id                  = $request['product_id'] ;
         self::$stock->sotck_qty                   = floatval(self::$stock->sotck_qty) + floatval($request['qty']);
-        self::$stock->pur_id                 = $request['pur_id'] ?? '';
+        self::$stock->pur_id                        = $request['pur_id'] ?? '';
         self::$stock->sell_qty                    = $request->sell_qty ?? '';
         self::$stock->purches_ret                 = $request->purches_ret ?? '';
         self::$stock->sell_ret                    = $request->sell_ret ?? '';
