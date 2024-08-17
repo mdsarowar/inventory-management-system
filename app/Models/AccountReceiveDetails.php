@@ -14,8 +14,8 @@ class AccountReceiveDetails extends Model
     protected $fillable = [
         'receive_id',
         'inv_number',
-        'credit_id',
-        'debit_id',
+        'received_to',
+        'received_form',
         'amount',
         'note',
         'date',

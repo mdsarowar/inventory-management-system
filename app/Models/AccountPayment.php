@@ -39,8 +39,8 @@ class AccountPayment extends Model
         } else {
             self::$payment = new AccountPayment();
         }
-        self::$payment->inv_number             = $request->inv_number ?? null;
-        self::$payment->amount                 = $request->amount ?? '';
+        self::$payment->inv_number             = $request->voucher_no ?? null;
+        self::$payment->amount                 = $request->total ?? '';
         self::$payment->note                   = $request->note ?? '';
         self::$payment->date                   = $request->date ?? null;
         self::$payment->user_id                = $request->user_id ?? null;

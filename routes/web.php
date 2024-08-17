@@ -164,9 +164,13 @@ Route::group(['middleware' => ['admin_access']], function() {
 
     // payment voucher
     Route::resource('account_payment', PaymentController::class);
+    Route::post('storeSessionData',[PaymentController::class,'storeSessionData'])->name('storeSessionData');
+    Route::post('deleteSessionData',[PaymentController::class,'deleteSessionData'])->name('deleteSessionData');
 
     // receive voucher
     Route::resource('account_receive', ReceiveController::class);
+    Route::post('revstoreSessionData',[ReceiveController::class,'revstoreSessionData'])->name('revstoreSessionData');
+    Route::post('revdeleteSessionData',[ReceiveController::class,'revdeleteSessionData'])->name('revdeleteSessionData');
 
     // journal
     Route::resource('journal', JournalController::class);

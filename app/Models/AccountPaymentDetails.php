@@ -14,8 +14,8 @@ class AccountPaymentDetails extends Model
     protected $fillable = [
         'payment_id',
         'inv_number',
-        'credit_id',
-        'debit_id',
+        'sourch',
+        'payto',
         'amount',
         'note',
         'date',

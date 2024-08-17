@@ -39,8 +39,8 @@ class AccountReceive extends Model
         } else {
             self::$receive = new AccountReceive();
         }
-        self::$receive->inv_number             = $request->inv_number ?? null;
-        self::$receive->amount                 = $request->amount ?? '';
+        self::$receive->inv_number             = $request->voucher_no ?? null;
+        self::$receive->amount                 = $request->total ?? '';
         self::$receive->note                   = $request->note ?? '';
         self::$receive->date                   = $request->date ?? null;
         self::$receive->user_id                = $request->user_id ?? null;

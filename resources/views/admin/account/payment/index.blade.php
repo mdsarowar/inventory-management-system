@@ -1,16 +1,17 @@
 @extends('admin.master')
 
-@section('title','Account Payment Vouchers')
+@section('title',__('Account Payment Vouchers'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Payment Vouchers List</h4>
-                <h6>Manage Your Payment Vouchers</h6>
+                <h4>{{__('Payment Vouchers List')}}</h4>
+                <h6>{{__('Manage Your Payment Vouchers')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('account_payment.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">Add Payment Voucher</a>
+                <a href="{{route('account_payment.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">{{__('Add
+                    Payment Voucher')}}</a>
             </div>
         </div>
 
@@ -78,11 +79,11 @@
                                 </label>
                             </th>
                             <th>#</th>
-                            <th>Date</th>
-                            <th>Invno</th>
-                            <th>Amount</th>
-                            <th>Note</th>
-                            <th>Action</th>
+                            <th>{{__('Date')}}</th>
+                            <th>{{__('Invno')}}</th>
+                            <th>{{__('Amount')}}</th>
+                            <th>{{__('Note')}}</th>
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -100,12 +101,12 @@
                                 <td>{{ $payment->amount }}</td>
                                 <td>{{ Str::limit($payment->note, 80) }}</td>
                                 <td>
-                                    @can('update account_payment')
+                                    @can('update accountpayment')
                                         <a class="me-3" href="{{route('account_payment.edit',$payment->id)}}">
                                             <img src="{{asset('/')}}admin/assets/img/icons/edit.svg" alt="img">
                                         </a>
                                     @endcan
-                                    @can('delete account_payment')
+                                    @can('delete accountpayment')
                                         <form action="{{route('account_payment.destroy', $payment->id)}}" method="POST" class="sr-dl" >
                                             @csrf
                                             @method('delete')

@@ -410,11 +410,6 @@
                                                 <option value="cus-{{$customer->id}}">cus-{{$customer->name}}</option>
                                             @endforeach
                                         </optgroup>
-{{--                                        <optgroup label="Group3">--}}
-{{--                                            <option>white</option>--}}
-{{--                                            <option>purple</option>--}}
-{{--                                            <option>orange</option>--}}
-{{--                                        </optgroup>--}}
                                     </select>
 {{--                                    <select class="form-select" name="vendor" id="select_vendor" >--}}
 {{--                                        <option>Select</option>--}}
