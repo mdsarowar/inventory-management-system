@@ -1,16 +1,16 @@
 @extends('admin.master')
 
-@section('title','employee')
+@section('title',__('Employee'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Employee List</h4>
-                <h6>Manage your Employee</h6>
+                <h4>{{__('Employee List')}}</h4>
+                <h6>{{__('Manage your Employee')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('employee.create')}}" class="btn btn-added"> <img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img">Add employee</a>
+                <a href="{{route('employee.create')}}" class="btn btn-added"> <img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img">{{__('Add Employee')}}</a>
             </div>
         </div>
         <!-- /product list -->
@@ -85,23 +85,23 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Employee image</th>
-                            <th>name</th>
-                            <th>department_id</th>
-                            <th>designation_id</th>
-                            <th>fname</th>
-                            <th>mname</th>
-                            <th>mobile</th>
-                            <th>phone</th>
-                            <th>email</th>
-                            <th>nid</th>
-                            <th>dob</th>
-                            <th>joining_date</th>
-                            <th>salary</th>
-                            <th>address</th>
-                            <th>per_address</th>
-                            <th>status</th>
-                            <th>Action</th>
+                            <th>{{__('Employee')}}</th>
+                            <th>{{__('Name')}}</th>
+                            <th>{{__('Department')}}</th>
+{{--                            <th>{{__('Designation')}}</th>--}}
+{{--                            <th>{{__('Father Name')}}</th>--}}
+{{--                            <th>{{__('Mother Name')}}</th>--}}
+{{--                            <th>mobile</th>--}}
+                            <th>{{__('Phone')}}</th>
+                            <th>{{__('Email')}}</th>
+{{--                            <th>nid</th>--}}
+{{--                            <th>dob</th>--}}
+                            <th>{{__('Joining Date')}}</th>
+                            <th>{{__('Salary')}}</th>
+{{--                            <th>address</th>--}}
+{{--                            <th>per_address</th>--}}
+                            <th>{{__('Status')}}</th>
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -121,18 +121,18 @@
                                 </td>
                                 <td>{{$employee->name}}</td>
                                 <td>{{$employee->department->name}}</td>
-                                <td>{{$employee->designation->name}}</td>
-                                <td>{{$employee->fname}}</td>
-                                <td>{{$employee->mname}}</td>
-                                <td>{{$employee->mobile}}</td>
+{{--                                <td>{{$employee->designation->name}}</td>--}}
+{{--                                <td>{{$employee->fname}}</td>--}}
+{{--                                <td>{{$employee->mname}}</td>--}}
+{{--                                <td>{{$employee->mobile}}</td>--}}
                                 <td>{{$employee->phone}}</td>
                                 <td>{{$employee->email}}</td>
-                                <td>{{$employee->nid}}</td>
-                                <td>{{$employee->dob}}</td>
+{{--                                <td>{{$employee->nid}}</td>--}}
+{{--                                <td>{{$employee->dob}}</td>--}}
                                 <td>{{$employee->joining_date}}</td>
                                 <td>{{$employee->salary}}</td>
-                                <td>{{$employee->address}}</td>
-                                <td>{{$employee->per_address}}</td>
+{{--                                <td>{{$employee->address}}</td>--}}
+{{--                                <td>{{$employee->per_address}}</td>--}}
                                 <td>{{ $employee->status == 1? 'Active':'Inactive' }}</td>
                                 <td>
                                     @can('update employee')

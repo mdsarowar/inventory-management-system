@@ -105,7 +105,7 @@
                                     @can('view product')
                                     <li><a href="{{ route('product.index') }}" class="{{request()->is('product*') ? 'active':''}}"><i data-feather="box"></i><span>{{__('Products')}}</span></a></li>
                                     @endcan
-                                    <li><a href="{{ route('select_product') }}" class="{{request()->is('product*') ? 'active':''}}"><i data-feather="box"></i><span>select_product</span></a></li>
+{{--                                    <li><a href="{{ route('select_product') }}" class="{{request()->is('product*') ? 'active':''}}"><i data-feather="box"></i><span>select_product</span></a></li>--}}
 {{--                                    <li><a href="{{ route('product.create') }}"><i data-feather="plus-square"></i><span>Create Product</span></a></li>--}}
                                     {{--                                        <li><a href="categorylist.html"><i data-feather="codepen"></i><span>Category</span></a></li>--}}
                                     @can('view brand')
@@ -145,18 +145,18 @@
                     <li class="submenu-open">
 {{--                        <h6 class="submenu-hdr">Peoples</h6>--}}
                         <ul>
-                            <li class="submenu slide {{request()->is('suppliers*') || request()->is('customers*')  ?'is-expanded':''}}">
+                            <li class="submenu slide {{request()->is('suppliers*') || request()->is('customer*')  ?'is-expanded':''}}">
                                 <a href="javascript:void(0);" class="{{request()->is('customers*') || request()->is('suppliers*') ?'active subdrop':''}}"><i data-feather="users"></i></i>
-                                    <span>Peoples</span><span class="menu-arrow"></span>
+                                    <span>{{__('Peoples')}}</span><span class="menu-arrow"></span>
                                 </a>
                                 <ul>
-                                    @can('view product')
-                                        <li><a href="{{ route('customers.index') }}" class="{{request()->is('customers*') ? 'active':''}}"><i data-feather="user"></i><span>Customers</span></a></li>
+                                    @can('view customer')
+                                        <li><a href="{{ route('customers.index') }}" class="{{request()->is('customers*') ? 'active':''}}"><i data-feather="user"></i><span>{{__('Customers')}}</span></a></li>
                                     @endcan
                                     {{--                                    <li><a href="{{ route('product.create') }}"><i data-feather="plus-square"></i><span>Create Product</span></a></li>--}}
                                     {{--                                        <li><a href="categorylist.html"><i data-feather="codepen"></i><span>Category</span></a></li>--}}
-                                    @can('view brand')
-                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="users"></i><span>Suppliers</span></a></li>
+                                    @can('view suppliers')
+                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="users"></i><span>{{__('Suppliers')}}</span></a></li>
                                     @endcan
                                 </ul>
                                 {{-- @endcan --}}
@@ -168,19 +168,19 @@
                     <li class="submenu-open">
 {{--                        <h6 class="submenu-hdr">Peoples</h6>--}}
                         <ul>
-                            <li class="submenu slide {{request()->is('suppliers*') || request()->is('customers*')  ?'is-expanded':''}}">
-                                <a href="javascript:void(0);" class="{{request()->is('customers*') || request()->is('suppliers*') ?'active subdrop':''}}"><i data-feather="users"></i></i>
-                                    <span>Purchases</span><span class="menu-arrow"></span>
+                            <li class="submenu slide {{request()->is('purchases*') || request()->is('purchasOrderCreate*')  ?'is-expanded':''}}">
+                                <a href="javascript:void(0);" class="{{request()->is('purchases*') || request()->is('purchasOrderCreate*') ?'active subdrop':''}}"><i data-feather="users"></i></i>
+                                    <span>{{__('Purchases')}}</span><span class="menu-arrow"></span>
                                 </a>
                                 <ul>
                                     @can('view product')
-                                        <li><a href="{{ route('purchases.index') }}" class="{{request()->is('purchases*') ? 'active':''}}"><i data-feather="shopping-bag"></i><span>Purchases</span></a></li>
+                                        <li><a href="{{ route('purchases.index') }}" class="{{request()->is('purchases*') ? 'active':''}}"><i data-feather="shopping-bag"></i><span>{{__('Purchases')}}</span></a></li>
                                     @endcan
 {{--                                    @can('view brand')--}}
 {{--                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="minimize-2"></i><span>Import Purchases</span></a></li>--}}
 {{--                                    @endcan--}}
                                     @can('view brand')
-                                        <li><a href="{{route('purchasOrderCreate')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="file-minus"></i><span>Purchase Order</span></a></li>
+                                        <li><a href="{{route('purchasOrderCreate')}}" class="{{request()->is('purchasOrderCreate*') ? 'active':''}}" ><i data-feather="file-minus"></i><span>{{__('Purchase Order')}}</span></a></li>
                                     @endcan
 {{--                                    @can('view brand')--}}
 {{--                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="refresh-cw"></i><span>Purchase Return</span></a></li>--}}
@@ -196,36 +196,36 @@
 {{--                        <h6 class="submenu-hdr">Peoples</h6>--}}
                         <ul>
                             <li class="submenu slide {{request()->is('suppliers*') || request()->is('customers*')  ?'is-expanded':''}}">
-                                <a href="javascript:void(0);" class="{{request()->is('customers*') || request()->is('suppliers*') ?'active subdrop':''}}"><i data-feather="shopping-cart"></i><span>Sales</span><span class="menu-arrow"></span>
+                                <a href="javascript:void(0);" class="{{request()->is('customers*') || request()->is('suppliers*') ?'active subdrop':''}}"><i data-feather="shopping-cart"></i><span>{{__('Sales')}}</span><span class="menu-arrow"></span>
                                 </a>
                                 <ul>
-                                    @can('view product')
-                                        <li><a href="{{ route('customers.index') }}" class="{{request()->is('customers*') ? 'active':''}}"><i data-feather="shopping-cart"></i><span>Sales</span></a></li>
-                                    @endcan
-                                    @can('view brand')
-                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="file-text"></i><span>Invoices</span></a></li>
-                                    @endcan
-                                    @can('view brand')
-                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="copy"></i><span>Sales Return</span></a></li>
-                                    @endcan
-                                    @can('view brand')
-                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="save"></i><span>Quotation</span></a></li>
-                                    @endcan
-                                        <li><a href="pos.html"><i data-feather="hard-drive"></i><span>POS</span></a></li>
-                                        <li class="submenu">
-                                            <a href="javascript:void(0);"><i data-feather="shuffle"></i><span>Transfer</span><span class="menu-arrow"></span></a>
-                                            <ul>
-                                                <li><a href="transferlist.html">Transfer List</a></li>
-                                                <li><a href="importtransfer.html">Import Transfer </a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="submenu">
-                                            <a href="javascript:void(0);"><i data-feather="corner-up-left"></i><span>Return</span><span class="menu-arrow"></span></a>
-                                            <ul>
-                                                <li><a href="salesreturnlist.html">Sales Return</a></li>
-                                                <li><a href="purchasereturnlist.html">Purchase Return</a></li>
-                                            </ul>
-                                        </li>
+{{--                                    @can('view product')--}}
+{{--                                        <li><a href="{{ route('customers.index') }}" class="{{request()->is('customers*') ? 'active':''}}"><i data-feather="shopping-cart"></i><span>{{__('Sales')}}</span></a></li>--}}
+{{--                                    @endcan--}}
+{{--                                    @can('view brand')--}}
+{{--                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="file-text"></i><span>{{__('Invoices')}}</span></a></li>--}}
+{{--                                    @endcan--}}
+{{--                                    @can('view brand')--}}
+{{--                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="copy"></i><span>{{__('Sales Return')}}</span></a></li>--}}
+{{--                                    @endcan--}}
+{{--                                    @can('view brand')--}}
+{{--                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="save"></i><span>{{__('Quotation')}}</span></a></li>--}}
+{{--                                    @endcan--}}
+{{--                                        <li><a href="pos.html"><i data-feather="hard-drive"></i><span>POS</span></a></li>--}}
+{{--                                        <li class="submenu">--}}
+{{--                                            <a href="javascript:void(0);"><i data-feather="shuffle"></i><span>Transfer</span><span class="menu-arrow"></span></a>--}}
+{{--                                            <ul>--}}
+{{--                                                <li><a href="transferlist.html">Transfer List</a></li>--}}
+{{--                                                <li><a href="importtransfer.html">Import Transfer </a></li>--}}
+{{--                                            </ul>--}}
+{{--                                        </li>--}}
+{{--                                        <li class="submenu">--}}
+{{--                                            <a href="javascript:void(0);"><i data-feather="corner-up-left"></i><span>Return</span><span class="menu-arrow"></span></a>--}}
+{{--                                            <ul>--}}
+{{--                                                <li><a href="salesreturnlist.html">Sales Return</a></li>--}}
+{{--                                                <li><a href="purchasereturnlist.html">Purchase Return</a></li>--}}
+{{--                                            </ul>--}}
+{{--                                        </li>--}}
                                 </ul>
                                 {{-- @endcan --}}
                             </li>
@@ -263,17 +263,17 @@
                         <ul>
                             <li class="submenu slide {{request()->is('department*') || request()->is('designation*')|| request()->is('employee*')  ?'is-expanded':''}}">
                                 <a href="javascript:void(0);" class="{{request()->is('department*') || request()->is('designation*')|| request()->is('employee*') ?'active subdrop':''}}"><i data-feather="users"></i></i>
-                                    <span>Employee</span><span class="menu-arrow"></span>
+                                    <span>{{__('Employee')}}</span><span class="menu-arrow"></span>
                                 </a>
                                 <ul>
                                     @can('view department')
-                                        <li><a href="{{ route('department.index') }}" class="{{request()->is('department*') ? 'active':''}}"><i data-feather="shopping-bag"></i><span>Department</span></a></li>
+                                        <li><a href="{{ route('department.index') }}" class="{{request()->is('department*') ? 'active':''}}"><i data-feather="shopping-bag"></i><span>{{__('Department')}}</span></a></li>
                                     @endcan
                                     @can('view designation')
-                                        <li><a href="{{route('designation.index')}}" class="{{request()->is('designation*') ? 'active':''}}" ><i data-feather="minimize-2"></i><span>Designation</span></a></li>
+                                        <li><a href="{{route('designation.index')}}" class="{{request()->is('designation*') ? 'active':''}}" ><i data-feather="minimize-2"></i><span>{{__('Designation')}}</span></a></li>
                                     @endcan
                                     @can('view employee')
-                                        <li><a href="{{route('employee.index')}}" class="{{request()->is('employee*') ? 'active':''}}" ><i data-feather="file-minus"></i><span>Employee</span></a></li>
+                                        <li><a href="{{route('employee.index')}}" class="{{request()->is('employee*') ? 'active':''}}" ><i data-feather="file-minus"></i><span>{{__('Employee')}}</span></a></li>
                                     @endcan
 {{--                                    @can('view brand')--}}
 {{--                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="refresh-cw"></i><span>Purchase Return</span></a></li>--}}

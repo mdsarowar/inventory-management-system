@@ -38,7 +38,7 @@ class Supplier extends Model
 
     public static function createOrUpdateUser ($request, $id = null)
     {
-//        $lastdata=Product::orderBy('sku','DESC')->first();
+        $lastdata=Supplier::orderBy('sup_code','DESC')->first();
         if (isset($id))
         {
             self::$supplier = Supplier::find($id);
@@ -46,7 +46,7 @@ class Supplier extends Model
             self::$supplier = new Supplier();
         }
         self::$supplier->name                           = $request->name ?? '';
-        self::$supplier->sup_code                       = $request->sup_code ?? '';
+        self::$supplier->sup_code                       = isset($id)? self::$supplier->sup_code : (isset($lastdata)? intval($lastdata->sup_code)+1 : 0001) ;
         self::$supplier->email                          = $request->email ?? '';
         self::$supplier->mobile                         = $request->mobile ?? '';
         self::$supplier->nid                            = $request->nid ?? '';

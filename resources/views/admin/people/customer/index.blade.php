@@ -1,16 +1,16 @@
 @extends('admin.master')
 
-@section('title','category')
+@section('title',__('Customer'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Customer List</h4>
-                <h6>Manage your Customers</h6>
+                <h4>{{__('Customer List')}}</h4>
+                <h6>{{__('Manage your Customers')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('customers.create')}}" class="btn btn-added"> <img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img">Add Customer</a>
+                <a href="{{route('customers.create')}}" class="btn btn-added"> <img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img">{{__('Add Customer')}}</a>
             </div>
         </div>
         <!-- /product list -->
@@ -85,13 +85,13 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Customer image</th>
-                            <th>code</th>
-                            <th>Customer</th>
-                            <th>Phone</th>
-                            <th>email</th>
-                            <th>status</th>
-                            <th>Action</th>
+                            <th>{{__('Customer')}}</th>
+                            <th>{{__('Code')}}</th>
+                            <th>{{__('Customer')}}</th>
+                            <th>{{__('Phone')}}</th>
+                            <th>{{__('Email')}}</th>
+                            <th>{{__('Status')}}</th>
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -115,12 +115,12 @@
                                 <td>{{$customer->email}}</td>
                                 <td>{{ $customer->status == 1? 'Active':'Inactive' }}</td>
                                 <td>
-                                    @can('update brand')
+                                    @can('update customer')
                                         <a class="me-3" href="{{route('customers.edit',$customer->id)}}">
                                             <img src="{{asset('/')}}admin/assets/img/icons/edit.svg" alt="img">
                                         </a>
                                     @endcan
-                                    @can('delete brand')
+                                    @can('delete customer')
                                         <form action="{{route('customers.destroy',$customer->id)}}" method="POST" class="sr-dl" >
                                             @csrf
                                             @method('delete')

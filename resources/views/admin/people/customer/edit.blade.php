@@ -1,13 +1,13 @@
 @extends('admin.master')
 
-@section('title','brand')
+@section('title',__('Customers'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Product Edit Category</h4>
-                <h6>Edit a product Category</h6>
+                <h4>{{__('Edit Customer')}}</h4>
+                <h6>{{__('Edit a Customer')}}</h6>
             </div>
         </div>
         <!-- /add -->
@@ -19,62 +19,62 @@
                     <div class="row">
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Customer Name</label>
+                                <label>{{__('Customer Name')}}</label>
                                 <input type="text" name="name" value="{{$customer->name}}">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Email</label>
+                                <label>{{__('Email')}}</label>
                                 <input type="text" name="email" value="{{$customer->email}}" >
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Phone</label>
+                                <label>{{__('Phone')}}</label>
                                 <input type="text" name="mobile" value="{{$customer->mobile}}" >
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>NID</label>
+                                <label>{{__('NID')}}</label>
                                 <input type="text" name="nid" value="{{$customer->nid}}">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Contact Person</label>
+                                <label>{{__('Contact Person')}}</label>
                                 <input type="text" name="cperson" value="{{$customer->cperson}}">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Contact mobile</label>
+                                <label>{{__('Contact mobile')}}</label>
                                 <input type="text" name="cmobile" value="{{$customer->cmobile}}">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Creditlimit</label>
+                                <label>{{__('Creditlimit')}}</label>
                                 <input type="text" name="creditlimit" value="{{$customer->creditlimit}}">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Balance</label>
+                                <label>{{__('Balance')}}</label>
                                 <input type="text" name="balance" value="{{$customer->balance}}">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Rank</label>
+                                <label>{{__('Rank')}}</label>
                                 <input type="text" name="rank" value="{{$customer->rank}}">
                             </div>
                         </div>
 
                         <div class="col-lg-4 col-sm-6 col-12">
                             <div class="form-group">
-                                <label class="d-block">Status</label>
+                                <label class="d-block">{{__('Status')}}</label>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="status" id="gender_male"
                                            value="1" {{$customer->status == 1?'checked':''}}>
@@ -87,41 +87,21 @@
                                 </div>
                             </div>
                         </div>
-                        {{--                    <div class="col-lg-3 col-sm-6 col-12">--}}
-                        {{--                        <div class="form-group">--}}
-                        {{--                            <label>Choose Country</label>--}}
-                        {{--                            <select class="select">--}}
-                        {{--                                <option>Choose Country</option>--}}
-                        {{--                                <option>India</option>--}}
-                        {{--                                <option>USA</option>--}}
-                        {{--                            </select>--}}
-                        {{--                        </div>--}}
-                        {{--                    </div>--}}
-                        {{--                    <div class="col-lg-3 col-sm-6 col-12">--}}
-                        {{--                        <div class="form-group">--}}
-                        {{--                            <label>City</label>--}}
-                        {{--                            <select class="select">--}}
-                        {{--                                <option>Choose City</option>--}}
-                        {{--                                <option>City 1</option>--}}
-                        {{--                                <option>City 2</option>--}}
-                        {{--                            </select>--}}
-                        {{--                        </div>--}}
-                        {{--                    </div>--}}
-                        <div class="col-lg-9 col-12">
+                        <div class="col-lg-4 col-12">
                             <div class="form-group">
-                                <label>Address</label>
+                                <label>{{__('Address')}}</label>
                                 <input type="text" name="address" value="{{$customer->address}}">
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Description</label>
+                                <label>{{__('Description')}}</label>
                                 <textarea class="form-control" name="note">{!! $customer->note !!}</textarea>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <div class="form-group">
-                                <label>	Avatar</label>
+                                <label> {{__('Avatar')}}</label>
                                 <div class="image-upload">
                                     <input type="file" name="image">
                                     <div class="image-uploads">
@@ -150,8 +130,8 @@
                             </ul>
                         </div>
                         <div class="col-lg-12">
-                            <button type="submit"  class="btn btn-submit me-2">update</button>
-                            <a href="{{route('customers.index')}}"  class="btn btn-cancel">Cancel</a>
+                            <button type="submit"  class="btn btn-submit me-2">{{__('update')}}</button>
+                            <a href="{{route('customers.index')}}"  class="btn btn-cancel">{{__('Cancel')}}</a>
                         </div>
                     </div>
                 </form>
