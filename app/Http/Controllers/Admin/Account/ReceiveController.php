@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Account;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccountPayment;
+use App\Models\AccountPaymentDetails;
 use App\Models\Customer;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -161,8 +163,25 @@ class ReceiveController extends Controller
     public function edit(string $id)
     {
         abort_if(!auth()->user()->can('update accountreceive'),403,__('User does not have the right permissions.'));
+        $pay=AccountReceive::find($id);
+        $paymentData = AccountReceiveDetails::where('receive_id',$id)->get();
+        if (!empty($paymentData)) {
+            foreach ($paymentData as $key=> $detail) {
+                $paymentDetail[$key]['received_to']       = $detail['received_to'] ?? null;
+                $paymentDetail[$key]['received_form']        = $detail['received_form'] ?? null;
+                $paymentDetail[$key]['amount']          = $detail['amount'] ?? null;
+                $paymentDetail[$key]['ref']     = $detail['reference'] ?? null;
+                $paymentDetail[$key]['vou_date']     = $detail['date'] ?? null;
+                $paymentDetail[$key]['revcheque']      = $detail['revcheque_id'] ?? null;
+                $paymentDetail[$key]['revcheque_date']     = !empty($detail['revcheque_date']) ? $detail['revcheque_date'] : null;
+                Session::put('receivedVoucher',$paymentDetail);
+            }
+        }
+        Session::put('revtotalAmount', $pay->amount);
         return view('admin.account.receive.edit',[
             'receive'=>AccountReceive::find($id),
+            'customers'=>Customer::get(),
+            'suppliers'=>Supplier::get(),
             'branches' => Branch::get(),
             'companies' => Company::get()
         ]);
@@ -174,39 +193,51 @@ class ReceiveController extends Controller
     public function update(Request $request, string $id)
     {
         abort_if(!auth()->user()->can('update accountreceive'),403,__('User does not have the right permissions.'));
-        $update = AccountReceive::createOrUpdateReceive($request,$id);
+        $paymentData = Session::get('receivedVoucher', []);
 
-        // Extract receive details from the hidden input field
+        $total= Session::get('revtotalAmount');
+        $request['total']=$total;
+        $detailsData = AccountReceiveDetails::where('receive_id', $id)->get();
+
+        foreach ($detailsData as $detail) {
+            $detail->delete();
+        }
+//       return $request;
+        $store = AccountReceive::createOrUpdateReceive($request,$id);
+//        }
+//return $store;
+
+        // Extract payment details from the hidden input field
         try {
-            $receiveDetails = json_decode($request->receive_details, true);
-            // Delete existing receive details for this receive
-            $update->details()->delete();
-            if (!empty($receiveDetails)) {
-                // Insert updated receive details
-                foreach ($receiveDetails as $detail) {
-                    $receiveDetail = new AccountReceiveDetails();
-                    $receiveDetail->fill([
-                        'receive_id' => $update->id,
-                        'inv_number' => $update->inv_number ?? null,
-                        'note' => $update->note ?? null,
-                        'credit_id' => $detail['credit_id'] ?? null,
-                        'debit_id' => $detail['debit_id'] ?? null,
-                        'amount' => $detail['amount'] ?? null,
-                        'reference' => $detail['reference'] ?? null,
-                        'date' => $update->date ?? null,
-                        'cheque_id' => $detail['cheque_id'] ?? null,
-                        'cheque_date' => !empty($detail['cheque_date']) ? $detail['cheque_date'] : null,
-                        'user_id' => $update->user_id ?? null,
-                        'branch_id' => $update->branch_id ?? null,
-                        'company_id' => $update->company_id ?? null
-                    ]);
-                    $receiveDetail->save();
+//            $paymentDetails = json_decode($request->payment_details, true);
+            if (!empty($paymentData)) {
+                foreach ($paymentData as $detail) {
+                    $paymentDetail = new AccountReceiveDetails();
+                    $paymentDetail->receive_id      = $store->id;
+                    $paymentDetail->inv_number      = $store->inv_number ?? null;
+                    $paymentDetail->note            = $store->note ?? null;
+                    $paymentDetail->received_to       = $detail['received_to'] ?? null;
+                    $paymentDetail->received_form        = $detail['received_form'] ?? null;
+                    $paymentDetail->amount          = $detail['amount'] ?? null;
+                    $paymentDetail->reference       = $detail['ref'] ?? null;
+                    $paymentDetail->date            = $store->date ?? null;
+                    $paymentDetail->cheque_id       = $detail['revcheque'] ?? null;
+                    $paymentDetail->cheque_date     = !empty($detail['revcheque_date']) ? $detail['revcheque_date'] : null;
+                    $paymentDetail->user_id         = $store->user_id ?? null;
+                    $paymentDetail->branch_id       = $store->branch_id ?? null;
+                    $paymentDetail->company_id      = $store->company_id ?? null;
+                    $paymentDetail->save();
                 }
             }
 
-            return redirect()->route('account_receive.index')->with('success', 'Receive voucher information updated successfully');
+            Session::forget('receivedVoucher');
+            Session::forget('revtotalAmount');
+//            // Clear payment details array from cookies after successfully stored
+//            Cookie::queue(Cookie::forget('paymentDetailsArray'));
+
+            return redirect()->route('account_receive.index')->with('success', 'Receive voucher created successfully');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred while updating the receive voucher.');
+            return redirect()->back()->with('error', 'An error occurred while creating the payment voucher.');
         }
 
         return redirect()->route('account_receive.index')->with('success','Receive voucher information update successfully');
@@ -219,6 +250,11 @@ class ReceiveController extends Controller
     {
         abort_if(!auth()->user()->can('delete accountreceive'),403,__('User does not have the right permissions.'));
         $delete=AccountReceive::find($id);
+        $detailsData = AccountReceiveDetails::where('receive_id', $id)->get();
+
+        foreach ($detailsData as $detail) {
+            $detail->delete();
+        }
         $delete->delete();
         return redirect()->route('account_receive.index')->with('error','Receive voucher delete successfully');
     }

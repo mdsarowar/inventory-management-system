@@ -1,16 +1,17 @@
 @extends('admin.master')
 
-@section('title','Account Receive Vouchers')
+@section('title',__('Account Receive Vouchers'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Receive Vouchers List</h4>
-                <h6>Manage Your Receive Vouchers</h6>
+                <h4>{{__('Receive Vouchers List')}}</h4>
+                <h6>{{__('Manage Your Receive Vouchers')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('account_receive.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">Add Receive Voucher</a>
+                <a href="{{route('account_receive.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">{{_('Add
+                    Receive Voucher')}}</a>
             </div>
         </div>
 
@@ -78,11 +79,11 @@
                                 </label>
                             </th>
                             <th>#</th>
-                            <th>Date</th>
-                            <th>Invno</th>
-                            <th>Amount</th>
-                            <th>Note</th>
-                            <th>Action</th>
+                            <th>{{__('Date')}}</th>
+                            <th>{{__('Invoice')}}</th>
+                            <th>{{__('Amount')}}</th>
+                            <th>{{__('Note')}}</th>
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>
