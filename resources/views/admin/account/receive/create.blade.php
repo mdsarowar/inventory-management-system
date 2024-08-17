@@ -1,13 +1,13 @@
 @extends('admin.master')
 
-@section('title','Create New Receive Voucher')
+@section('title',__('Create New Receive Voucher'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Receive Voucher Add</h4>
-                <h6>Create New Receive Voucher</h6>
+                <h4>{{__('Receive Voucher Add')}}</h4>
+                <h6>{{__('Create New Receive Voucher')}}</h6>
             </div>
         </div>
         <!-- /add -->

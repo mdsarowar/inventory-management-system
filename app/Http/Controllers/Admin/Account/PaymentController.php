@@ -199,9 +199,7 @@ class PaymentController extends Controller
 //        return $request;
         abort_if(!auth()->user()->can('update accountpayment'),403,__('User does not have the right permissions.'));
         $paymentData = Session::get('paymentVoucher', []);
-//        return $paymentData;
-//        foreach ( $paymentData as $payvou){
-        // Create or update the main AccountPayment
+
         $total= Session::get('totalAmount');
         $request['total']=$total;
         $detailsData = AccountPaymentDetails::where('payment_id', $id)->get();
