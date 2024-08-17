@@ -1,16 +1,16 @@
 @extends('admin.master')
 
-@section('title','category')
+@section('title',__('Suppliers'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Supplier List</h4>
-                <h6>Manage your Suppliers</h6>
+                <h4>{{__('Supplier List')}}</h4>
+                <h6>{{__('Manage your Suppliers')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('suppliers.create')}}" class="btn btn-added"> <img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img">Add Supplier</a>
+                <a href="{{route('suppliers.create')}}" class="btn btn-added"> <img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img">{{__('Add Supplier')}}</a>
             </div>
         </div>
         <!-- /product list -->
@@ -85,13 +85,13 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Customer image</th>
-                            <th>code</th>
-                            <th>Customer</th>
-                            <th>Phone</th>
-                            <th>email</th>
-                            <th>status</th>
-                            <th>Action</th>
+                            <th>{{__('Suppliers')}}</th>
+                            <th>{{__('Code')}}</th>
+{{--                            <th>Customer</th>--}}
+                            <th>{{__('Phone')}}</th>
+                            <th>{{__('Email')}}</th>
+                            <th>{{__('Status')}}</th>
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -110,7 +110,7 @@
                                     <a href="javascript:void(0);">{{$supplier->name}}</a>
                                 </td>
                                 <td>{{$supplier->sup_code}}</td>
-                                <td>{{$supplier->name}}</td>
+{{--                                <td>{{$supplier->name}}</td>--}}
                                 <td>{{$supplier->mobile}}</td>
                                 <td>{{$supplier->email}}</td>
                                 <td>{{ $supplier->status == 1? 'Active':'Inactive' }}</td>

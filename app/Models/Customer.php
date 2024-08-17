@@ -38,7 +38,7 @@ class Customer extends Model
 
     public static function createOrUpdateUser ($request, $id = null)
     {
-        $lastdata=Product::orderBy('sku','DESC')->first();
+        $lastdata=Customer::orderBy('cus_code','DESC')->first();
         if (isset($id))
         {
             self::$customer = Customer::find($id);
@@ -46,7 +46,7 @@ class Customer extends Model
             self::$customer = new Customer();
         }
         self::$customer->name                       = $request->name ?? '';
-        self::$customer->cus_code                   = $request->cus_code ?? '';
+        self::$customer->cus_code                   = isset($id)? self::$customer->cus_code : (isset($lastdata)? intval($lastdata->cus_code)+1 : 0001) ;
         self::$customer->email                      = $request->email ?? '';
         self::$customer->mobile                     = $request->mobile ?? '';
         self::$customer->nid                        = $request->nid ?? '';

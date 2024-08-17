@@ -32,7 +32,7 @@ class PurchasController extends Controller
      */
     public function index()
     {
-//        abort_if(!auth()->user()->can('view product'),403,__('User does not have the right permissions.'));
+        abort_if(!auth()->user()->can('view purchase'),403,__('User does not have the right permissions.'));
         return view('admin.purchas.index', [
             'purchases' => Purchas::latest()->get(),
         ]);
@@ -43,7 +43,7 @@ class PurchasController extends Controller
      */
     public function create()
     {
-        abort_if(!auth()->user()->can('create product'),403,__('User does not have the right permissions.'));
+        abort_if(!auth()->user()->can('create purchase'),403,__('User does not have the right permissions.'));
 
         return view('admin.product.product.create',[
             'brands' => Brand::all(),
@@ -63,7 +63,7 @@ class PurchasController extends Controller
     public function store(Request $request)
     {
 //                return $request;
-//        abort_if(!auth()->user()->can('create category'),403,__('User does not have the right permissions.'));
+        abort_if(!auth()->user()->can('create purchase'),403,__('User does not have the right permissions.'));
         $amounts = session()->get('purchase_additional');
 //        return $amounts;
         $request['total']=$amounts['grand_total'];
@@ -216,7 +216,7 @@ class PurchasController extends Controller
      */
     public function edit(string $id)
     {
-//        abort_if(!auth()->user()->can('update product'),403,__('User does not have the right permissions.'));
+        abort_if(!auth()->user()->can('update purchase'),403,__('User does not have the right permissions.'));
 
         $purchas=Purchas::find($id);
         $pro_tran=ProductTransection::where('pur_id',$purchas->id)->get();
@@ -312,7 +312,7 @@ class PurchasController extends Controller
     public function update(Request $request, string $id)
     {
 //        return $id;
-//        abort_if(!auth()->user()->can('update product'),403,__('User does not have the right permissions.'));
+        abort_if(!auth()->user()->can('update purchase'),403,__('User does not have the right permissions.'));
 
 
 //                return $request;
@@ -469,7 +469,7 @@ $pur=Purchas::find($id);
     public function destroy(string $id)
     {
 //        return $id;
-//            abort_if(!auth()->user()->can('delete product'),403,__('User does not have the right permissions.'));
+            abort_if(!auth()->user()->can('delete purchase'),403,__('User does not have the right permissions.'));
             $delete=Purchas::find($id);
             $pro_trns=ProductTransection::where('trans_type','pur')->where('trans_id',$id)->get();
             foreach ($pro_trns as $product){
