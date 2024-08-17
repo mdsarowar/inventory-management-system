@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('product_transections', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('trans_type')->nullable();
-            $table->string('trans_id')->nullable();
+            $table->string('pur_id')->nullable();
             $table->string('product_id')->nullable();
             $table->string('color_id')->nullable();
             $table->string('size_id')->nullable();

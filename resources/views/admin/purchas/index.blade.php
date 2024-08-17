@@ -114,7 +114,7 @@
                                 </label>
                             </th>
                             <th>{{__('Date')}}</th>
-                            <th>{{__('Branch')}}</th>
+{{--                            <th>{{__('Branch')}}</th>--}}
                             <th>{{__('Supplier')}}</th>
                             <th>{{__('Walk Supplier')}}</th>
                             <th>{{__('Total Amount')}}</th>
@@ -135,7 +135,7 @@
                                     </label>
                                 </td>
                                 <td>{{$purchas->issue_date}}</td>
-                                <td>SMCE</td>
+{{--                                <td>SMCE</td>--}}
 {{--                                <td>{{$purchas->vendor}}</td>--}}
                                 @if(empty($purchas->wkname))
                                     @php

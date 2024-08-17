@@ -1,13 +1,13 @@
 @extends('admin.master')
 
-@section('title','Payment Voucher Edit')
+@section('title',__('Payment Voucher Edit'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Payment Voucher Edit</h4>
-                <h6>Update Payment Voucher</h6>
+                <h4>{{__('Payment Voucher Edit')}}</h4>
+                <h6>{{__('Update Payment Voucher')}}</h6>
             </div>
         </div>
         <!-- /edit -->
@@ -16,116 +16,193 @@
                 <form action="{{route('account_payment.update',$payment->id)}}" method="post">
                     @csrf
                     @method('put')
+                    @csrf
                     <div class="row">
                         <div class="col-lg-4 col-sm-6 col-12">
+                            @php
+                                $formattedNumber = 'PAV-' . now()->format('YmdHis');
+                                 $date = date('Y-m-d');
+                            @endphp
                             <div class="form-group">
-                                <label>Invoice Number</label>
-                                <input type="text" name="inv_number" value="{{ $payment->inv_number }}">
+                                <label>{{__('Voucher Number')}}</label>
+                                <input type="text" id="voucher_no" name="voucher_no" value="{{$payment->inv_number}}" readonly>
                             </div>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Amount</label>
-                                <input type="tel" name="amount" class="form-control" value="{{ $payment->amount }}">
+                                <label>{{__('Date')}}</label>
+                                <input type="date" id="voucher_date" name="date" class="form-control" value="{{ \Carbon\Carbon::parse($payment->date)->format('Y-m-d') }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label>{{__('Payment Sourch')}}</label>
+                                <select name="pay_soruch" id="pay_soruch" class="form-select">
+                                    <option selected disabled>-- select one --</option>
+                                    <option value="cash" >Cash</option>
+                                    <option value="bank" >Bank</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Date</label>
-                                <input type="date" name="date" class="form-control" value="{{ !empty($payment->date) ? \Carbon\Carbon::parse($payment->date)->format('Y-m-d') : '' }}">
+                                <label>{{__('Balance')}}</label>
+                                <input type="tel" name="balance" class="form-control">
                             </div>
                         </div>
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <label>{{__('Cheque')}}</label>
+                            <input type="number" id="pb_cheque"  class="form-control mb-2" readonly>
+                            <label>{{__('Cheque Date')}}</label>
+                            <input type="date" id="pb_cheque_date" class="form-control" readonly>
+                        </div>
+
                         <div class="col-12 bg-light pt-2 pb-3">
                             <div class="row">
                                 <div class="col-lg-3 col-sm-6 col-12">
-                                    <label>Credit</label>
-                                    <input type="number" id="pd_credit" class="form-control mb-2">
-                                    <label>Debit</label>
-                                    <input type="number" id="pd_debit" class="form-control">
+                                    <div class="form-group">
+                                        <label>{{__('Payment To')}}</label>
+                                        <select class="form-control nested" name="payment_to" id="pay_to" >
+                                            <option selected="selected" value="">--Select--</option>
+                                            <optgroup label="{{__('Supplier')}}">
+                                                @foreach($suppliers as $supplier)
+                                                    <option value="sup-{{$supplier->id}}">sup-{{$supplier->name}}</option>
+                                                @endforeach
+                                            </optgroup>
+                                            <optgroup label="{{__('Customer')}}">
+                                                @foreach($customers as $customer)
+                                                    <option value="cus-{{$customer->id}}">cus-{{$customer->name}}</option>
+                                                @endforeach
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label>{{__('Balance')}}</label>
+                                        <input type="tel" name="balance" id="balance" class="form-control" value="00" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label>{{__('Referance')}}</label>
+                                        <input type="tel" id="ref" name="ref" class="form-control"  >
+                                    </div>
                                 </div>
                                 <div class="col-lg-3 col-sm-6 col-12">
-                                    <label>Cheque</label>
-                                    <input type="number" id="pd_cheque" class="form-control mb-2">
-                                    <label>Cheque Date</label>
-                                    <input type="date" id="pd_cheque_date" class="form-control">
+                                    <div class="form-group">
+                                        <label>{{__('Amount')}}</label>
+                                        <input type="tel" id="amount" name="amount" class="form-control"  >
+                                    </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <label>Amount</label>
-                                    <input type="number" id="pd_amount" class="form-control mb-2">
-                                    <label>Reference</label>
-                                    <input type="text" id="pd_reference" class="form-control">
-                                </div>
-                                <div class="col-lg-3 col-sm-6 col-12 d-flex align-items-center pt-4">
-                                    <button type="button" id="pd_add_btn" class="btn btn-submit"><i class="fas fa-plus"></i> Add</button>
+                                {{--                                <div class="col-lg-3 col-sm-6 col-12">--}}
+                                {{--                                    <label>Credit</label>--}}
+                                {{--                                    <input type="number" id="pd_credit" class="form-control mb-2">--}}
+                                {{--                                    <label>Debit</label>--}}
+                                {{--                                    <input type="number" id="pd_debit" class="form-control">--}}
+                                {{--                                </div>--}}
+
+                                {{--                                <div class="col-lg-3 col-sm-6 col-12">--}}
+                                {{--                                    <label>Amount</label>--}}
+                                {{--                                    <input type="number" id="pd_amount" class="form-control mb-2">--}}
+                                {{--                                    <label>Reference</label>--}}
+                                {{--                                    <input type="text" id="pd_reference" class="form-control">--}}
+                                {{--                                </div>--}}
+                                <div class="col-lg-2 col-sm-6 col-12 d-flex align-items-center pt-4">
+                                    <button type="button" id="pd_add_btn" class="btn btn-submit"><i class="fas fa-plus"></i>
+                                        {{__('Add')}}</button>
                                 </div>
                             </div>
-                            <input type="hidden" name="payment_details" id="payment_details" value="{{ $payment->details }}">
+                            <input type="hidden" name="payment_details" id="payment_details">
                         </div>
                         <div class="col-12 mb-4">
                             <table class="table table-bordered table-sm">
                                 <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Credit</th>
-                                        <th>Debit</th>
-                                        <th>Cheque</th>
-                                        <th>Cheque Date</th>
-                                        <th>Amount</th>
-                                        <th>Reference</th>
-                                        <th><i class="fas fa-trash-alt"></i></th>
-                                    </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>{{__('Sourch')}}</th>
+                                    <th>{{__('Pay To')}}</th>
+                                    <th>{{__('Amount')}}</th>
+                                    <th>{{__('Cheque')}}</th>
+                                    <th>{{__('Cheque Date')}}</th>
+                                    <th>{{__('Date')}}</th>
+                                    <th>{{__('Reference')}}</th>
+                                    <th><i class="fas fa-trash-alt"></i></th>
+                                </tr>
                                 </thead>
                                 <tbody>
+                                @if(Session::has('paymentVoucher'))
+                                    @foreach(Session::get('paymentVoucher') as $index => $payment)
+                                        <tr data-index="{{ $index }}">
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $payment['sourch'] }}</td>
+                                            <td>{{ $payment['payto'] }}</td>
+                                            <td>{{ $payment['amount'] }}</td>
+                                            <td>{{ $payment['cheque'] }}</td>
+                                            <td>{{ $payment['cheque_date'] }}</td>
+                                            <td>{{ $payment['vou_date'] }}</td>
+                                            <td>{{ $payment['ref'] }}</td>
+                                            <td><i class="fas fa-trash-alt delete-row" style="cursor:pointer;"></i></td>
+                                        </tr>
+                                    @endforeach
+
+                                @else
+                                    <tr>
+                                        <td colspan="9" class="text-center">{{ __('No Data Available') }}</td>
+                                    </tr>
+                                @endif
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th colspan="3">{{ __('Total') }}</th>
+                                    <th colspan="6" id="total-amount">{{ Session::get('totalAmount', 0) }}</th>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Note</label>
-                                <textarea name="note">{{ $payment->note }}</textarea>
+                                <textarea name="note"></textarea>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Publisher</label>
-                                <input type="text" value="{{ $payment->user->name }}" readonly>
-                                <input type="hidden" name="user_id" value="{{ $payment->user->id }}" required>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Select Branch</label>
-                                <select name="branch_id" class="form-select">
-                                    @if($payment->branch_id)
-                                        @foreach($branches as $branch)
-                                            <option value="{{ $branch->id }}" {{ $payment->branch_id == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
-                                        @endforeach
-                                    @else
-                                        <option selected disabled>-- select one --</option>
-                                        @foreach($branches as $branch)
-                                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Select Compnay</label>
-                                <select name="company_id" class="form-select">
-                                    @if($payment->company_id)
-                                        @foreach($companies as $company)
-                                            <option value="{{ $company->id }}" {{ $payment->branch_id == $branch->id ? 'selected' : '' }}>{{ $company->name }}</option>
-                                        @endforeach
-                                    @else
-                                        <option selected disabled>-- select one --</option>
-                                        @foreach($companies as $company)
-                                            <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
+{{--                        <div class="col-lg-4 col-sm-6 col-12">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label>Publisher</label>--}}
+{{--                                <input type="text" value="{{ auth()->user()->name }}" readonly>--}}
+{{--                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" required>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-4 col-sm-6 col-12">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label>Select Branch</label>--}}
+{{--                                <select name="branch_id" class="form-select">--}}
+{{--                                    <option selected disabled>-- select one --</option>--}}
+{{--                                    @forelse($branches as $branch)--}}
+{{--                                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>--}}
+{{--                                    @empty--}}
+{{--                                        <option selected disabled>no branch found</option>--}}
+{{--                                    @endforelse--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-4 col-sm-6 col-12">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label>Select Compnay</label>--}}
+{{--                                <select name="company_id" class="form-select">--}}
+{{--                                    <option selected disabled>-- select one --</option>--}}
+{{--                                    @forelse($companies as $company)--}}
+{{--                                        <option value="{{ $company->id }}">{{ $company->name }}</option>--}}
+{{--                                    @empty--}}
+{{--                                        <option selected disabled>no company found</option>--}}
+{{--                                    @endforelse--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="col-lg-12">
                             <button type="submit" class="btn btn-submit me-2">Submit</button>
                             <a href="{{route('account_payment.index')}}" class="btn btn-cancel">Cancel</a>
@@ -139,92 +216,114 @@
     </div>
 @endsection
 @section('js')
-<script>
-$(document).ready(function() {
-    let paymentDetailsArray = JSON.parse($('#payment_details').val()) || [];
-    let count = 1;
+    <script>
+        $(document).ready(function() {
+            // Event listener for "Add" button click to add a new payment detail
+            $('#pd_add_btn').click(function() {
+                // Retrieve values from input fields
+                let sourch = $('#pay_soruch').val();
+                let payto = $('#pay_to').val();
+                let amount = parseFloat($('#amount').val()); // Make sure amount is a number
+                let ref = $('#ref').val();
+                let cheque = $('#pb_cheque').val();
+                let cheque_date = $('#pb_cheque_date').val();
+                let vou_no = $('#voucher_no').val();
+                let vou_date = $('#voucher_date').val();
 
-    // Function to render the payment details table based on current payment details array
-    function renderTable() {
-        let tableBody = $('table tbody');
-        tableBody.empty(); // Clear existing table rows
-        count = 1; // Reset row counter
-        let totalAmount = 0; // Initialize total amount accumulator
+                console.log('sarowar');
+                $.ajax({
+                    url: '{{ route("storeSessionData") }}', // Replace with your route
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}', // CSRF token for security
+                        sourch: sourch,
+                        payto: payto,
+                        amount: amount,
+                        ref: ref,
+                        cheque: cheque,
+                        cheque_date: cheque_date,
+                        vou_no: vou_no,
+                        vou_date: vou_date
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            // Clear the current table body
+                            $('table tbody').empty();
 
-        // If no payment details, display a message row
-        if (paymentDetailsArray.length === 0) {
-            tableBody.append('<tr><td colspan="8" class="text-center">There are no items in your payment list!</td></tr>');
-        } else {
-            // Iterate through each payment detail and build table rows
-            paymentDetailsArray.forEach(function(paymentDetail, index) {
-                let row = '<tr>';
-                row += '<td>' + count++ + '</td>'; // Incremental row number
-                row += '<td>' + paymentDetail.credit_id + '</td>';
-                row += '<td>' + paymentDetail.debit_id + '</td>';
-                row += '<td>' + paymentDetail.cheque_id + '</td>';
-                row += '<td>' + formatDate(paymentDetail.cheque_date) + '</td>';
-                row += '<td>' + paymentDetail.amount + '</td>';
-                row += '<td>' + paymentDetail.reference + '</td>';
-                row += '<td><a href="javascript:void(0)" class="delete_row text-danger"><i class="fas fa-minus"></i></a></td>'; // Delete row link
-                row += '</tr>';
-                tableBody.append(row);
+                            // Loop through the returned session data and append it to the table
+                            response.data.forEach(function(item, index) {
+                                let newRow = `
+                        <tr data-index="${ index }">
+                            <td>${index + 1}</td>
+                            <td>${item.sourch}</td>
+                            <td>${item.payto}</td>
+                            <td>${item.amount}</td>
+                            <td>${item.cheque}</td>
+                            <td>${item.cheque_date}</td>
+                            <td>${item.vou_date}</td>
+                            <td>${item.ref}</td>
+                            <td><i class="fas fa-trash-alt delete-row" style="cursor:pointer;"></i></td>
+                        </tr>
+                    `;
+                                $('table tbody').append(newRow);
+                            });
 
-                // Accumulate total amount
-                totalAmount += parseFloat(paymentDetail.amount);
+                            // Update the total amount displayed in the table
+                            $('#total-amount').text(response.totalAmount);
+                            // Clear the input fields after appending the data to the table
+                            // $('#pay_soruch').val('');
+                            $('#pay_to').val('');
+                            $('#amount').val('');
+                            $('#ref').val('');
+                            $('#pb_cheque').val('');
+                            $('#pb_cheque_date').val('');
+                            $('#pay_soruch').val('');
+                            // $('#voucher_date').val('');
+                        }
+                        // console.log('Session data stored successfully!');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error storing session data:', error);
+                    }
+                });
             });
 
-            // Display total amount row at the bottom of the table
-            let totalRow = '<tr><td colspan="4"></td><td><strong>Total:</strong></td><td><strong>&#x9F3;' + totalAmount + '</strong></td><td></td></tr>';
-            tableBody.append(totalRow);
+            $(document).on('click', '.delete-row', function() {
+                // Get the row's index
+                let row = $(this).closest('tr');
+                let index = row.data('index');
 
-            // Update hidden input field with JSON string of payment details array
-            $('#payment_details').val(JSON.stringify(paymentDetailsArray));
-        }
-    }
+                // Send the delete request via AJAX
+                $.ajax({
+                    url: '{{ route("deleteSessionData") }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}', // CSRF token for security
+                        index: index
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            // Remove the row from the table
+                            row.remove();
 
-    // Event listener for "Add" button click to add a new payment detail
-    $('#pd_add_btn').click(function() {
-        let credit = $('#pd_credit').val();
-        let debit = $('#pd_debit').val();
-        let cheque = $('#pd_cheque').val();
-        let cheque_date = $('#pd_cheque_date').val();
-        let amount = $('#pd_amount').val();
-        let reference = $('#pd_reference').val();
+                            // Update the total amount displayed in the table
+                            $('#total-amount').text(response.totalAmount);
 
-        // Create a new payment detail object
-        let paymentDetail = {
-            'credit_id': credit,
-            'debit_id': debit,
-            'cheque_id': cheque,
-            'cheque_date': cheque_date,
-            'amount': amount,
-            'reference': reference
-        };
+                            // Optionally, re-number the rows
+                            $('table tbody tr').each(function(i) {
+                                $(this).find('td:first').text(i + 1);
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error deleting session data:', error);
+                    }
+                });
+            });
 
-        // Add the new payment detail to the array and render the table
-        paymentDetailsArray.push(paymentDetail);
-        renderTable();
 
-        // Clear input fields after adding the data
-        $('#pd_credit').val('');
-        $('#pd_debit').val('');
-        $('#pd_cheque').val('');
-        $('#pd_cheque_date').val('');
-        $('#pd_amount').val('');
-        $('#pd_reference').val('');
-    });
-
-    // Event listener for deleting a row by clicking on the delete icon
-    $(document).on('click', '.delete_row', function() {
-        var rowIndex = $(this).closest('tr').index(); // Get the index of the row to delete
-        paymentDetailsArray.splice(rowIndex, 1); // Remove the corresponding payment detail from the array
-        renderTable(); // Re-render the table
-        // Update hidden input field with JSON string of payment details array
-        $('#payment_details').val(JSON.stringify(paymentDetailsArray));
-    });
-
-    // Load existing data from localStorage and render the table on page load
-    renderTable();
-});
-</script>
+            // Load existing data from cookies and render the table on page load
+            // renderTable();
+        });
+    </script>
 @endsection

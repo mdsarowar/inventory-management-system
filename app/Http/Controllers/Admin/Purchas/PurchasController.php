@@ -65,6 +65,7 @@ class PurchasController extends Controller
 //                return $request;
 //        abort_if(!auth()->user()->can('create category'),403,__('User does not have the right permissions.'));
         $amounts = session()->get('purchase_additional');
+//        return $amounts;
         $request['total']=$amounts['grand_total'];
 
 
@@ -143,6 +144,7 @@ class PurchasController extends Controller
         $invoice=Invoice::createOrUpdateUser($amount);
         $store=Purchas::createOrUpdateUser($request,$invoice->id);
         $sessionProducts = session()->get('purchase_products', []);
+//        $sessionProducts = session()->put('purchase_products', []);
 //        return $sessionProducts;
         foreach ($sessionProducts as $key=>$product){
 
@@ -197,11 +199,15 @@ class PurchasController extends Controller
             }else{
                 $supplier=Customer::find($sup[1])->first();
             }
+        }else{
+            $supplier='';
         }
-//        return $sup[1];
+        $pro_tran=ProductTransection::where('pur_id',$purchas->id)->get();
+//        return $pro_tran;
         return view('admin.purchas.view',[
             'purchas'=>$purchas,
             'supplier'=>$supplier,
+            'pro_trans'=>$pro_tran,
         ]);
     }
 
@@ -212,22 +218,82 @@ class PurchasController extends Controller
     {
 //        abort_if(!auth()->user()->can('update product'),403,__('User does not have the right permissions.'));
 
-        $purchas=Product::find($id);
-        $pro_trns=ProductTransection::where('trans_type','pur')->where('trans_id',$id)->get();
-        foreach ($pro_trns as $product){
-                return $product;
-            $stock=Stock::where('pur_id',$id)->where('product_id',$product->product_id)->first();
-            $stock->sotck_qty = $stock->sotck_qty - $product->qty;
-            $stock->update();
-            $product->delete();
-            $serial=ProductSerial::where('product_id',$product->product_id)->get();
-            foreach ($serial as $sr){
-                $sr->delete();
+        $purchas=Purchas::find($id);
+        $pro_tran=ProductTransection::where('pur_id',$purchas->id)->get();
+        foreach ($pro_tran as $pro){
+            // Update the product data
+            $product=Product::where('id',$pro->product_id)->first();
+            if (!empty($product->purmode)){
+                $sessionProducts[$pro->product_id]['serial_method'] = 'manual';
+                $pro_serial=ProductSerial::where('product_id',$pro->product_id)->get();
+                foreach ($pro_serial as $serial){
+                    $sessionProducts[$pro->product_id]['serial'][]=$serial->serial_number;
+                }
+//                return $sessionProducts;
             }
+            $sessionProducts[$pro->product_id]['id'] = intval($pro->product_id);
+            $sessionProducts[$pro->product_id]['name'] = $product->name;
+            $sessionProducts[$pro->product_id]['price'] = $pro->price;
+//            if ($product->purmode)
+
+            $sessionProducts[$pro->product_id]['quantity'] = $pro->qty;
+            $sessionProducts[$pro->product_id]['discount_type'] = $pro->dis_type;
+            $sessionProducts[$pro->product_id]['discount'] = $pro->dis;
+            $sessionProducts[$pro->product_id]['vat_type'] = $pro->vat_type;
+            $sessionProducts[$pro->product_id]['vat'] = $pro->vat;
+            $sessionProducts[$pro->product_id]['tax_type'] = $pro->tax_type;
+            $sessionProducts[$pro->product_id]['tax'] = $pro->tax;
+
+            $sessionProducts[$pro->product_id]['color'] = '';
+            $sessionProducts[$pro->product_id]['size'] = '';
+            $sessionProducts[$pro->product_id]['warranty_days'] = '';
+
+            // Save updated data back to the session
+            session()->put('purchase_products', $sessionProducts);
         }
+
+        $sessionData['subtotal'] = $purchas->sub_total;
+        $sessionData['discount'] = $purchas->discount;
+        $sessionData['vat'] = $purchas->vat;
+        $sessionData['tax'] = $purchas->tax;
+        $sessionData['speed_money'] = $purchas->speed_money;
+        $sessionData['freight'] = $purchas->freight;
+        $sessionData['fractional_discount'] = $purchas->fractional_dis;
+//        $grand_total=($grand_total+($all_vat + $all_tax)+$all_subtotal) - $all_dis;
+        $sessionData['grand_total'] = floatval($purchas->total);
+
+        session()->put('purchase_additional', $sessionData);
+//        $sessionProducts = session()->get('purchase_products', []);
+//        return $sessionProducts;
+
+//        foreach ($pro_tran as $product){
+//                return $product;
+//            $stock=Stock::where('pur_id',$id)->where('product_id',$product->product_id)->first();
+//            $stock->sotck_qty = $stock->sotck_qty - $product->qty;
+//            $stock->update();
+//            $product->delete();
+//            $serial=ProductSerial::where('product_id',$product->product_id)->get();
+//            foreach ($serial as $sr){
+//                $sr->delete();
+//            }
+//        }
 //        $invoice=Invoice::where('id',$delete->inv_id)->first();
+
+        if (empty($purchas->wkname)){
+            $sup=explode('-',$purchas->vendor);
+            if ($sup[0] == 'sup'){
+                $supplier=Supplier::find($sup[1])->first();
+            }else{
+                $supplier=Customer::find($sup[1])->first();
+            }
+        }else{
+            $supplier='';
+        }
         return view('admin.purchas.purchas_order.edit',[
-            'purchas'=>Purchas::find($id),
+            'customers'=>Customer::get(),
+            'purchas'=>$purchas,
+            'supplier'=>$supplier,
+            'suppliers'=>Supplier::get(),
             'products' => Product::get(),
             'colors' => Color::get(),
             'sizes' => Size::get(),
@@ -245,11 +311,156 @@ class PurchasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        abort_if(!auth()->user()->can('update product'),403,__('User does not have the right permissions.'));
-        $store=Product::createOrUpdateUser($request,$id);
-//        return $store;
+//        return $id;
+//        abort_if(!auth()->user()->can('update product'),403,__('User does not have the right permissions.'));
 
-        return redirect()->route('product.index')->with('success','Product Update successfully');
+
+//                return $request;
+//        abort_if(!auth()->user()->can('create category'),403,__('User does not have the right permissions.'));
+        $amounts = session()->get('purchase_additional');
+//        return $amounts;
+        $request['total']=$amounts['grand_total'];
+
+
+        $bank_amount = session()->get('bank_info');
+
+        if ($request->payment_type == 'bank'){
+            $amount['type']='payment';
+            $amount['bank_type']=$bank_amount['bank_type'];
+            $amount['bank_id']=$bank_amount['bank_id'];
+            $amount['vendor_type']=$request->vendor_type;
+            if ($request->vendor_type == 'other'){
+                $amount['name']=$request->vendor_name;
+            }else{
+                $amount['name']=$request->vendor;
+            }
+            $amount['date']=$request->issue_date;
+            $amount['due_date']=$request->due_date;
+            $amount['amount']=$request->due_amount + $request->payment_amount;
+            $amount['paid_amount']=$request->payment_amount;
+            $amount['due_amount']=$request->due_amount;
+
+            if ($request->payment_amount == 0){
+                $amounts['status']='unpaid';
+                $request['status']=0;
+            }
+            elseif($request->payment_amount == $request->due_amount + $request->payment_amount){
+                $amount['status']='paid';
+                $request['status']=1;
+            }elseif ($request->payment_amount < $request->due_amount + $request->payment_amount){
+                $amount['status']='partial';
+                $request['status']=2;
+            }
+
+            if (isset($bank_amount['bank_type']) && $bank_amount['bank_type']=='bank'){
+                $bank=BankAccount::where('id',$bank_amount['bank_id'])->first();
+                $bank_name=Bank::where('id',$bank->bank_id)->first();
+
+                $bank->balance=$bank->balance - $bank_amount['payment_amount'];
+                $bank->update();
+            }elseif (isset($bank_amount['bank_type']) && $bank_amount['bank_type']=='mobile'){
+                $bank=BankMobile::where('id',$bank_amount['bank_id'])->first();
+                $bank->balance=$bank->balance - $bank_amount['payment_amount'];
+                $bank->update();
+            }
+        }else{
+            $amount['type']='payment';
+            $amount['bank_type']='cash';
+            $amount['bank_id']='';
+            $amount['vendor_type']=$request->vendor_type;
+            if ($request->vendor_type == 'other'){
+                $amount['name']=$request->vendor_name;
+            }else{
+                $amount['name']=$request->vendor;
+            }
+            $amount['date']=$request->issue_date;
+            $amount['due_date']=$request->due_date;
+            $amount['amount']=$request->due_amount + $request->payment_amount;
+            $amount['paid_amount']=$request->payment_amount;
+            $amount['due_amount']=$request->due_amount;
+
+            if ($request->payment_amount == 0){
+                $amount['status']='unpaid';
+                $request['status']=0;
+            }
+            elseif($request->payment_amount == $request->due_amount + $request->payment_amount){
+                $amount['status']='paid';
+                $request['status']=1;
+            }elseif ($request->payment_amount < $request->due_amount + $request->payment_amount){
+                $amount['status']='partial';
+                $request['status']=2;
+            }
+        }
+
+$pur=Purchas::find($id);
+
+        $invoice=Invoice::createOrUpdateUser($amount,$pur->inv_id);
+        $store=Purchas::createOrUpdateUser($request,$invoice->id,$pur->id);
+        $sessionProducts = session()->get('purchase_products', []);
+        $pro_tran=ProductTransection::where('pur_id',$pur->id)->get();
+        $stocks=Stock::where('pur_id',$pur->id)->get();
+//        $sessionProducts = session()->put('purchase_products', []);
+
+        foreach ($sessionProducts as $key=>$product){
+
+//            return $product['serial'];
+            $data['product_id']=$product['id'];
+            $data['color_id']=$product['color'];
+            $data['size_id']=$product['size'];
+//            $data['unit_id']=$product['id'];
+            $data['qty']=$product['quantity'];
+            $data['price']=$product['price'];
+            $data['total_price']=$product['price'] * $product['quantity'];
+            $data['dis_type']=$product['discount_type'];
+            $data['dis']=$product['discount'];
+            $data['tax_type']=$product['tax_type'];
+            $data['tax']=$product['tax'];
+            $data['vat_type']=$product['vat_type'];
+            $data['vat']=$product['vat'];
+            $data['pur_id']=$store->id;
+            foreach ($product[$product['id']]['serial'] as $poserial){
+                $serial['product_id']=$product['id'];
+                $serial['serial_number']=$poserial;
+                $serial['emei_number']=' ';
+                $serial['is_sold']='0';
+                $serial['status']=' ';
+                $serial=ProductSerial::createOrUpdateUser($serial);
+            }
+
+            foreach ($pro_tran as $pro){
+//                $prod=Product::where('id',$pro->product_id)->first();
+//                if (!empty($prod->purmode)){
+////                    $sessionProducts[$pro->product_id]['serial_method'] = 'manual';
+//                    $pro_serial=ProductSerial::where('product_id',$pro->product_id)->get();
+//                    foreach ($pro_serial as $serial){
+//                        $sessionProducts[$pro->product_id]['serial'][]=$serial->serial_number;
+//                    }
+////                return $sessionProducts;
+//                }
+
+
+                if ($pro->product_id == $product['id']){
+                    $tranjection=ProductTransection::createOrUpdateUser($data,'pur',$store->id ,$pro->id);
+
+                }
+            }
+
+            foreach ($stocks as $st){
+                if ($st->product_id == $product['id']){
+//                    $tranjection=ProductTransection::createOrUpdateUser($data,'pur',$store->id ,$pro->id);
+                    $stock=Stock::createOrUpdateUser($data,$st->id);
+                }
+            }
+
+
+        }
+        session()->forget('purchase_walkin');
+        session()->forget('purchase_additional');
+        session()->forget('purchase_products');
+        session()->forget('bank_info');
+
+
+        return redirect()->route('purchases.index')->with('success','Purchase Update successfully');
     }
 
     /**

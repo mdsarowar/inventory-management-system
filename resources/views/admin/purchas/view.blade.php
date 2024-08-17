@@ -48,15 +48,43 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class="text-center">{{__('Purchase Invoice')}}</h3>
+                                        <hr>
+                                    </div>
+                                </div>
                                 <div class="row mb-3">
+
                                     <div class="col-sm-6">
-                                        <h5 class="my-2">{{__('Purchase Invoice')}}</h5>
-                                        <ul class="list list-unstyled mb-0 text-left">
-                                            <li><i class="far fa-user"></i> Andrew Tate</li>
-                                            <li><i class="far fa-envelope"></i> andrew@tate.com</li>
-                                            <li><i class="fas fa-phone-alt"></i> +1234567890</li>
-                                            <li><i class="fas fa-map-marker-alt"></i> Kozlova, 20 220034, Minsk, Belarus</li>
-                                        </ul>
+                                        <h5 class="my-2">Vendor</h5>
+                                       @if(empty($purchas->wkname))
+                                            <ul class="list list-unstyled mb-0 text-left">
+                                                <li><i class="far fa-user"></i> {{$supplier->name}}</li>
+                                                <li><i class="far fa-envelope"></i> {{$supplier->email}}</li>
+                                                <li><i class="fas fa-phone-alt"></i>{{$supplier->mobile}}</li>
+{{--                                                <li><i class="fas fa-map-marker-alt"></i> {{$supplier->address}}</li>--}}
+                                            </ul>
+                                        @else
+                                            <ul class="list list-unstyled mb-0 text-left">
+                                                <li><i class="far fa-user"></i> {{$purchas->wkname}}</li>
+                                                <li><i class="far fa-envelope"></i> {{$purchas->wkemail}}</li>
+                                                <li><i class="fas fa-phone-alt"></i>{{$purchas->wkphone}}</li>
+{{--                                                <li><i class="fas fa-map-marker-alt"></i> {{$purchas->wkaddress}}</li>--}}
+                                            </ul>
+                                       @endif
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h5 class="my-2">Address</h5>
+                                       @if(empty($purchas->wkname))
+                                            <ul class="list list-unstyled mb-0 text-left">
+                                                <li><i class="fas fa-map-marker-alt"></i> {{$supplier->address}}</li>
+                                            </ul>
+                                        @else
+                                            <ul class="list list-unstyled mb-0 text-left">
+                                                <li><i class="fas fa-map-marker-alt"></i> {{$purchas->wkaddress}}</li>
+                                            </ul>
+                                       @endif
                                     </div>
                                 </div>
                                 <div class="table-responsive">
@@ -70,30 +98,32 @@
                                         </tr>
                                         </thead>
                                         <tbody id="invoice_modal_items_table">
-                                        <tr>
-                                            <td class="text_left">Macbook Pro</td>
-                                            <td>2</td>
-                                            <td>50000</td>
-                                            <td>100000</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text_left">Realme Headphone</td>
-                                            <td>1</td>
-                                            <td>500</td>
-                                            <td>500</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text_left">Apple Watch</td>
-                                            <td>5</td>
-                                            <td>200</td>
-                                            <td>1000</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text_left">Blue White OGR</td>
-                                            <td>10</td>
-                                            <td>1000</td>
-                                            <td>10000</td>
-                                        </tr>
+                                       @foreach($pro_trans as $pro)
+                                           <tr>
+                                               <td class="text_left">{{$pro->product->name}}</td>
+                                               <td>{{$pro->qty}}</td>
+                                               <td>{{$pro->price}}</td>
+                                               <td>{{$pro->total_price}}</td>
+                                           </tr>
+                                       @endforeach
+{{--                                        <tr>--}}
+{{--                                            <td class="text_left">Realme Headphone</td>--}}
+{{--                                            <td>1</td>--}}
+{{--                                            <td>500</td>--}}
+{{--                                            <td>500</td>--}}
+{{--                                        </tr>--}}
+{{--                                        <tr>--}}
+{{--                                            <td class="text_left">Apple Watch</td>--}}
+{{--                                            <td>5</td>--}}
+{{--                                            <td>200</td>--}}
+{{--                                            <td>1000</td>--}}
+{{--                                        </tr>--}}
+{{--                                        <tr>--}}
+{{--                                            <td class="text_left">Blue White OGR</td>--}}
+{{--                                            <td>10</td>--}}
+{{--                                            <td>1000</td>--}}
+{{--                                            <td>10000</td>--}}
+{{--                                        </tr>--}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -105,24 +135,32 @@
                                         <table class="table table-responsive">
                                             <tbody>
                                             <tr>
-                                                <td class="fw-bold text-dark">Sub Total</td>
-                                                <td>৳120050</td>
+                                                <td class="fw-bold text-dark">{{__('Sub Total')}}</td>
+                                                <td>৳{{$purchas->sub_total}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="fw-bold text-dark">Discount</td>
-                                                <td>25%</td>
+                                                <td class="fw-bold text-dark">{{__('Discount')}}</td>
+                                                <td>৳{{$purchas->discount}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="fw-bold text-dark">Vat (Standard Vat)</td>
-                                                <td>10%</td>
+                                                <td class="fw-bold text-dark">{{__('Vat (Standard Vat)')}}</td>
+                                                <td>৳{{$purchas->vat}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="fw-bold text-dark">Tax (Sales Tax)</td>
-                                                <td>3%</td>
+                                                <td class="fw-bold text-dark">{{__('Tax (Sales Tax)')}}</td>
+                                                <td>৳{{$purchas->tax}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="fw-bold text-dark">Grand Total</td>
-                                                <td>৳2500000</td>
+                                                <td class="fw-bold text-dark">{{__('Due Amount')}}</td>
+                                                <td>৳{{$purchas->due}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold text-dark">{{__('Pid Amount')}}</td>
+                                                <td>৳{{$purchas->total - $purchas->due}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold text-dark">{{__('Grand Total')}}</td>
+                                                <td>৳{{$purchas->total}}</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -130,16 +168,17 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <div class="signature_border">
-                                        <small>Authorized Signatory</small>
+                                        <small>{{__('Authorized Signatory')}}</small>
                                     </div>
                                     <div class="signature_border">
-                                        <small>Recipient Signature</small>
+                                        <small>{{__('Recipient Signature')}}</small>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer bg-light text-muted d-flex flex-column align-items-center">
-                                <small>If you have any questions concerning this invoice, feel free to contact us: 0123456789 or support@smce.com</small>
-                                <small>Thank you for your purchasing.</small>
+                                <small>{{__('If you have any questions concerning this invoice, feel free to contact us:
+                                    0123456789 or support@smce.com')}}</small>
+                                <small>{{__('Thank you for your purchasing.')}}</small>
                             </div>
                         </div>
                     </div>

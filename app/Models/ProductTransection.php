@@ -13,7 +13,7 @@ class ProductTransection extends Model
 
     protected $fillable = [
         'trans_type',
-        'trans_id',
+        'pur_id',
         'product_id',
         'color_id',
         'size_id',
@@ -53,7 +53,7 @@ class ProductTransection extends Model
             self::$transection = new ProductTransection();
         }
         self::$transection->trans_type                      = $trans_type ?? '';
-        self::$transection->trans_id                        = $trans_id ?? '';
+        self::$transection->pur_id                        = $trans_id ?? '';
         self::$transection->product_id                      = $data['product_id'] ?? '';
         self::$transection->color_id                        = $data['color_id'] ?? '';
         self::$transection->size_id                         = $data['size_id'] ?? '';
@@ -94,5 +94,9 @@ class ProductTransection extends Model
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }
