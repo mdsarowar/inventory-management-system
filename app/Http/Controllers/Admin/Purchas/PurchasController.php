@@ -45,16 +45,16 @@ class PurchasController extends Controller
     {
         abort_if(!auth()->user()->can('create purchase'),403,__('User does not have the right permissions.'));
 
-        return view('admin.product.product.create',[
-            'brands' => Brand::all(),
-            'categories' => Category::all(),
-            'subCategories' => SubCategory::all(),
-            'childCategories' => ChildCategory::all(),
-            'colors' => Color::all(),
-            'sizes' => Size::all(),
-            'units'=> Unit::all(),
-            'manufacturers'=> Manufacture::all()
-        ]);
+//        return view('admin.product.product.create',[
+//            'brands' => Brand::all(),
+//            'categories' => Category::all(),
+//            'subCategories' => SubCategory::all(),
+//            'childCategories' => ChildCategory::all(),
+//            'colors' => Color::all(),
+//            'sizes' => Size::all(),
+//            'units'=> Unit::all(),
+//            'manufacturers'=> Manufacture::all()
+//        ]);
     }
 
     /**
@@ -141,11 +141,11 @@ class PurchasController extends Controller
 
 
 
-        $invoice=Invoice::createOrUpdateUser($amount);
-        $store=Purchas::createOrUpdateUser($request,$invoice->id);
+//        $invoice=Invoice::createOrUpdateUser($amount);
+//        $store=Purchas::createOrUpdateUser($request,$invoice->id);
         $sessionProducts = session()->get('purchase_products', []);
 //        $sessionProducts = session()->put('purchase_products', []);
-//        return $sessionProducts;
+        return $sessionProducts;
         foreach ($sessionProducts as $key=>$product){
 
 //            return $product['serial'];
@@ -418,7 +418,11 @@ $pur=Purchas::find($id);
             $data['vat_type']=$product['vat_type'];
             $data['vat']=$product['vat'];
             $data['pur_id']=$store->id;
-            foreach ($product[$product['id']]['serial'] as $poserial){
+            $pro_serial=ProductSerial::where('product_id',$product['id'])->get();
+            foreach ($pro_serial as $serial){
+                $serial->delete();
+            }
+            foreach ($product['serial'] as $poserial){
                 $serial['product_id']=$product['id'];
                 $serial['serial_number']=$poserial;
                 $serial['emei_number']=' ';
@@ -428,31 +432,16 @@ $pur=Purchas::find($id);
             }
 
             foreach ($pro_tran as $pro){
-//                $prod=Product::where('id',$pro->product_id)->first();
-//                if (!empty($prod->purmode)){
-////                    $sessionProducts[$pro->product_id]['serial_method'] = 'manual';
-//                    $pro_serial=ProductSerial::where('product_id',$pro->product_id)->get();
-//                    foreach ($pro_serial as $serial){
-//                        $sessionProducts[$pro->product_id]['serial'][]=$serial->serial_number;
-//                    }
-////                return $sessionProducts;
-//                }
-
-
                 if ($pro->product_id == $product['id']){
                     $tranjection=ProductTransection::createOrUpdateUser($data,'pur',$store->id ,$pro->id);
-
                 }
             }
-
             foreach ($stocks as $st){
                 if ($st->product_id == $product['id']){
 //                    $tranjection=ProductTransection::createOrUpdateUser($data,'pur',$store->id ,$pro->id);
                     $stock=Stock::createOrUpdateUser($data,$st->id);
                 }
             }
-
-
         }
         session()->forget('purchase_walkin');
         session()->forget('purchase_additional');
@@ -651,8 +640,11 @@ $pur=Purchas::find($id);
 //return $sessionProducts[$productId];
         if (isset($sessionProducts[$productId])) {
             $sessionProducts[$productId]['quantity'] = $quantity;
+            for ($x = 1; $x <= $sessionProducts[$productId]['quantity']; $x++){
+
+                $sessionProducts[$productId]['serial'][]='';
+            }
             session(['purchase_products' => $sessionProducts]);
-//            return $sessionProducts;
             return response()->json(['status' => true, 'products' => array_reverse($sessionProducts)]);
         }
 
@@ -889,13 +881,70 @@ $pur=Purchas::find($id);
         return response()->json(['status' => true]);
     }
 
+    //Serial
+    public function remove_serial(Request $request)
+    {
+//return $request;
+        $productId = $request->input('product_id');
+        $index = $request->input('index');
+
+        $sessionProducts = session()->get('purchase_products', []);
+        if (isset($sessionProducts[$productId]) && $sessionProducts[$productId]['quantity'] > 1) {
+            $sessionProducts[$productId]['quantity'] =intval($sessionProducts[$productId]['quantity'] ) - 1;
+            if (isset($sessionProducts[$productId]) && isset($sessionProducts[$productId]['serial'][$index])) {
+                // Remove the specific serial number
+                unset($sessionProducts[$productId]['serial'][$index]);
+
+                // Reindex the serial array to avoid gaps in the keys
+                $sessionProducts[$productId]['serial'] = array_values($sessionProducts[$productId]['serial']);
+            }
+
+            }
+//        session(['purchase_products' => $sessionProducts]);
+        // Update the session with the modified data
+        session()->put('purchase_products', $sessionProducts);
+        return response()->json(['status' => true, 'products' => array_reverse($sessionProducts)]);
+    }
+
+    public function storeSerialInSession(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $serialNumber = $request->input('serial_number');
+        $index = $request->input('index');
+//return $request;
+        // Retrieve session data
+        $ssn_products = session()->get('purchase_products', []);
+//return $ssn_products;
+        // Check for uniqueness
+        foreach ($ssn_products as $product) {
+//            return $product;
+            if ($product['id'] == $productId) {
+
+                if (in_array($serialNumber, $product['serial'])) {
+                    return response()->json(['unique' => false]);
+                } else {
+                    $ssn_products[$productId]['serial'][$index] = $serialNumber;
+                    session()->put('purchase_products', $ssn_products);
+                    return response()->json(['unique' => true,'products' => array_reverse($ssn_products)]);
+                }
+            }
+        }
+
+        return response()->json(['unique' => true]);
+    }
+//End Serial
+
 
     public function update_serial_method(Request $request)
     {
         $productId = $request->input('product_id');
         $serialMethod = $request->input('serial_method');
+        $pro=Product::where('id',$productId)->first();
         $products = session()->get('purchase_products', []);
-        $products[$productId]['serial_method'] = $serialMethod;
+        if ($products['serial_method'] != null){
+            $products[$productId]['serial_method'] = 'yes';
+        }
+
         session()->put('purchase_products', $products);
         return response()->json(['status' => true]);
     }

@@ -329,6 +329,8 @@
         .input-group-text.auto_generate_serial_btn:hover i {
             animation: spin 1s linear infinite;
         }
+
+
     </style>
 @endsection
 @section('content')
@@ -532,7 +534,8 @@
                                 </a>
                             </div>
                             <div class="product-wrap" >
-                                <table class="table table-border text-center" >
+                                <!-- Main Product Table -->
+                                <table class="table table-border text-center">
                                     <thead>
                                     <tr>
                                         <th><i class="fas fa-boxes"></i></th>
@@ -545,31 +548,18 @@
                                     </thead>
                                     <tbody id="product_list_tbody">
                                     @if(count($ssn_products) > 0)
-                                        @foreach($ssn_products as $key=> $product)
+                                        @foreach($ssn_products as $key => $product)
                                             <tr>
                                                 <td class="py-1">
-                                                    <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">{{ $product['name'] }}</a>
-                                                    <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">Edit</a>
-                                                </td>
-                                                <td class="py-1">
-{{--                                                    <div class="d-flex">--}}
-{{--                                                        <input type="radio" name="serial{{ $product['id'] }}" class="me-1 serial-radio" id="serial_auto{{ $product['id'] }}" value="{{ $product['id'] }}" data-serial-method="auto" {{ $product['serial_method'] === 'auto' ? 'checked' : '' }}>--}}
-{{--                                                        <label for="serial_auto{{ $product['id'] }}" class="cursor_pointer"><small>Auto</small></label>--}}
-{{--                                                    </div>--}}
-                                                    <div class="d-flex">
-                                                        @if(!empty($product['serial_method']))
-                                                            <input type="radio" name="serial{{ $product['id'] }}" class="me-1 serial-radio manual-radio" id="serial_manual{{ $product['id'] }}" value="{{ $product['id'] }}" data-serial-method="manual" {{ $product['serial_method'] === 'manual' ? 'checked' : '' }}>
-                                                            <label for="serial_manual{{ $product['id'] }}" class="cursor_pointer" data-bs-toggle="offcanvas" data-bs-target="#product_serial_offcanvas" role="button"><small>Serial</small></label>
-                                                        @endif
-
-                                                    </div>
+                                                    <a href="javascript:void(0);" class="product_modal_btn cursor_pointer" role="button" data-bs-toggle="modal" data-bs-target="#serialModal{{ $product['id'] }}">{{ $product['name'] }}</a>
+                                                    <a href="javascript:void(0);" class="product_modal_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="modal" data-bs-target="#serialModal{{ $product['id'] }}">Edit</a>
                                                 </td>
                                                 <td class="py-1">
                                                     <div class="d-flex justify-content-center">
                                                         <div class="qty-item text-center">
-                                                            <a class="dec d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}"><i class="far fa-minus-square"></i></a>
-                                                            <input type="text" class="form-control text-center qty-input" id="product_qty" data-id="{{ $product['id'] }}" name="qty" value="{{ $product['quantity'] }}" >
-                                                            <a class="inc d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}"><i class="far fa-plus-square"></i></a>
+                                                            <a class="dec d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}" onclick="updateSerial('{{ $product['id'] }}', -1)"><i class="far fa-minus-square"></i></a>
+                                                            <input type="text" class="form-control text-center qty-input" id="product_qty_{{ $product['id'] }}" data-id="{{ $product['id'] }}" name="qty" value="{{ $product['quantity'] }}">
+                                                            <a class="inc d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}" onclick="updateSerial('{{ $product['id'] }}', 1)"><i class="far fa-plus-square"></i></a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -581,19 +571,113 @@
                                                 </td>
                                                 <td class="py-1">{{ $product['price'] * $product['quantity'] }}</td>
                                                 <td class="py-1">
-                                                    <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="{{ $product['id'] }}">
+                                                    <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="{{ $product['id'] }}" onclick="updateSerial('{{ $product['id'] }}', -{{ $product['quantity'] }})">
                                                         <i class="fas fa-times-circle text-danger"></i>
                                                     </a>
                                                 </td>
                                             </tr>
+
+
+
+
+
+                                            <!-- Serial Numbers Modal -->
+                                            <div class="modal fade" id="serialModal{{ $product['id'] }}" tabindex="-1" aria-labelledby="serialModalLabel{{ $product['id'] }}" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="serialModalLabel{{ $product['id'] }}">Serial Numbers for {{ $product['name'] }}</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div id="serialContainer_{{ $product['id'] }}">
+                                                                <!-- Serial fields will be dynamically added here -->
+                                                                <div class="modal-body">
+                                                                    <div id="serialContainer_{{ $product['id'] }}">
+                                                                        <!-- Serial fields will be dynamically added here -->
+                                                                        @foreach (session("serial_numbers_{$product['id']}", range(1, $product['quantity'])) as $index => $serial)
+                                                                            <div class="row mb-2">
+                                                                                <div class="col-4">
+                                                                                    <label for="serial_number_{{ $product['id'] }}_{{ $index }}" class="form-label">{{ $product['name'] }} {{ $index + 1 }}:</label>
+                                                                                </div>
+                                                                                <div class="col-8">
+                                                                                    <input type="text" id="serial_number_{{ $product['id'] }}_{{ $index }}" name="serial_number_{{ $product['id'] }}[]" class="form-control" placeholder="Enter Serial {{ $index + 1 }}" value="{{ $serial }}" required>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary" onclick="saveSerialNumbers('{{ $product['id'] }}')">Save changes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="text-center">there are no products selected</td>
+                                            <td colspan="6" class="text-center">There are no products selected</td>
                                         </tr>
                                     @endif
                                     </tbody>
                                 </table>
+
+{{--                                <table class="table table-border text-center" >--}}
+{{--                                    <thead>--}}
+{{--                                    <tr>--}}
+{{--                                        <th><i class="fas fa-boxes"></i></th>--}}
+{{--                                        <th>Serial/EMEI</th>--}}
+{{--                                        <th>Qty</th>--}}
+{{--                                        <th>Price</th>--}}
+{{--                                        <th>SubTotal</th>--}}
+{{--                                        <th><i class="fas fa-trash-alt"></i></th>--}}
+{{--                                    </tr>--}}
+{{--                                    </thead>--}}
+{{--                                    <tbody id="product_list_tbody">--}}
+{{--                                    @if(count($ssn_products) > 0)--}}
+{{--                                        @foreach($ssn_products as $key=> $product)--}}
+
+
+{{--                                                                                        <tr>--}}
+{{--                                                <td class="py-1">--}}
+{{--                                                    <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">{{ $product['name'] }}</a>--}}
+{{--                                                    <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">Edit</a>--}}
+{{--                                                </td>--}}
+
+{{--                                                <td class="py-1">--}}
+{{--                                                    <div class="d-flex justify-content-center">--}}
+{{--                                                        <div class="qty-item text-center">--}}
+{{--                                                            <a class="dec d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}"><i class="far fa-minus-square"></i></a>--}}
+{{--                                                            <input type="text" class="form-control text-center qty-input" id="product_qty" data-id="{{ $product['id'] }}" name="qty" value="{{ $product['quantity'] }}" >--}}
+{{--                                                            <a class="inc d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}"><i class="far fa-plus-square"></i></a>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </td>--}}
+{{--                                                <td class="py-1">--}}
+{{--                                                    <input type="tel" class="product_cost_field" value="{{ $product['price'] }}" data-id="{{ $product['id'] }}">--}}
+{{--                                                    <div class="save_progress d-none">--}}
+{{--                                                        <i class="fas fa-spinner"></i>--}}
+{{--                                                    </div>--}}
+{{--                                                </td>--}}
+{{--                                                <td class="py-1">{{ $product['price'] * $product['quantity'] }}</td>--}}
+{{--                                                <td class="py-1">--}}
+{{--                                                    <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="{{ $product['id'] }}">--}}
+{{--                                                        <i class="fas fa-times-circle text-danger"></i>--}}
+{{--                                                    </a>--}}
+{{--                                                </td>--}}
+{{--                                            </tr>--}}
+{{--                                        @endforeach--}}
+{{--                                    @else--}}
+{{--                                        <tr>--}}
+{{--                                            <td colspan="6" class="text-center">there are no products selected</td>--}}
+{{--                                        </tr>--}}
+{{--                                    @endif--}}
+{{--                                    </tbody>--}}
+{{--                                </table>--}}
                             </div>
                         </div>
                         @php
@@ -700,6 +784,69 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row" id="product_serial_div">
+                            @foreach($ssn_products as $key => $product)
+                                <div  class="serial-numbers" >
+                                    <h4>Serial Numbers for {{ $product['name'] }}:</h4>
+                                    <div>
+                                        @if(isset($product['serial']) && is_array($product['serial']))
+                                            @foreach ($product['serial'] as $index => $serial)
+                                                <div class="row mb-2">
+                                                    <div class="col-4">
+                                                        <label for="serial_number_{{ $product['id'] }}_{{ $index }}" class="form-label">Serial {{ $index }}:</label>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <div class="d-flex align-items-center">
+                                                            <input type="text" id="serial_number_{{ $product['id'] }}_{{ $index }}" name="serial_number_{{ $product['id'] }}[]" class="form-control me-2 serial-input" placeholder="Enter Serial {{ $index  }}" value="{{$serial}}" required data-product-id="{{ $product['id'] }}" data-index="{{ $index }}">
+
+                                                            <a href="javascript:void(0);" class="text-danger me-2 remove-serial" data-product-id="{{ $product['id'] }}" data-index="{{ $index }}">
+                                                                <i class="fas fa-times-circle"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <p>No serial numbers available.</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+{{--                        <!-- Serial Numbers Div -->--}}
+{{--                        <div>--}}
+{{--                            @foreach($ssn_products as $key => $product)--}}
+{{--                                <div  class="serial-numbers" style="display: none;">--}}
+{{--                                    <h4>Serial Numbers for {{ $product['name'] }}:</h4>--}}
+{{--                                    <div>--}}
+{{--                                        @if(isset($product['serial']) && is_array($product['serial']))--}}
+{{--                                            @foreach ($product['serial'] as $index => $serial)--}}
+{{--                                                <div class="row mb-2">--}}
+{{--                                                    <div class="col-4">--}}
+{{--                                                        <label for="serial_number_{{ $product['id'] }}_{{ $index }}" class="form-label">Serial {{ $index + 1 }}:</label>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="col-8">--}}
+{{--                                                        <div class="d-flex align-items-center">--}}
+{{--                                                            <input type="text" id="serial_number_{{ $product['id'] }}_{{ $index }}" name="serial_number_{{ $product['id'] }}[]" class="form-control me-2" placeholder="Enter Serial {{ $index + 1 }}" value="{{ $serial }}" required>--}}
+{{--                                                            <a href="javascript:void(0);" class="text-danger me-2" onclick="removeSerial('{{ $product['id'] }}', {{ $index }})">--}}
+{{--                                                                <i class="fas fa-times-circle"></i>--}}
+{{--                                                            </a>--}}
+{{--                                                            <a href="javascript:void(0);" class="text-success" onclick="generateSerial('{{ $product['id'] }}')">--}}
+{{--                                                                <i class="fas fa-plus-circle"></i>--}}
+{{--                                                            </a>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            @endforeach--}}
+{{--                                        @else--}}
+{{--                                            <p>No serial numbers available.</p>--}}
+{{--                                        @endif--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
 
                         <div class="btn-row d-flex align-items-center justify-content-between mt-2">
                             <button type="button" class="btn btn-danger btn-lg flex-fill" id="destroy_all_ssn_btn"><i class="fas fa-trash-alt"></i> Empty</button>
@@ -1242,6 +1389,61 @@
     </script>
     <script>
         $(document).ready(function() {
+            $(document).on('blur', '.serial-input', function() {
+                let serialNumber = $(this).val();
+                let productId = $(this).data('product-id');
+                let index = $(this).data('index');
+                    // console.log(serialNumber);
+                    // console.log(productId);
+                    // console.log(index);
+                $.ajax({
+                    url: "{{ route('store_serial_in_session') }}", // Define this route in your Laravel routes file
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        serial_number: serialNumber,
+                        product_id: productId,
+                        index: index
+                    },
+                    success: function(response) {
+                        if (response.unique === false) {
+                            alert('This serial number is already in use. Please enter a unique serial number.');
+                        }else{
+                            displayProducts(response.products);
+                            // serialTableGenerator(response.products);
+                            // updateCheckMark(response.products);
+                            // calculateAndUpdateSummary();
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error storing serial in session:', xhr.responseText);
+                    }
+                });
+            });
+
+
+            $(document).on('click', '.remove-serial', function() {
+                let productId = $(this).data('product-id');
+                let index = $(this).data('index');
+                // updateQuantity(productId, 1);
+                // console.log(productId);
+                // console.log(index);
+                $.ajax({
+                    url: '/remove-serial',
+                    method: 'POST',
+                    data: {
+                        product_id: productId,
+                        index: index,
+                    },
+                    success: function(response) {
+                        displayProducts(response.products);
+                        // serialTableGenerator(response.products);
+                        // updateCheckMark(response.products);
+                        // calculateAndUpdateSummary();
+                    }
+                });
+                // removeSerial(productId, index);
+            });
 
             function filterProducts(query) {
                 $('#product-container').html('<div class="spinner-border text-warning" role="status"><span class="sr-only">Loading...</span></div>');
@@ -1338,7 +1540,9 @@
 
             // will call this function after any CRUD on purchase_products[] session, to refresh table data
             function displayProducts(products) {
+                // console.log(products);
                 let productRows = '';
+                let serialHtml = '';
 
                 if (products.length === 0) {
                     $('#product_list_tbody').html(`<tr><td colspan="6" class="text-center">there are no products selected</td></tr>`);
@@ -1378,12 +1582,48 @@
                         </td>
                     </tr>
                 `;
+
+
+                        // Check if the product has serial numbers
+                        // if (product.serial && Array.isArray(product.serial) && product.serial.length > 0) {
+                            // Loop through the quantity of the product
+                            // for (let i = 0; i < product.quantity; i++) {
+                                $.each(products, function(index, product) {
+                                // Get the serial number if it exists or default to an empty string
+                                const serial = product.serial[i] || '';
+
+                                serialHtml += `
+                                    <div class="row mb-2">
+                                        <div class="col-4">
+                                            <label for="serial_number_${product.id}_${i}" class="form-label">${product.name}-${i + 1}:</label>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="d-flex align-items-center">
+                                                <input type="text" id="serial_number_${product.id}_${i}" name="serial_number_${product.id}[]" class="form-control me-2 serial-input" placeholder="Enter Serial ${i + 1}" value="${}}"  data-product-id="${product.id}" data-index="${i}" required>
+                                                <a href="javascript:void(0);" class="text-danger me-2 remove-serial" data-product-id="${product.id}" data-index="${i}">
+    <i class="fas fa-times-circle"></i>
+</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        // } else {
+                        //     serialHtml = '<p>No serial numbers available.</p>';
+                        // }
+                    });
+
+                    $.each(products, function(index, product) {
+                        let serialHtml = '';
+
                     });
                     // Replace the table body content with the new product rows
                     $('#product_list_tbody').html(productRows);
+                    $('#product_serial_div').html(serialHtml);
                 }
                 // product length counter
-                $('#product_len_counter').text(products.length);
+                // $('#product_len_counter').text(products.length);
             }
 
             // serial/imei table generator
@@ -1624,6 +1864,7 @@
                 let serialNumber = generateSerialNumber(currentMaxSerialNumber + 1);
                 inputField.val(serialNumber);
             });
+
 
 
 
@@ -2014,6 +2255,87 @@
                 // }
             });
         });
+    </script>
+
+    <script>
+        // function removeSerial(productId, index) {
+            // Perform AJAX request or update the session to remove the serial number
+            // Example:
+            // updateQuantity(productId, currentQty);
+            // console.log(index);
+            // $.ajax({
+            //     url: '/remove-serial',
+            //     method: 'POST',
+            //     data: {
+            //         product_id: productId,
+            //         index: index
+            //     },
+            //     success: function(response) {
+            //         // Update the UI accordingly
+            //     }
+            // });
+
+            // For demonstration purposes, directly remove the row
+            // document.getElementById(`serial_number_${productId}_${index}`).closest('.row.mb-2').remove();
+        // }
+
+        function generateSerial(productId) {
+            // Perform AJAX request or update the session to generate a new serial number
+            // Example:
+            // $.ajax({
+            //     url: '/generate-serial',
+            //     method: 'POST',
+            //     data: { product_id: productId },
+            //     success: function(response) {
+            //         // Add the new serial number to the UI
+            //         var newSerial = response.new_serial;
+            //         var container = document.getElementById(`serialContainer_${productId}`);
+            //         var index = container.children.length;
+            //         var html = `
+            //             <div class="row mb-2">
+            //                 <div class="col-4">
+            //                     <label for="serial_number_${productId}_${index}" class="form-label">Serial ${index + 1}:</label>
+            //                 </div>
+            //                 <div class="col-8">
+            //                     <div class="d-flex">
+            //                         <input type="text" id="serial_number_${productId}_${index}" name="serial_number_${productId}[]" class="form-control me-2" placeholder="Enter Serial ${index + 1}" value="${newSerial}" required>
+            //                         <a href="javascript:void(0);" class="text-danger me-2" onclick="removeSerial('${productId}', ${index})">
+            //                             <i class="fas fa-times-circle"></i>
+            //                         </a>
+            //                         <a href="javascript:void(0);" class="text-success" onclick="generateSerial('${productId}')">
+            //                             <i class="fas fa-plus-circle"></i>
+            //                         </a>
+            //                     </div>
+            //                 </div>
+            //             </div>
+            //         `;
+            //         container.insertAdjacentHTML('beforeend', html);
+            //     }
+            // });
+
+            // For demonstration purposes, directly add a new serial field
+            var container = document.getElementById(`serialContainer_${productId}`);
+            var index = container.children.length;
+            var html = `
+        <div class="row mb-2">
+            <div class="col-4">
+                <label for="serial_number_${productId}_${index}" class="form-label">Serial ${index + 1}:</label>
+            </div>
+            <div class="col-8">
+                <div class="d-flex">
+                    <input type="text" id="serial_number_${productId}_${index}" name="serial_number_${productId}[]" class="form-control me-2" placeholder="Enter Serial ${index + 1}" required>
+                    <a href="javascript:void(0);" class="text-danger me-2" onclick="removeSerial('${productId}', ${index})">
+                        <i class="fas fa-times-circle"></i>
+                    </a>
+                    <a href="javascript:void(0);" class="text-success" onclick="generateSerial('${productId}')">
+                        <i class="fas fa-plus-circle"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+            container.insertAdjacentHTML('beforeend', html);
+        }
     </script>
 
 
