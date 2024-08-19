@@ -141,11 +141,11 @@ class PurchasController extends Controller
 
 
 
-//        $invoice=Invoice::createOrUpdateUser($amount);
-//        $store=Purchas::createOrUpdateUser($request,$invoice->id);
+        $invoice=Invoice::createOrUpdateUser($amount);
+        $store=Purchas::createOrUpdateUser($request,$invoice->id);
         $sessionProducts = session()->get('purchase_products', []);
 //        $sessionProducts = session()->put('purchase_products', []);
-        return $sessionProducts;
+//        return $sessionProducts;
         foreach ($sessionProducts as $key=>$product){
 
 //            return $product['serial'];
@@ -170,7 +170,7 @@ class PurchasController extends Controller
                 $serial['emei_number']=' ';
                 $serial['is_sold']='0';
                 $serial['status']=' ';
-            $serial=ProductSerial::createOrUpdateUser($serial);
+            $serial=ProductSerial::createOrUpdateUser($serial,$store->id);
             }
 
             $tranjection=ProductTransection::createOrUpdateUser($data,'pur',$store->id);
@@ -220,17 +220,21 @@ class PurchasController extends Controller
 
         $purchas=Purchas::find($id);
         $pro_tran=ProductTransection::where('pur_id',$purchas->id)->get();
+        $inv=Invoice::find($purchas->inv_id);
         foreach ($pro_tran as $pro){
             // Update the product data
             $product=Product::where('id',$pro->product_id)->first();
             if (!empty($product->purmode)){
-                $sessionProducts[$pro->product_id]['serial_method'] = 'manual';
-                $pro_serial=ProductSerial::where('product_id',$pro->product_id)->get();
+                $sessionProducts[$pro->product_id]['serial_method'] = 'yes';
+                $pro_serial=ProductSerial::where('product_id',$pro->product_id)->where('pur_id',$id)->get();
                 foreach ($pro_serial as $serial){
                     $sessionProducts[$pro->product_id]['serial'][]=$serial->serial_number;
                 }
 //                return $sessionProducts;
+            }else{
+                $sessionProducts[$pro->product_id]['serial_method'] = '';
             }
+
             $sessionProducts[$pro->product_id]['id'] = intval($pro->product_id);
             $sessionProducts[$pro->product_id]['name'] = $product->name;
             $sessionProducts[$pro->product_id]['price'] = $pro->price;
@@ -263,6 +267,15 @@ class PurchasController extends Controller
         $sessionData['grand_total'] = floatval($purchas->total);
 
         session()->put('purchase_additional', $sessionData);
+
+        $info=session()->get('bank_info');
+        $info['bank_type']=$inv->bank_type;
+        $info['bank_id']=$inv->bank_id;
+        $info['bank_name']=$inv->name;
+        $info['bank_amount']=$inv->amount;
+        $info['payment_amount']=$inv->paid_amount;
+//            $info['due']=$request->payment_amount;
+        session()->put('bank_info',$info);
 //        $sessionProducts = session()->get('purchase_products', []);
 //        return $sessionProducts;
 
@@ -418,19 +431,32 @@ $pur=Purchas::find($id);
             $data['vat_type']=$product['vat_type'];
             $data['vat']=$product['vat'];
             $data['pur_id']=$store->id;
-            $pro_serial=ProductSerial::where('product_id',$product['id'])->get();
-            foreach ($pro_serial as $serial){
-                $serial->delete();
+//            $pro_serial=ProductSerial::where('product_id',$product['id'])->get();
+//            foreach ($pro_serial as $serial){
+//                $serial->delete();
+//            }
+//            foreach ($product['serial'] as $poserial){
+//                $serial['product_id']=$product['id'];
+//                $serial['serial_number']=$poserial;
+//                $serial['emei_number']=' ';
+//                $serial['is_sold']='0';
+//                $serial['status']=' ';
+//                $serial=ProductSerial::createOrUpdateUser($serial);
+//            }
+            // Delete existing serials and add new ones if serials are defined
+            if (isset($product['serial']) && is_array($product['serial'])) {
+                ProductSerial::where('product_id', $product['id'])->where('pur_id',$pur->id)->delete();
+                foreach ($product['serial'] as $poserial) {
+                    $serial = [
+                        'product_id' => $product['id'],
+                        'serial_number' => $poserial,
+                        'emei_number' => ' ',
+                        'is_sold' => '0',
+                        'status' => ' ',
+                    ];
+                    ProductSerial::createOrUpdateUser($serial,$id); // Assuming this method exists
+                }
             }
-            foreach ($product['serial'] as $poserial){
-                $serial['product_id']=$product['id'];
-                $serial['serial_number']=$poserial;
-                $serial['emei_number']=' ';
-                $serial['is_sold']='0';
-                $serial['status']=' ';
-                $serial=ProductSerial::createOrUpdateUser($serial);
-            }
-
             foreach ($pro_tran as $pro){
                 if ($pro->product_id == $product['id']){
                     $tranjection=ProductTransection::createOrUpdateUser($data,'pur',$store->id ,$pro->id);
@@ -460,10 +486,11 @@ $pur=Purchas::find($id);
 //        return $id;
             abort_if(!auth()->user()->can('delete purchase'),403,__('User does not have the right permissions.'));
             $delete=Purchas::find($id);
-            $pro_trns=ProductTransection::where('trans_type','pur')->where('trans_id',$id)->get();
+            $pro_trns=ProductTransection::where('trans_type','pur')->where('pur_id',$id)->get();
             foreach ($pro_trns as $product){
-//                return $product;
+
                 $stock=Stock::where('pur_id',$id)->where('product_id',$product->product_id)->first();
+//                return $stock;
                 $stock->sotck_qty=$stock->sotck_qty - $product->qty;
                 $stock->update();
                 $product->delete();
@@ -569,8 +596,8 @@ $pur=Purchas::find($id);
                 'name' => $product->name,
                 'price' => number_format($product->price, 0, '.', ''),
                 'quantity' => 1,
-                'serial_method' => $product->purmode,
-                'serial' => [],
+                'serial_method' => $product->purmode == null? '':'yes',
+                'serial' => $product->purmode == null ? [] : [''], // Check if serial_method is null, set serial to an empty array, otherwise initialize with one empty value
                 'discount_type' => '',
                 'discount' => 0,
                 'vat_type' => '',
@@ -636,15 +663,27 @@ $pur=Purchas::find($id);
 //            $quantity = $product->quantity;
 //        }
 
-
-//return $sessionProducts[$productId];
         if (isset($sessionProducts[$productId])) {
+            $oldQuantity = $sessionProducts[$productId]['quantity'];
             $sessionProducts[$productId]['quantity'] = $quantity;
-            for ($x = 1; $x <= $sessionProducts[$productId]['quantity']; $x++){
-
-                $sessionProducts[$productId]['serial'][]='';
+//            return $sessionProducts[$productId]['serial_method'];
+            if ($sessionProducts[$productId]['serial_method'] != ''){
+//                return $sessionProducts;
+                if ($quantity > $oldQuantity) {
+                    // Quantity increased, append empty serial numbers
+                    for ($x = $oldQuantity + 1; $x <= $quantity; $x++) {
+                        $sessionProducts[$productId]['serial'][] = '';
+                    }
+                } elseif ($quantity < $oldQuantity) {
+                    // Quantity decreased, truncate the serial numbers array
+                    $sessionProducts[$productId]['serial'] = array_slice($sessionProducts[$productId]['serial'], 0, $quantity);
+                }
             }
+
+
+            // Update session with the new products array
             session(['purchase_products' => $sessionProducts]);
+
             return response()->json(['status' => true, 'products' => array_reverse($sessionProducts)]);
         }
 
@@ -841,45 +880,45 @@ $pur=Purchas::find($id);
     }
 
     // provide customer/supplier list in json
-    public function walkin_search_api(Request $request)
-    {
-        $query = $request->input('query');
-        $type = $request->input('walk_in');
-        if ($type === 'customer') {
-            $customers = Customer::where('name', 'LIKE', "%{$query}%")
-                ->orWhere('email', 'LIKE', "%{$query}%")
-                ->orWhere('mobile', 'LIKE', "%{$query}%")
-                ->orWhere('cmobile', 'LIKE', "%{$query}%")
-                ->orWhere('nid', 'LIKE', "%{$query}%")
-                ->limit(10)
-                ->get(['id', 'name', 'balance', 'image']);
-            return response()->json(['walkin' => $customers]);
-        } elseif ($type === 'supplier') {
-            $suppliers = Supplier::where('name', 'LIKE', "%{$query}%")
-                ->orWhere('email', 'LIKE', "%{$query}%")
-                ->orWhere('mobile', 'LIKE', "%{$query}%")
-                ->orWhere('nid', 'LIKE', "%{$query}%")
-                ->limit(10)
-                ->get(['id', 'name', 'balance', 'image']);
-            return response()->json(['walkin' => $suppliers]);
-        }
-        return response()->json(['error' => 'Invalid type'], 400);
-    }
+//    public function walkin_search_api(Request $request)
+//    {
+//        $query = $request->input('query');
+//        $type = $request->input('walk_in');
+//        if ($type === 'customer') {
+//            $customers = Customer::where('name', 'LIKE', "%{$query}%")
+//                ->orWhere('email', 'LIKE', "%{$query}%")
+//                ->orWhere('mobile', 'LIKE', "%{$query}%")
+//                ->orWhere('cmobile', 'LIKE', "%{$query}%")
+//                ->orWhere('nid', 'LIKE', "%{$query}%")
+//                ->limit(10)
+//                ->get(['id', 'name', 'balance', 'image']);
+//            return response()->json(['walkin' => $customers]);
+//        } elseif ($type === 'supplier') {
+//            $suppliers = Supplier::where('name', 'LIKE', "%{$query}%")
+//                ->orWhere('email', 'LIKE', "%{$query}%")
+//                ->orWhere('mobile', 'LIKE', "%{$query}%")
+//                ->orWhere('nid', 'LIKE', "%{$query}%")
+//                ->limit(10)
+//                ->get(['id', 'name', 'balance', 'image']);
+//            return response()->json(['walkin' => $suppliers]);
+//        }
+//        return response()->json(['error' => 'Invalid type'], 400);
+//    }
 
-    public function store_walkin_into_session(Request $request)
-    {
-        $id = $request->input('id');
-        $name = $request->input('name');
-        $balance = $request->input('balance');
-        $type = $request->input('type');
-        $sessionData = session()->get('purchase_walkin', []);
-        $sessionData['id'] = $id;
-        $sessionData['name'] = $name;
-        $sessionData['balance'] = $balance;
-        $sessionData['type'] = $type;
-        session()->put('purchase_walkin', $sessionData);
-        return response()->json(['status' => true]);
-    }
+//    public function store_walkin_into_session(Request $request)
+//    {
+//        $id = $request->input('id');
+//        $name = $request->input('name');
+//        $balance = $request->input('balance');
+//        $type = $request->input('type');
+//        $sessionData = session()->get('purchase_walkin', []);
+//        $sessionData['id'] = $id;
+//        $sessionData['name'] = $name;
+//        $sessionData['balance'] = $balance;
+//        $sessionData['type'] = $type;
+//        session()->put('purchase_walkin', $sessionData);
+//        return response()->json(['status' => true]);
+//    }
 
     //Serial
     public function remove_serial(Request $request)
@@ -911,15 +950,12 @@ $pur=Purchas::find($id);
         $productId = $request->input('product_id');
         $serialNumber = $request->input('serial_number');
         $index = $request->input('index');
-//return $request;
         // Retrieve session data
         $ssn_products = session()->get('purchase_products', []);
-//return $ssn_products;
+
         // Check for uniqueness
         foreach ($ssn_products as $product) {
-//            return $product;
             if ($product['id'] == $productId) {
-
                 if (in_array($serialNumber, $product['serial'])) {
                     return response()->json(['unique' => false]);
                 } else {
@@ -935,46 +971,46 @@ $pur=Purchas::find($id);
 //End Serial
 
 
-    public function update_serial_method(Request $request)
-    {
-        $productId = $request->input('product_id');
-        $serialMethod = $request->input('serial_method');
-        $pro=Product::where('id',$productId)->first();
-        $products = session()->get('purchase_products', []);
-        if ($products['serial_method'] != null){
-            $products[$productId]['serial_method'] = 'yes';
-        }
+//    public function update_serial_method(Request $request)
+//    {
+//        $productId = $request->input('product_id');
+//        $serialMethod = $request->input('serial_method');
+//        $pro=Product::where('id',$productId)->first();
+//        $products = session()->get('purchase_products', []);
+//        if ($products['serial_method'] != null){
+//            $products[$productId]['serial_method'] = 'yes';
+//        }
+//
+//        session()->put('purchase_products', $products);
+//        return response()->json(['status' => true]);
+//    }
 
-        session()->put('purchase_products', $products);
-        return response()->json(['status' => true]);
-    }
-
-    public function store_serials(Request $request)
-    {
-        $productId = $request->input('id');
-        $serialNumbers = $request->input('serials', []);
-        $sessionProducts = session()->get('purchase_products', []);
-
-        if (isset($sessionProducts[$productId])) {
-            $sessionProducts[$productId]['serial'] = $serialNumbers;
-            session()->put('purchase_products', $sessionProducts);
-            return response()->json(['success' => true]);
-        }
-
-        return response()->json(['success' => false, 'message' => 'Product not found.'], 404);
-    }
+//    public function store_serials(Request $request)
+//    {
+//        $productId = $request->input('id');
+//        $serialNumbers = $request->input('serials', []);
+//        $sessionProducts = session()->get('purchase_products', []);
+//
+//        if (isset($sessionProducts[$productId])) {
+//            $sessionProducts[$productId]['serial'] = $serialNumbers;
+//            session()->put('purchase_products', $sessionProducts);
+//            return response()->json(['success' => true]);
+//        }
+//
+//        return response()->json(['success' => false, 'message' => 'Product not found.'], 404);
+//    }
 
 
 
-    public function get_vendor(string $str)
-    {
-        if ($str == 'cus'){
-            $vendor=Customer::get();
-        }elseif ($str == 'sup'){
-            $vendor=Supplier::get();
-        }
-        return response()->json(['status' => true, 'data' => $vendor]);
-    }
+//    public function get_vendor(string $str)
+//    {
+//        if ($str == 'cus'){
+//            $vendor=Customer::get();
+//        }elseif ($str == 'sup'){
+//            $vendor=Supplier::get();
+//        }
+//        return response()->json(['status' => true, 'data' => $vendor]);
+//    }
 
     public function bank_type(string $str)
     {
@@ -1054,7 +1090,9 @@ $pur=Purchas::find($id);
     public function product_clear_all()
     {
         session()->forget('purchase_products');
-        return response()->json(['status' => true]);
+        $sessionProducts = session()->get('purchase_products', []);
+        return response()->json(['status' => true, 'products' => array_reverse($sessionProducts)]);
+//        return response()->json(['status' => true]);
     }
 
     public function destroy_all_ssn()
@@ -1062,6 +1100,8 @@ $pur=Purchas::find($id);
         session()->forget('purchase_walkin');
         session()->forget('purchase_additional');
         session()->forget('purchase_products');
-        return response()->json(['status' => 'success', 'message' => 'Sessions cleared successfully']);
+        $sessionProducts = session()->get('purchase_products', []);
+        return response()->json(['status' => true, 'products' => array_reverse($sessionProducts)]);
+//        return response()->json(['status' => 'success', 'message' => 'Sessions cleared successfully']);
     }
 }

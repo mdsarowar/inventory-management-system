@@ -1,7 +1,34 @@
 @extends('admin.master')
 
 @section('title',__('Payment Voucher Edit'))
+@section('custom_css')
+    <style>
+        /* Tooltip background color */
+        .tooltip .tooltip-inner {
+            background-color: #ffc107; /* Yellow background */
+            color: #000; /* Black text */
+            border: 1px solid #ffca2c; /* Optional: Add border */
+        }
 
+        /* Tooltip arrow color (optional) */
+        .tooltip.bs-tooltip-top .tooltip-arrow::before {
+            border-top-color: #ffc107;
+        }
+
+        .tooltip.bs-tooltip-right .tooltip-arrow::before {
+            border-right-color: #ffc107;
+        }
+
+        .tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+            border-bottom-color: #ffc107;
+        }
+
+        .tooltip.bs-tooltip-left .tooltip-arrow::before {
+            border-left-color: #ffc107;
+        }
+    </style>
+
+@endsection
 @section('content')
     <div class="content">
         <div class="page-header">
@@ -37,7 +64,7 @@
                     </div>
                     <div class="row">
 
-                        <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
                                 <label>{{__('Payment Sourch')}}</label>
                                 <select name="pay_soruch" id="pay_soruch" class="form-select">
@@ -47,18 +74,25 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
                                 <label>{{__('Balance')}}</label>
                                 <input type="tel" name="balance" class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
-                            <label>{{__('Cheque')}}</label>
-                            <input type="number" id="pb_cheque"  class="form-control mb-2" readonly>
-                            <label>{{__('Cheque Date')}}</label>
-                            <input type="date" id="pb_cheque_date" class="form-control" readonly>
+                            <div class="form-group">
+                                <label>{{__('Cheque')}}</label>
+                                <input type="number" id="pb_cheque"  class="form-control mb-2" readonly>
+                            </div>
                         </div>
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label>{{__('Cheque Date')}}</label>
+                                <input type="date" id="pb_cheque_date" class="form-control" readonly>
+                            </div>
+                        </div>
+
 
                         <div class="col-12 bg-light pt-2 pb-3">
                             <div class="row">
@@ -218,6 +252,7 @@
 @section('js')
     <script>
         $(document).ready(function() {
+
             // Event listener for "Add" button click to add a new payment detail
             $('#pd_add_btn').click(function() {
                 // Retrieve values from input fields
@@ -230,7 +265,49 @@
                 let vou_no = $('#voucher_no').val();
                 let vou_date = $('#voucher_date').val();
 
-                console.log('sarowar');
+                // Validation
+                let validationFailed = false;
+
+                // Function to show tooltip
+                function showTooltip(element, message) {
+                    element.attr('data-bs-toggle', 'tooltip')
+                        .attr('data-bs-placement', 'top')
+                        .attr('title', message)
+                        .tooltip('show');
+
+                    // Remove the tooltip after a few seconds
+                    setTimeout(function() {
+                        element.tooltip('dispose'); // Remove the tooltip
+                    }, 3000);
+                }
+
+                // Check if source is selected
+                if (!sourch) {
+                    showTooltip($('#pay_soruch'), 'Please select a payment source.');
+                    validationFailed = true;
+                }
+
+                // Check if pay_to is filled
+                if (!payto) {
+                    showTooltip($('#pay_to'), 'Please enter the payee name.');
+                    validationFailed = true;
+                }
+
+                // Check if amount is a valid number and greater than zero
+                if (isNaN(amount) || amount <= 0) {
+                    showTooltip($('#amount'), 'Please enter a valid amount.');
+                    validationFailed = true;
+                }
+
+                // You can add more validation for other fields as needed
+                // ...
+
+                // If any validation failed, stop the execution
+                if (validationFailed) {
+                    return;
+                }
+
+                // Proceed with AJAX request if validation passes
                 $.ajax({
                     url: '{{ route("storeSessionData") }}', // Replace with your route
                     type: 'POST',
@@ -253,34 +330,32 @@
                             // Loop through the returned session data and append it to the table
                             response.data.forEach(function(item, index) {
                                 let newRow = `
-                        <tr data-index="${ index }">
-                            <td>${index + 1}</td>
-                            <td>${item.sourch}</td>
-                            <td>${item.payto}</td>
-                            <td>${item.amount}</td>
-                            <td>${item.cheque}</td>
-                            <td>${item.cheque_date}</td>
-                            <td>${item.vou_date}</td>
-                            <td>${item.ref}</td>
-                            <td><i class="fas fa-trash-alt delete-row" style="cursor:pointer;"></i></td>
-                        </tr>
-                    `;
+                    <tr data-index="${ index }">
+                        <td>${index + 1}</td>
+                        <td>${item.sourch}</td>
+                        <td>${item.payto}</td>
+                        <td>${item.amount}</td>
+                        <td>${item.cheque}</td>
+                        <td>${item.cheque_date}</td>
+                        <td>${item.vou_date}</td>
+                        <td>${item.ref}</td>
+                        <td><i class="fas fa-trash-alt delete-row" style="cursor:pointer;"></i></td>
+                    </tr>
+                `;
                                 $('table tbody').append(newRow);
                             });
 
                             // Update the total amount displayed in the table
                             $('#total-amount').text(response.totalAmount);
+
                             // Clear the input fields after appending the data to the table
-                            // $('#pay_soruch').val('');
                             $('#pay_to').val('');
                             $('#amount').val('');
                             $('#ref').val('');
                             $('#pb_cheque').val('');
                             $('#pb_cheque_date').val('');
                             $('#pay_soruch').val('');
-                            // $('#voucher_date').val('');
                         }
-                        // console.log('Session data stored successfully!');
                     },
                     error: function(xhr, status, error) {
                         console.error('Error storing session data:', error);

@@ -13,6 +13,7 @@ class ProductSerial extends Model
 //    use Searchable;
 
     protected $fillable = [
+        'pur_id',
         'product_id',
         'serial_number',
         'emei_number',
@@ -26,7 +27,7 @@ class ProductSerial extends Model
 
     protected  static $product_serial;
 
-    public static function createOrUpdateUser ($request, $id = null)
+    public static function createOrUpdateUser ($request,$pur_id=null, $id = null)
     {
         if (isset($id))
         {
@@ -34,6 +35,7 @@ class ProductSerial extends Model
         } else {
             self::$product_serial = new ProductSerial();
         }
+        self::$product_serial->pur_id                   = $pur_id;
         self::$product_serial->product_id                   = $request['product_id'] ?? '';
         self::$product_serial->serial_number                = $request['serial_number'] ?? '';
         self::$product_serial->emei_number                  = $request['emei_number'] ?? '';
