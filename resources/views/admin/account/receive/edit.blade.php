@@ -1,7 +1,34 @@
 @extends('admin.master')
 
 @section('title','Receive Voucher Edit')
+@section('custom_css')
+    <style>
+        /* Tooltip background color */
+        .tooltip .tooltip-inner {
+            background-color: #ffc107; /* Yellow background */
+            color: #000; /* Black text */
+            border: 1px solid #ffca2c; /* Optional: Add border */
+        }
 
+        /* Tooltip arrow color (optional) */
+        .tooltip.bs-tooltip-top .tooltip-arrow::before {
+            border-top-color: #ffc107;
+        }
+
+        .tooltip.bs-tooltip-right .tooltip-arrow::before {
+            border-right-color: #ffc107;
+        }
+
+        .tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+            border-bottom-color: #ffc107;
+        }
+
+        .tooltip.bs-tooltip-left .tooltip-arrow::before {
+            border-left-color: #ffc107;
+        }
+    </style>
+
+@endsection
 @section('content')
     <div class="content">
         <div class="page-header">
@@ -36,7 +63,7 @@
                     </div>
                     <div class="row">
 
-                        <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
                                 <label>{{__('Received To')}}</label>
                                 <select name="received_to" id="received_to" class="form-select">
@@ -46,17 +73,23 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
                                 <label>{{__('Balance')}}</label>
                                 <input type="tel" name="balance" class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
-                            <label>{{__('Cheque')}}</label>
-                            <input type="number" id="rev_cheque"  class="form-control mb-2" readonly>
-                            <label>{{__('Cheque Date')}}</label>
-                            <input type="date" id="rev_cheque_date" class="form-control" readonly>
+                            <div class="form-group">
+                                <label>{{__('Cheque')}}</label>
+                                <input type="number" id="rev_cheque"  class="form-control mb-2" readonly>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label>{{__('Cheque Date')}}</label>
+                                <input type="date" id="rev_cheque_date" class="form-control" readonly>
+                            </div>
                         </div>
 
                         <div class="col-12 bg-light pt-2 pb-3">
@@ -228,7 +261,48 @@
                 let vou_no = $('#revvoucher_no').val();
                 let vou_date = $('#revvoucher_date').val();
 
-                console.log('sarowar');
+                // Validation
+                let validationFailed = false;
+
+                // Function to show tooltip
+                function showTooltip(element, message) {
+                    element.attr('data-bs-toggle', 'tooltip')
+                        .attr('data-bs-placement', 'top')
+                        .attr('title', message)
+                        .tooltip('show');
+
+                    // Remove the tooltip after a few seconds
+                    setTimeout(function() {
+                        element.tooltip('dispose'); // Remove the tooltip
+                    }, 3000);
+                }
+
+                // Check if source is selected
+                if (!received_to) {
+                    showTooltip($('#received_to'), 'Please select a Received To.');
+                    validationFailed = true;
+                }
+
+                // Check if pay_to is filled
+                if (!received_form) {
+                    showTooltip($('#received_form'), 'Please enter the Received Form.');
+                    validationFailed = true;
+                }
+
+                // Check if amount is a valid number and greater than zero
+                if (isNaN(amount) || amount <= 0) {
+                    showTooltip($('#amount'), 'Please enter a valid amount.');
+                    validationFailed = true;
+                }
+
+                // You can add more validation for other fields as needed
+                // ...
+
+                // If any validation failed, stop the execution
+                if (validationFailed) {
+                    return;
+                }
+
                 $.ajax({
                     url: '{{ route("revstoreSessionData") }}', // Replace with your route
                     type: 'POST',

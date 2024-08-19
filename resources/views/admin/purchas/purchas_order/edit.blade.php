@@ -2,6 +2,61 @@
 @section('title',__('Edit Purchase'))
 @section('custom_css')
     <style>
+        .custom-gap {
+            padding-right: 30px; /* Adjust as needed */
+        }
+
+        .serial-numbers-header {
+            background-color: #f8f9fa; /* Light background color for the header */
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6; /* Border to separate header from content */
+            margin-bottom: 10px;
+        }
+
+        .serial-numbers-header .row {
+            display: flex;
+        }
+
+        .serial-numbers-header .col-4,
+        .serial-numbers-header .col-6,
+        .serial-numbers-header .col-2 {
+            display: flex;
+            align-items: center;
+        }
+
+        .serial-numbers-header .col-4 {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .serial-numbers-header .col-6 {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .serial-numbers-header .col-2 {
+            font-weight: bold;
+            font-size: 16px;
+            text-align: right; /* Align text to the right for a better look */
+        }
+
+        .serial-numbers .row {
+            align-items: center; /* Center items vertically within each row */
+        }
+
+        .serial-numbers .col-4 span {
+            font-size: 14px; /* Adjust font size if needed */
+        }
+
+        .serial-numbers .col-6 .form-control {
+            width: 100%; /* Ensure input field takes full width of its container */
+        }
+
+        .serial-numbers .col-2 {
+            text-align: center; /* Center the action icons */
+        }
+
+
         .btn-group-flex-wrap {
             display: flex;
             flex-wrap: wrap;
@@ -287,26 +342,33 @@
 
         .grand_total_container {
             background-color: lightblue;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            width: fit-content;
             padding: 13px;
             border: 1px dotted #b3b3b3;
             border-radius: 10px;
             box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
         }
-        .grand_total_container span {
+
+        .grand_total_container .row {
+            display: flex;
+            align-items: center; /* Center items vertically */
+        }
+
+        .grand_total_container .col-md-6 {
+            display: flex;
+            align-items: center; /* Center items vertically within each column */
+        }
+
+        .grand_total_container .col-md-6:first-child {
             color: #5c5c5c;
             font-size: 20px;
             font-weight: 800;
             white-space: nowrap;
-            margin-right: 15px;
         }
-        .grand_total_container input {
-            width: fit-content;
+
+        .grand_total_container .form-control {
+            width: 100%; /* Ensure input field takes full width of its container */
         }
+
 
         .cursor_pointer {
             cursor: pointer;
@@ -329,6 +391,8 @@
         .input-group-text.auto_generate_serial_btn:hover i {
             animation: spin 1s linear infinite;
         }
+
+
     </style>
 @endsection
 @section('content')
@@ -513,31 +577,26 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6  mb-2 me-4">
-                                {{--                                <div class="col-sm-5 col-12 mb-2">--}}
+                            <!-- Product Search Field -->
+                            <div class="col-sm-6 mb-2 custom-gap">
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text"><i class="fas fa-search"></i></span>
-                                    <select class="form-select" name="" id="product_search" >
+                                    <select class="form-select select2" name="" id="product_search1">
                                         <option value="">Product search</option>
                                         @foreach($products as $product)
                                             <option value="{{$product->id}}">{{$product->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-
                             </div>
-                            <div class="col-sm-4 ml-4 mb-2">
-                                {{--                                <label>Barcode--}}
-                                {{--                                    <div class="save_progress d-none">--}}
-                                {{--                                        <i class="fas fa-spinner"></i>--}}
-                                {{--                                    </div>--}}
-                                {{--                                </label>--}}
+
+                            <!-- Barcode Field -->
+                            <div class="col-sm-6 mb-2">
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-white"><i class="fas fa-barcode"></i></span>
                                     <input type="text" class="form-control" id="barcode_field" value="{{ $ssn_additional['barcode'] ?? '' }}" placeholder="Barcode">
                                 </div>
                             </div>
-
                         </div>
                         <div class="product-added block-section mb-2">
                             <div class="head-text d-flex align-items-center justify-content-between mb-3">
@@ -550,11 +609,11 @@
                                 </a>
                             </div>
                             <div class="product-wrap" >
-                                <table class="table table-border text-center" >
+                                <table class="table table-border text-center">
                                     <thead>
                                     <tr>
                                         <th><i class="fas fa-boxes"></i></th>
-                                        <th>Serial/EMEI</th>
+                                        {{--                                        <th>Serial/EMEI</th>--}}
                                         <th>Qty</th>
                                         <th>Price</th>
                                         <th>SubTotal</th>
@@ -563,31 +622,18 @@
                                     </thead>
                                     <tbody id="product_list_tbody">
                                     @if(count($ssn_products) > 0)
-                                        @foreach($ssn_products as $key=> $product)
+                                        @foreach($ssn_products as $key => $product)
                                             <tr>
                                                 <td class="py-1">
-                                                    <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">{{ $product['name'] }}</a>
+                                                    <a href="javascript:void(0);" class="product_modal_btn cursor_pointer" role="button" data-bs-toggle="modal" data-bs-target="#serialModal{{ $product['id'] }}">{{ $product['name'] }}</a>
                                                     <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">Edit</a>
-                                                </td>
-                                                <td class="py-1">
-                                                    {{--                                                    <div class="d-flex">--}}
-                                                    {{--                                                        <input type="radio" name="serial{{ $product['id'] }}" class="me-1 serial-radio" id="serial_auto{{ $product['id'] }}" value="{{ $product['id'] }}" data-serial-method="auto" {{ $product['serial_method'] === 'auto' ? 'checked' : '' }}>--}}
-                                                    {{--                                                        <label for="serial_auto{{ $product['id'] }}" class="cursor_pointer"><small>Auto</small></label>--}}
-                                                    {{--                                                    </div>--}}
-                                                    <div class="d-flex">
-                                                        @if(!empty($product['serial_method']))
-                                                            <input type="radio" name="serial{{ $product['id'] }}" class="me-1 serial-radio manual-radio" id="serial_manual{{ $product['id'] }}" value="{{ $product['id'] }}" data-serial-method="manual" {{ $product['serial_method'] === 'manual' ? 'checked' : '' }}>
-                                                            <label for="serial_manual{{ $product['id'] }}" class="cursor_pointer" data-bs-toggle="offcanvas" data-bs-target="#product_serial_offcanvas" role="button"><small>Serial</small></label>
-                                                        @endif
-
-                                                    </div>
                                                 </td>
                                                 <td class="py-1">
                                                     <div class="d-flex justify-content-center">
                                                         <div class="qty-item text-center">
-                                                            <a class="dec d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}"><i class="far fa-minus-square"></i></a>
-                                                            <input type="text" class="form-control text-center qty-input" id="product_qty" data-id="{{ $product['id'] }}" name="qty" value="{{ $product['quantity'] }}" >
-                                                            <a class="inc d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}"><i class="far fa-plus-square"></i></a>
+                                                            <a class="dec d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}" ><i class="far fa-minus-square"></i></a>
+                                                            <input type="text" class="form-control text-center qty-input" id="product_qty_{{ $product['id'] }}" data-id="{{ $product['id'] }}" name="qty" value="{{ $product['quantity'] }}">
+                                                            <a class="inc d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}" ><i class="far fa-plus-square"></i></a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -599,15 +645,16 @@
                                                 </td>
                                                 <td class="py-1">{{ $product['price'] * $product['quantity'] }}</td>
                                                 <td class="py-1">
-                                                    <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="{{ $product['id'] }}">
+                                                    <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="{{ $product['id'] }}" >
                                                         <i class="fas fa-times-circle text-danger"></i>
                                                     </a>
                                                 </td>
                                             </tr>
+
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="text-center">there are no products selected</td>
+                                            <td colspan="6" class="text-center">There are no products selected</td>
                                         </tr>
                                     @endif
                                     </tbody>
@@ -654,6 +701,21 @@
                                         <label>Fractional Discount</label>
                                         <input type="tel" class="form-control form-control-sm text-center" name="fractional_dis" id="fractional_discount_field" value="{{ isset($ssn_additional) && isset($ssn_additional['fractional_discount']) ? $ssn_additional['fractional_discount'] : 0 }}">
                                     </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="grand_total_container">
+                                                <div class="row">
+                                                    <div class="col-md-6 d-flex align-items-center">
+                                                        <span>Grand Total</span>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="tel" class="form-control text-center" name="" id="grand_total" value="{{ isset($ssn_additional) ? $ssn_additional['grand_total'] : 0 }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-6 mb-2">
                                         <label>Payment Method</label>
                                         <select class="form-select form-select-sm" name="payment_type" id="payment_type">
@@ -672,23 +734,24 @@
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Issue Date</label>
-                                        <input type="date" class="form-control form-control-sm text-center" name="issue_date" id="" value="{{$purchas->issue_date}}">
+                                        <input type="date" class="form-control form-control-sm text-center" name="issue_date" id="" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label>Due Date</label>
-                                        <input type="date" class="form-control form-control-sm text-center" name="due_date" id="" value="{{$purchas->due_date}}">
+                                        <input type="date" class="form-control form-control-sm text-center" name="due_date" id="" value="">
                                     </div>
+
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6 mb-4">
-                                <div class="grand_total_container">
-                                    <span>Grand Total</span>
-                                    <input type="tel" class="form-control text-center" name="fractional_dis" id="grand_total" value="{{ isset($ssn_additional) ? $ssn_additional['grand_total'] : 0 }}" readonly>
-                                </div>
-                            </div>
-                        </div>
+{{--                        <div class="row mb-2">--}}
+{{--                            <div class="col-md-6 mb-4">--}}
+{{--                                <div class="grand_total_container">--}}
+{{--                                    <span>Grand Total</span>--}}
+{{--                                    <input type="tel" class="form-control text-center" name="fractional_dis" id="grand_total" value="{{ isset($ssn_additional) ? $ssn_additional['grand_total'] : 0 }}" readonly>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="row">
                             <div class="col-sm-6 mb-2">
                                 <div class="input-block">
@@ -699,7 +762,7 @@
                                     </label>
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text bg-white"><i class="fas fa-retweet"></i></span>
-                                        <input type="text" class="form-control form-control-sm" name="ref" id="reference_field" value="{{ $purchas->ref }}">
+                                        <input type="text" class="form-control form-control-sm" name="ref" id="" value="{{ $purchas->ref }}">
                                     </div>
                                 </div>
                             </div>
@@ -712,10 +775,58 @@
                                     </label>
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text bg-white"><i class="fas fa-pen-alt"></i></span>
-                                        <input type="text" class="form-control form-control-sm" name="note" id="note_field" value="{{$purchas->note}}">
+                                        <input type="text" class="form-control form-control-sm" name="note" id="" value="{{$purchas->note}}">
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mb-2">
+                            <!-- Header Row -->
+                            <div class="col-12">
+                                <div class="serial-numbers-header">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <strong>Name</strong>
+                                        </div>
+                                        <div class="col-6">
+                                            <strong>Serial/IMEI</strong>
+                                        </div>
+                                        <div class="col-2">
+                                            <strong>Actions</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="product_serial_div">
+                            @foreach($ssn_products as $key => $product)
+                                <div  class="serial-numbers" >
+                                    <h4>Serial Numbers for {{ $product['name'] }}:</h4>
+                                    <div>
+                                        @if(isset($product['serial']) && is_array($product['serial']))
+                                            @foreach ($product['serial'] as $index => $serial)
+                                                <div class="row mb-2">
+                                                    <div class="col-4">
+                                                        <label for="serial_number_{{ $product['id'] }}_{{ $index }}" class="form-label">{{ $product['name'] }} {{ $index }}:</label>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <div class="d-flex align-items-center">
+                                                            <input type="text" id="serial_number_{{ $product['id'] }}_{{ $index }}" name="serial_number_{{ $product['id'] }}[]" class="form-control me-2 serial-input" placeholder="Enter Serial {{ $index  }}" value="{{$serial}}" required data-product-id="{{ $product['id'] }}" data-index="{{ $index }}">
+
+                                                            <a href="javascript:void(0);" class="text-danger me-2 remove-serial" data-product-id="{{ $product['id'] }}" data-index="{{ $index }}">
+                                                                <i class="fas fa-times-circle"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <p>{{__('No serial numbers available.')}}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
 
                         <div class="btn-row d-flex align-items-center justify-content-between mt-2">
@@ -747,7 +858,7 @@
                     </div>
                 </div>
                 <div class="col-6 mb-2">
-                    <select class="form-select" name="bank_type" id="bank_type">
+                    <select class="form-select" name="bank_type" id="bank_type1">
                         <option selected disabled>-- select one --</option>
                         <option value="bank">Bank</option>
                         <option value="mobile">Mobile_bank</option>
@@ -882,76 +993,6 @@
         </div>
     </div>
 
-
-    <!-- product serial modal -->
-    <div class="offcanvas offcanvas-end w-75" data-bs-scroll="true" tabindex="-1" id="product_serial_offcanvas">
-        <div class="offcanvas-header d-flex justify-content-between">
-            <h5 class="offcanvas-title"></h5>
-            <div>
-                <button type="button" class="btn btn-success btn-sm save_serial_values">{{__('Save')}}</button>
-                <button type="button" class="btn btn-primary btn-sm auto_generate_serial_all_btn">{{__('Auto-Generate')}}</button>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-            </div>
-        </div>
-        <div class="offcanvas-body pt-0">
-        </div>
-    </div>
-
-    <!-- payment modal -->
-    <div class="modal fade modal-default" role="dialog" id="payment_modal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5></h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">x</span>
-                    </button>
-                </div>
-                <div class="modal-body bg-light pb-0">
-                    <div class="col-6 d-flex align-items-center">{{__('Payment Method')}}
-                        <div class="save_progress d-none ms-1">
-                            <i class="fas fa-spinner"></i>
-                        </div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <select class="form-select" name="payment_type">
-                            <option selected disabled>-- select one --</option>
-                            <option value="cash">Cash</option>
-                            <option value="bank">Bank</option>
-                        </select>
-                    </div>
-                    <div class="col-6 d-flex align-items-center">{{__('Payment Amount')}}
-                        <div class="save_progress d-none ms-1">
-                            <i class="fas fa-spinner"></i>
-                        </div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <input type="text" class="form-control text-center" name="" id="payment_amount" value="">
-                    </div>
-                    <div class="col-6 d-flex align-items-center">{{__('Due Amount')}}
-                        <div class="save_progress d-none ms-1">
-                            <i class="fas fa-spinner"></i>
-                        </div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <input type="text" class="form-control text-center" name="due_amount" id="fractional_discount_field" value="">
-                    </div>
-                    <div class="col-6 d-flex align-items-center">{{__('Due Date')}}
-                        <div class="save_progress d-none ms-1">
-                            <i class="fas fa-spinner"></i>
-                        </div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <input type="date" class="form-control text-center" name="" id="fractional_discount_field" value="">
-                    </div>
-                </div>
-                <div class="modal-footer border d-flex justify-content-between p-1">
-                    <button type="button" class="btn btn-secondary py-2" data-bs-dismiss="modal">{{__('Cancel')}}</button>
-                    <button type="button" class="btn btn-primary py-2">{{__('Save Changes')}}</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 @section('js')
     <script>
@@ -1057,14 +1098,7 @@
             }
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $('#bank_type').select2();
-            $('#product_search').select2();
-            $('.select2').select2();
-        });
-    </script>
-    <!-- Select2 JS -->
+
     {{--    <script src="{{asset('/')}}assets/plugins/select2/js/select2.min.js"></script>--}}
     {{--    <script src="{{asset('/')}}assets/plugins/select2/js/custom-select.js"></script>--}}
     <script>
@@ -1092,7 +1126,7 @@
                 }
             });
 
-            $(document).on('change','#bank_type',function(){
+            $(document).on('change','#bank_type1',function(){
                 var bankvalue = this.value;
                 $.ajax({
                     url:base_url+'/bank_type/'+bankvalue,
@@ -1134,7 +1168,7 @@
 
             $(document).on('change', '#bank', function() {
                 var bankId = this.value;
-                var bankType = $('#bank_type').val();
+                var bankType = $('#bank_type1').val();
                 // console.log(bankType);
                 // Perform POST request
                 $.ajax({
@@ -1187,7 +1221,7 @@
 
                 // Gather form data
                 var formData = {
-                    bank_type: $('#bank_type').val(),
+                    bank_type: $('#bank_type1').val(),
                     bank_id: $('#bank').val(),
                     bank_name: $('#bank_name').val(),
                     bank_amount: $('#bank_amount').val(),
@@ -1261,6 +1295,60 @@
     </script>
     <script>
         $(document).ready(function() {
+            $(document).on('blur', '.serial-input', function() {
+                let serialNumber = $(this).val();
+                let productId = $(this).data('product-id');
+                let index = $(this).data('index');
+                let $inputField = $(this); // Reference to the input field
+                // console.log(serialNumber);
+                // console.log(productId);
+                // console.log(index);
+                $.ajax({
+                    url: "{{ route('store_serial_in_session') }}", // Define this route in your Laravel routes file
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        serial_number: serialNumber,
+                        product_id: productId,
+                        index: index
+                    },
+                    success: function(response) {
+                        if (response.unique === false) {
+                            // alert('This serial number is already in use. Please enter a unique serial number.');
+                            $inputField.val('');
+                        }else{
+                            displayProducts(response.products);
+                            // serialTableGenerator(response.products);
+                            updateCheckMark(response.products);
+                            calculateAndUpdateSummary();
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error storing serial in session:', xhr.responseText);
+                    }
+                });
+            });
+
+
+            $(document).on('click', '.remove-serial', function() {
+                let productId = $(this).data('product-id');
+                let index = $(this).data('index');
+                $.ajax({
+                    url: '/remove-serial',
+                    method: 'POST',
+                    data: {
+                        product_id: productId,
+                        index: index,
+                    },
+                    success: function(response) {
+                        displayProducts(response.products);
+                        // serialTableGenerator(response.products);
+                        updateCheckMark(response.products);
+                        calculateAndUpdateSummary();
+                    }
+                });
+                // removeSerial(productId, index);
+            });
 
             function filterProducts(query) {
                 $('#product-container').html('<div class="spinner-border text-warning" role="status"><span class="sr-only">Loading...</span></div>');
@@ -1295,7 +1383,7 @@
                 filterProducts($(this).data('letter'));
             });
 
-            $(document).on('change','#product_search',function(){
+            $(document).on('change','#product_search1',function(){
                 var $search=this.value;
                 $.ajax({
                     url: "{{ route('get_product_data') }}",
@@ -1306,7 +1394,7 @@
                     },
                     success: function(response) {
                         displayProducts(response.products);
-                        serialTableGenerator(response.products);
+                        // serialTableGenerator(response.products);
                         updateCheckMark(response.products);
                         calculateAndUpdateSummary();
                     }
@@ -1326,7 +1414,7 @@
                     },
                     success: function(response) {
                         displayProducts(response.products);
-                        serialTableGenerator(response.products);
+                        // serialTableGenerator(response.products);
                         updateCheckMark(response.products);
                         calculateAndUpdateSummary();
                     }
@@ -1348,7 +1436,7 @@
                     },
                     success: function(response) {
                         displayProducts(response.products);
-                        serialTableGenerator(response.products);
+                        // serialTableGenerator(response.products);
                         updateCheckMark(response.products);
                         calculateAndUpdateSummary();
                     }
@@ -1358,99 +1446,136 @@
             // will call this function after any CRUD on purchase_products[] session, to refresh table data
             function displayProducts(products) {
                 let productRows = '';
+                let serialHtml = '';
 
                 if (products.length === 0) {
-                    $('#product_list_tbody').html(`<tr><td colspan="6" class="text-center">there are no products selected</td></tr>`);
+                    $('#product_list_tbody').html(`<tr><td colspan="6" class="text-center">There are no products selected</td></tr>`);
                 } else {
                     $.each(products, function(index, product) {
                         productRows += `
-                    <tr>
-                        <td class="py-1">
-<a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>${product.name}</a>
-<a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>Edit</a>
-</td>
-                        <td class="py-1">
-                            <div class="d-flex">
-                                ${product.serial_method ? `
-                                    <input type="radio" name="serial${product.id}" class="me-1 serial-radio manual-radio" id="serial_manual${product.id}" value="${product.id}" data-serial-method="manual" ${product.serial_method === 'manual' ? 'checked' : ''}>
-                                    <label for="serial_manual${product.id}" class="cursor_pointer" data-bs-toggle="offcanvas" data-bs-target="#product_serial_offcanvas" role="button"><small>Serial</small></label>
-                                    ` : ''}
+                <tr>
+                    <td class="py-1">
+                        <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>${product.name}</a>
+                        <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>Edit</a>
+                    </td>
+
+                    <td class="py-1">
+                        <div class="d-flex justify-content-center">
+                            <div class="qty-item text-center">
+                                <a class="dec d-flex justify-content-center align-items-center" data-id="${product.id}"><i class="far fa-minus-square"></i></a>
+                                <input type="text" class="form-control text-center qty-input" id="product_qty" data-id="${product.id}" name="qty" value="${product.quantity}">
+                                <a class="inc d-flex justify-content-center align-items-center" data-id="${product.id}"><i class="far fa-plus-square"></i></a>
                             </div>
-                        </td>
-                        <td class="py-1">
-                            <div class="d-flex justify-content-center">
-                                <div class="qty-item text-center">
-                                    <a class="dec d-flex justify-content-center align-items-center" data-id="${product.id}"><i class="far fa-minus-square"></i></a>
-                                    <input type="text" class="form-control text-center qty-input" id="product_qty" data-id="${product.id}" name="qty" value="${product.quantity}" >
-                                    <a class="inc d-flex justify-content-center align-items-center" data-id="${product.id}"><i class="far fa-plus-square"></i></a>
+                        </div>
+                    </td>
+                    <td class="py-1">
+                        <input type="tel" class="product_cost_field" value="${product.price}" data-id="${product.id}">
+                    </td>
+                    <td class="py-1">${product.price * product.quantity}</td>
+                    <td class="py-1">
+                        <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="${product.id}">
+                            <i class="fas fa-times-circle text-danger"></i>
+                        </a>
+                    </td>
+                </tr>
+            `;
+
+                        serialHtml += `
+
+                <div class="serial-numbers">
+                    <h4>Serial Numbers for ${product.name}:</h4>
+                    <div>
+            `;
+
+                        if (product.serial && Array.isArray(product.serial)) {
+                            $.each(product.serial, function(serialIndex, serial) {
+                                serialHtml += `
+                        <div class="row mb-2 serial-row" data-product-id="${product.id}" data-index="${serialIndex}">
+                            <div class="col-4">
+                                <label for="serial_number_${product.id}_${serialIndex}" class="form-label">${product.name}-${serialIndex + 1}:</label>
+                            </div>
+                            <div class="col-8">
+                                <div class="d-flex align-items-center">
+                                    <input type="text" id="serial_number_${product.id}_${serialIndex}" name="serial_number_${product.id}[]" class="form-control me-2 serial-input" placeholder="Enter Serial ${serialIndex + 1}" value="${serial}" data-product-id="${product.id}" data-index="${serialIndex}" required>
+                                    <a href="javascript:void(0);" class="text-danger me-2 remove-serial" data-product-id="${product.id}" data-index="${serialIndex}">
+                                        <i class="fas fa-times-circle"></i>
+                                    </a>
                                 </div>
                             </div>
-                        </td>
-                        <td class="py-1">
-                            <input type="tel" class="product_cost_field" value="${product.price}" data-id="${product.id}">
-                        </td>
-                        <td class="py-1">${product.price * product.quantity}</td>
-                        <td class="py-1">
-                            <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="${product.id}">
-                                <i class="fas fa-times-circle text-danger"></i>
-                            </a>
-                        </td>
-                    </tr>
-                `;
+                        </div>
+                    `;
+                            });
+                        } else {
+                            serialHtml += `<p>No serial numbers available.</p>`;
+                        }
+
+                        serialHtml += `
+                    </div>
+                </div>
+            `;
                     });
+
                     // Replace the table body content with the new product rows
                     $('#product_list_tbody').html(productRows);
+
+                    // Inject the serial numbers HTML into the designated container
+                    $('#product_serial_div').html(serialHtml);
+
+                    // Re-attach event listeners to the newly added elements
+                    // attachSerialNumberEvents();
                 }
+
                 // product length counter
-                $('#product_len_counter').text(products.length);
+                // $('#product_len_counter').text(products.length);
             }
+
 
             // serial/imei table generator
-            function serialTableGenerator(products) {
-                let productRows = '';
-                let globalIndex = 1;
-
-                if (products.length === 0) {
-                    $('.serial_container_tbody').html(`<tr><td colspan="4" class="text-center">There are no serial/IMEI found</td></tr>`);
-                } else {
-                    $.each(products, function(index, product) {
-                        // create rows based on product quantity
-                        for (let i = 0; i < product.quantity; i++) {
-                            productRows += `<tr>
-                                                <td>${globalIndex}</td>
-                                                <td>${product.name}</td>
-                                                <td><input type="text" class="form-control form-control-sm"></td>
-                                                <td class="text-center">
-                                                    <a href="javascript:void(0)" class="del_serial_item" data-id="${product.id}" data-qty="${product.quantity}"><i class="fas fa-times text-danger"></i></a>
-                                                </td>
-                                            </tr>`;
-                            globalIndex++;
-                        }
-                    });
-                    $('.serial_container_tbody').html(productRows);
-                }
-            }
+            // function serialTableGenerator(products) {
+            //     let productRows = '';
+            //     let globalIndex = 1;
+            //
+            //     if (products.length === 0) {
+            //         $('.serial_container_tbody').html(`<tr><td colspan="4" class="text-center">There are no serial/IMEI found</td></tr>`);
+            //     } else {
+            //         $.each(products, function(index, product) {
+            //             // create rows based on product quantity
+            //             for (let i = 0; i < product.quantity; i++) {
+            //                 productRows += `<tr>
+            //                                     <td>${globalIndex}</td>
+            //                                     <td>${product.name}</td>
+            //                                     <td><input type="text" class="form-control form-control-sm"></td>
+            //                                     <td class="text-center">
+            //                                         <a href="javascript:void(0)" class="del_serial_item" data-id="${product.id}" data-qty="${product.quantity}"><i class="fas fa-times text-danger"></i></a>
+            //                                     </td>
+            //                                 </tr>`;
+            //                 globalIndex++;
+            //             }
+            //         });
+            //         $('.serial_container_tbody').html(productRows);
+            //     }
+            // }
 
             // serial/imei field remover
-            $(document).on('click', '.del_serial_field_item', function() {
-                let productId = $(this).data('id');
-                let quantity = parseInt($(this).data('qty'));
-                updateQuantity(productId, --quantity);
-                // Find the parent container of the clicked delete icon
-                let serialField = $(this).closest('.d-flex').closest('.col-md-3.col-sm-4.col-12.mb-3');
-                // Remove the serial field from the UI
-                serialField.remove();
-            });
+            // $(document).on('click', '.del_serial_field_item', function() {
+            //     let productId = $(this).data('id');
+            //     let quantity = parseInt($(this).data('qty'));
+            //     updateQuantity(productId, --quantity);
+            //     // Find the parent container of the clicked delete icon
+            //     let serialField = $(this).closest('.d-flex').closest('.col-md-3.col-sm-4.col-12.mb-3');
+            //     // Remove the serial field from the UI
+            //     serialField.remove();
+            // });
             // serial/imei table tr remover
-            $(document).on('click', '.del_serial_item', function() {
-                let currentQty = parseInt($(this).data('qty'));
-                let productId = $(this).data('id');
-                if (currentQty > 0) {
-                    currentQty--;
-                    updateQuantity(productId, currentQty);
-                    $('.collapse-body').click();
-                }
-            });
+            // $(document).on('click', '.del_serial_item', function() {
+            //     let currentQty = parseInt($(this).data('qty'));
+            //     let productId = $(this).data('id');
+            //     if (currentQty > 0) {
+            //         currentQty--;
+            //         updateQuantity(productId, currentQty);
+            //         $('.collapse-body').click();
+            //     }
+            // });
 
             // update check icons based on product presence in session
             function updateCheckMark(products) {
@@ -1486,8 +1611,8 @@
                     }
 
                     // Update the DOM elements
-                    $('#reference_field').val(response.data.reference);
-                    $('#note_field').val(response.data.note);
+                    // $('#reference_field').val(response.data.reference);
+                    // $('#note_field').val(response.data.note);
                     $('#sub_total_field').val(response.data.subtotal);
                     $('#discount_field').val(response.data.discount);
                     $('#vat_field').val(response.data.vat);
@@ -1503,7 +1628,7 @@
             }
 
             // additional session data handler
-            $(document).on('input', '#reference_field, #note_field, #sub_total_field, #discount_field, #vat_field, #tax_field, #speed_money_field, #freight_field, #fractional_discount_field', function() {
+            $(document).on('input', '#sub_total_field, #discount_field, #vat_field, #tax_field, #speed_money_field, #freight_field, #fractional_discount_field', function() {
                 $(this).closest('div').find('.save_progress').removeClass('d-none').addClass('d-inline');
                 $(this).closest('.col-6').prev('.col-6').find('.save_progress').removeClass('d-none').addClass('d-inline');
                 $.ajax({
@@ -1511,8 +1636,8 @@
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        reference: $('#reference_field').val(),
-                        note: $('#note_field').val(),
+                        // reference: $('#reference_field').val(),
+                        // note: $('#note_field').val(),
                         subtotal: $('#sub_total_field').val(),
                         discount: $('#discount_field').val(),
                         vat: $('#vat_field').val(),
@@ -1523,8 +1648,8 @@
                     },
                     success: function(response) {
                         if (response.status) {
-                            $('#reference_field').val(response.data.reference);
-                            $('#note_field').text(response.data.note);
+                            // $('#reference_field').val(response.data.reference);
+                            // $('#note_field').text(response.data.note);
                             $('#speed_money_field').val(response.data.speed_money);
                             $('#freight_field').val(response.data.freight);
                             $('#fractional_discount_field').val(response.data.fractional_discount);
@@ -1538,111 +1663,112 @@
             });
 
             // update product serial method
-            $(document).on('click', 'input[type=radio].serial-radio', function() {
-                let productId = $(this).val();
-                let serialMethod = $(this).data('serial-method');
-                $.ajax({
-                    url: "{{ route('pur_update_serial_method') }}",
-                    method: 'POST',
-                    data: {
-                        product_id: productId,
-                        serial_method: serialMethod,
-                        _token: '{{ csrf_token() }}'
-                    }
-                });
-            });
+            {{--$(document).on('click', 'input[type=radio].serial-radio', function() {--}}
+            {{--    let productId = $(this).val();--}}
+            {{--    let serialMethod = $(this).data('serial-method');--}}
+            {{--    $.ajax({--}}
+            {{--        url: "{{ route('pur_update_serial_method') }}",--}}
+            {{--        method: 'POST',--}}
+            {{--        data: {--}}
+            {{--            product_id: productId,--}}
+            {{--            serial_method: serialMethod,--}}
+            {{--            _token: '{{ csrf_token() }}'--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--});--}}
 
-            function populateOffcanvas(product) {
-                let quantity = product.quantity;
-                let serials = product.serial || [];
-                let offcanvasBody = $('#product_serial_offcanvas').find('.offcanvas-body');
-                offcanvasBody.empty();
-                let row = $('<div class="row"></div>');
-                for (let i = 1; i <= quantity; i++) {
-                    let serialNumber = serials[i - 1] || '';
-                    let inputGroup = `
-                        <div class="col-md-3 col-sm-4 col-12 mb-3">
-                            <div class="d-flex align-items-center">
-                                <div class="input-group me-2">
-                                    <input type="text" class="form-control form-control-sm w-75" placeholder="serial number ${i}" value="${serialNumber}">
-                                    <span class="input-group-text text-dark cursor_pointer auto_generate_serial_btn"><i class="fas fa-cog"></i></span>
-                                </div>
-                                <i class="fas fa-times text-danger cursor_pointer del_serial_field_item" data-id="${product.id}" data-qty="${quantity}"></i>
-                            </div>
-                        </div>
-                    `;
-                    row.append(inputGroup);
-                }
-                offcanvasBody.append(row);
-            }
+            // function populateOffcanvas(product) {
+            //     let quantity = product.quantity;
+            //     let serials = product.serial || [];
+            //     let offcanvasBody = $('#product_serial_offcanvas').find('.offcanvas-body');
+            //     offcanvasBody.empty();
+            //     let row = $('<div class="row"></div>');
+            //     for (let i = 1; i <= quantity; i++) {
+            //         let serialNumber = serials[i - 1] || '';
+            //         let inputGroup = `
+            //             <div class="col-md-3 col-sm-4 col-12 mb-3">
+            //                 <div class="d-flex align-items-center">
+            //                     <div class="input-group me-2">
+            //                         <input type="text" class="form-control form-control-sm w-75" placeholder="serial number ${i}" value="${serialNumber}">
+            //                         <span class="input-group-text text-dark cursor_pointer auto_generate_serial_btn"><i class="fas fa-cog"></i></span>
+            //                     </div>
+            //                     <i class="fas fa-times text-danger cursor_pointer del_serial_field_item" data-id="${product.id}" data-qty="${quantity}"></i>
+            //                 </div>
+            //             </div>
+            //         `;
+            //         row.append(inputGroup);
+            //     }
+            //     offcanvasBody.append(row);
+            // }
 
             // product serial handler
-            $(document).on('click', 'input[type=radio].manual-radio', function() {
-                let productId = $(this).val();
+            {{--$(document).on('click', 'input[type=radio].manual-radio', function() {--}}
+            {{--    let productId = $(this).val();--}}
 
-                $.ajax({
-                    url: "{{ route('pur_fetch_product_data') }}",
-                    method: 'POST',
-                    data: {
-                        id: productId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        let product = response.product;
-                        // Update the offcanvas header with the product name
-                        $('#product_serial_offcanvas').find('.offcanvas-header h5').text(product.name);
-                        $('#product_serial_offcanvas').find('button.save_serial_values').attr('data-id', product.id);
-                        // Populate offcanvas with serial fields
-                        populateOffcanvas(product);
+            {{--    $.ajax({--}}
+            {{--        url: "{{ route('pur_fetch_product_data') }}",--}}
+            {{--        method: 'POST',--}}
+            {{--        data: {--}}
+            {{--            id: productId,--}}
+            {{--            _token: '{{ csrf_token() }}'--}}
+            {{--        },--}}
+            {{--        success: function(response) {--}}
+            {{--            let product = response.product;--}}
+            {{--            // Update the offcanvas header with the product name--}}
+            {{--            $('#product_serial_offcanvas').find('.offcanvas-header h5').text(product.name);--}}
+            {{--            $('#product_serial_offcanvas').find('button.save_serial_values').attr('data-id', product.id);--}}
+            {{--            // Populate offcanvas with serial fields--}}
+            {{--            populateOffcanvas(product);--}}
 
-                        // Initialize and show the offcanvas
-                        var offcanvasElement = document.getElementById('product_serial_offcanvas');
-                        var myOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
-                        myOffcanvas.show();
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', status, error);
-                    }
-                });
-            });
+            {{--            // Initialize and show the offcanvas--}}
+            {{--            var offcanvasElement = document.getElementById('product_serial_offcanvas');--}}
+            {{--            var myOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);--}}
+            {{--            myOffcanvas.show();--}}
+            {{--        },--}}
+            {{--        error: function(xhr, status, error) {--}}
+            {{--            console.error('AJAX Error:', status, error);--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--});--}}
 
 
             // Function to generate a serial number with leading zeros
-            function generateSerialNumber(number) {
-                return ('0000000000' + number).slice(-10);
-            }
+            // function generateSerialNumber(number) {
+            //     return ('0000000000' + number).slice(-10);
+            // }
             // Function to get the highest existing serial number from input fields
-            function getMaxSerialNumber(fields) {
-                let maxNumber = 0;
-                fields.each(function() {
-                    let value = $(this).val();
-                    let number = parseInt(value.replace(/^0+/, ''), 10);
-                    if (!isNaN(number) && number > maxNumber) {
-                        maxNumber = number;
-                    }
-                });
-                return maxNumber;
-            }
+            // function getMaxSerialNumber(fields) {
+            //     let maxNumber = 0;
+            //     fields.each(function() {
+            //         let value = $(this).val();
+            //         let number = parseInt(value.replace(/^0+/, ''), 10);
+            //         if (!isNaN(number) && number > maxNumber) {
+            //             maxNumber = number;
+            //         }
+            //     });
+            //     return maxNumber;
+            // }
 
             // auto generate serial values for all available fields
-            $(document).on('click', '.auto_generate_serial_all_btn', function() {
-                $('#product_serial_offcanvas').find('.form-control').each(function(index) {
-                    // Generate serial number based on the index (1-based index for the display)
-                    let serialNumber = generateSerialNumber(index + 1);
-                    // Set the generated serial number into the input field
-                    $(this).val(serialNumber);
-                });
-            });
+            // $(document).on('click', '.auto_generate_serial_all_btn', function() {
+            //     $('#product_serial_offcanvas').find('.form-control').each(function(index) {
+            //         // Generate serial number based on the index (1-based index for the display)
+            //         let serialNumber = generateSerialNumber(index + 1);
+            //         // Set the generated serial number into the input field
+            //         $(this).val(serialNumber);
+            //     });
+            // });
 
             // Event handler for individual auto-generate button
-            $(document).on('click', '.auto_generate_serial_btn', function() {
-                // Find the input field associated with the clicked button
-                let inputField = $(this).siblings('input');
-                // Generate the next serial number for this input field
-                let currentMaxSerialNumber = getMaxSerialNumber($('#product_serial_offcanvas').find('.form-control'));
-                let serialNumber = generateSerialNumber(currentMaxSerialNumber + 1);
-                inputField.val(serialNumber);
-            });
+            // $(document).on('click', '.auto_generate_serial_btn', function() {
+            //     // Find the input field associated with the clicked button
+            //     let inputField = $(this).siblings('input');
+            //     // Generate the next serial number for this input field
+            //     let currentMaxSerialNumber = getMaxSerialNumber($('#product_serial_offcanvas').find('.form-control'));
+            //     let serialNumber = generateSerialNumber(currentMaxSerialNumber + 1);
+            //     inputField.val(serialNumber);
+            // });
+
 
 
 
@@ -1659,7 +1785,7 @@
                 }
             });
 
-            $(document).on('input', '.qty-input', function () {
+            $(document).on('blur', '.qty-input', function () {
                 let product_qty = $(this).val();
                 let productId = $(this).data('id');
                 let currentQty = parseInt(product_qty, 10);
@@ -1696,10 +1822,11 @@
                         quantity: quantity
                     },
                     success: function(response) {
+
                         displayProducts(response.products);
-                        serialTableGenerator(response.products);
+                        // serialTableGenerator(response.products);
                         calculateAndUpdateSummary();
-                        populateOffcanvas(response.products.find(p => p.id === productId));
+                        // populateOffcanvas(response.products.find(p => p.id === productId));
                     }
                 });
             }
@@ -1853,74 +1980,74 @@
 
             // get customer/supplier list
             // event listener for input changes
-            $('#walkin_search_field').on('input', function() {
-                const asset_path = "{{ asset('') }}";
-                let query = $(this).val().trim();
-                let walk_in_type = $('input[name="walk_in"]:checked').val();
-                if (query.length > 1) {
-                    $.ajax({
-                        url: "{{ route('walkin_search_api') }}",
-                        method: 'POST',
-                        data: { query: query, walk_in: walk_in_type, _token: '{{ csrf_token() }}' },
-                        success: function(response) {
-                            $('#walkin_list').empty();
-                            if (response.walkin.length > 0) {
-                                $.each(response.walkin, function(index, walkin) {
-                                    $('#walkin_list').append(`
-                                <li class="list-group-item d-flex align-items-center cursor_pointer" data-id="${walkin.id}" data-name="${walkin.name}" data-balance="${walkin.balance}" data-type="${walkin.type}">
-                                    <img src="${walkin.image ? asset_path+walkin.image : asset_path+'admin/assets/img/customer/customer1.jpg'}" class="img-fluid customer_img_circle">
-                                    <h6 class="mb-0">${walkin.name}</h6>
-                                </li>
-                            `);
-                                });
-                            } else {
-                                $('#walkin_list').append(`
-                            <li class="list-group-item text-center">no customers found</li>
-                        `);
-                            }
-                        }
-                    });
-                } else {
-                    $('#walkin_list').html(`<li class="list-item"><img src="{{ asset('admin/assets/img/search_placeholder.webp') }}"></li>`);
-                }
-            });
+            {{--$('#walkin_search_field').on('input', function() {--}}
+            {{--    const asset_path = "{{ asset('') }}";--}}
+            {{--    let query = $(this).val().trim();--}}
+            {{--    let walk_in_type = $('input[name="walk_in"]:checked').val();--}}
+            {{--    if (query.length > 1) {--}}
+            {{--        $.ajax({--}}
+            {{--            url: "{{ route('walkin_search_api') }}",--}}
+            {{--            method: 'POST',--}}
+            {{--            data: { query: query, walk_in: walk_in_type, _token: '{{ csrf_token() }}' },--}}
+            {{--            success: function(response) {--}}
+            {{--                $('#walkin_list').empty();--}}
+            {{--                if (response.walkin.length > 0) {--}}
+            {{--                    $.each(response.walkin, function(index, walkin) {--}}
+            {{--                        $('#walkin_list').append(`--}}
+            {{--                    <li class="list-group-item d-flex align-items-center cursor_pointer" data-id="${walkin.id}" data-name="${walkin.name}" data-balance="${walkin.balance}" data-type="${walkin.type}">--}}
+            {{--                        <img src="${walkin.image ? asset_path+walkin.image : asset_path+'admin/assets/img/customer/customer1.jpg'}" class="img-fluid customer_img_circle">--}}
+            {{--                        <h6 class="mb-0">${walkin.name}</h6>--}}
+            {{--                    </li>--}}
+            {{--                `);--}}
+            {{--                    });--}}
+            {{--                } else {--}}
+            {{--                    $('#walkin_list').append(`--}}
+            {{--                <li class="list-group-item text-center">no customers found</li>--}}
+            {{--            `);--}}
+            {{--                }--}}
+            {{--            }--}}
+            {{--        });--}}
+            {{--    } else {--}}
+            {{--        $('#walkin_list').html(`<li class="list-item"><img src="{{ asset('admin/assets/img/search_placeholder.webp') }}"></li>`);--}}
+            {{--    }--}}
+            {{--});--}}
 
             // on change walk-in type, make search field empty
-            $('input[name="walk_in"]').on('change', function() {
-                $('#walkin_search_field').val('').focus();
-                $('#walkin_list').empty();
-            });
+            // $('input[name="walk_in"]').on('change', function() {
+            //     $('#walkin_search_field').val('').focus();
+            //     $('#walkin_list').empty();
+            // });
 
             // on click any list item from customer/supplier search result, it will store that customer/supplier id into the session
-            $(document).on('click', '#walkin_list .list-group-item', function() {
-                let id = $(this).data('id');
-                let name = $(this).data('name');
-                let balance = $(this).data('balance');
-                let type = $(this).data('type');
-                $.ajax({
-                    url: "{{ route('store_walkin_into_session') }}",
-                    method: 'POST',
-                    data: {
-                        id: id,
-                        name: name,
-                        balance: balance,
-                        type: type,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        $("#walkin_details_container").addClass("d-flex flex-column justify-content-center").html(`
-                    <h6 class="mb-0">${name}</h6>
-                    <div>৳${balance}</div>
-                `);
+            {{--$(document).on('click', '#walkin_list .list-group-item', function() {--}}
+            {{--    let id = $(this).data('id');--}}
+            {{--    let name = $(this).data('name');--}}
+            {{--    let balance = $(this).data('balance');--}}
+            {{--    let type = $(this).data('type');--}}
+            {{--    $.ajax({--}}
+            {{--        url: "{{ route('store_walkin_into_session') }}",--}}
+            {{--        method: 'POST',--}}
+            {{--        data: {--}}
+            {{--            id: id,--}}
+            {{--            name: name,--}}
+            {{--            balance: balance,--}}
+            {{--            type: type,--}}
+            {{--            _token: '{{ csrf_token() }}'--}}
+            {{--        },--}}
+            {{--        success: function(response) {--}}
+            {{--            $("#walkin_details_container").addClass("d-flex flex-column justify-content-center").html(`--}}
+            {{--        <h6 class="mb-0">${name}</h6>--}}
+            {{--        <div>৳${balance}</div>--}}
+            {{--    `);--}}
 
-                        // Hide the offcanvas
-                        let offcanvas = bootstrap.Offcanvas.getInstance($('#payment_offcanvas'));
-                        if (offcanvas) {
-                            offcanvas.hide();
-                        }
-                    }
-                });
-            });
+            {{--            // Hide the offcanvas--}}
+            {{--            let offcanvas = bootstrap.Offcanvas.getInstance($('#payment_offcanvas'));--}}
+            {{--            if (offcanvas) {--}}
+            {{--                offcanvas.hide();--}}
+            {{--            }--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--});--}}
 
             $('#clear_all_btn').on('click', function() {
                 $.ajax({
@@ -1934,9 +2061,9 @@
                         $('.custom-product-item').removeClass('cursor_not_allowed').addClass('cursor_pointer');
                         $('#product_len_counter').text(0);
                         $('#product_list_tbody').html(`<tr><td colspan="5" class="text-center">there are no products selected</td></tr>`);
-                        $('.serial_container_tbody').html(`<tr><td colspan="4" class="text-center">There are no serial/IMEI found</td></tr>`);
+                        $('#product_serial_div').html(`<tr><td colspan="4" class="text-center">There are no serial/IMEI found</td></tr>`);
                         calculateAndUpdateSummary();
-                        animateCollapseBody();
+                        // animateCollapseBody();
                     }
                 });
             });
@@ -1953,87 +2080,169 @@
                         $('.custom-product-item').removeClass('cursor_not_allowed').addClass('cursor_pointer');
                         $('#product_len_counter').text(0);
                         $('#product_list_tbody').html(`<tr><td colspan="5" class="text-center">there are no products selected</td></tr>`);
-                        $('.serial_container_tbody').html(`<tr><td colspan="4" class="text-center">There are no serial/IMEI found</td></tr>`);
+                        $('#product_serial_div').html(`<tr><td colspan="4" class="text-center">There are no serial/IMEI found</td></tr>`);
                         $("#walkin_details_container").addClass("d-flex flex-column justify-content-center").html(`<p class="placeholder-glow d-inline"><span class="placeholder w-50"></span></p>`);
                         calculateAndUpdateSummary();
-                        animateCollapseBody();
+                        // animateCollapseBody();
                     }
                 });
             });
 
-            $(document).on('click', '.save_serial_values', function() {
-                let productId = $(this).data('id');
-                let serialNumbers = [];
+            {{--$(document).on('click', '.save_serial_values', function() {--}}
+            {{--    let productId = $(this).data('id');--}}
+            {{--    let serialNumbers = [];--}}
 
-                // Iterate over input fields in the offcanvas body
-                $('#product_serial_offcanvas').find('.offcanvas-body input').each(function() {
-                    serialNumbers.push($(this).val());
-                });
+            {{--    // Iterate over input fields in the offcanvas body--}}
+            {{--    $('#product_serial_offcanvas').find('.offcanvas-body input').each(function() {--}}
+            {{--        serialNumbers.push($(this).val());--}}
+            {{--    });--}}
 
-                $.ajax({
-                    url: "{{ route('pur_store_product_serials') }}",
-                    method: 'POST',
-                    data: {
-                        id: productId,
-                        serials: serialNumbers,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        // Hide the offcanvas after successful AJAX call
-                        var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('product_serial_offcanvas'));
-                        offcanvas.hide();
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', status, error);
-                    }
-                });
-            });
+            {{--    $.ajax({--}}
+            {{--        url: "{{ route('pur_store_product_serials') }}",--}}
+            {{--        method: 'POST',--}}
+            {{--        data: {--}}
+            {{--            id: productId,--}}
+            {{--            serials: serialNumbers,--}}
+            {{--            _token: '{{ csrf_token() }}'--}}
+            {{--        },--}}
+            {{--        success: function(response) {--}}
+            {{--            console.log(response);--}}
+            {{--            // Hide the offcanvas after successful AJAX call--}}
+            {{--            var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('product_serial_offcanvas'));--}}
+            {{--            offcanvas.hide();--}}
+            {{--        },--}}
+            {{--        error: function(xhr, status, error) {--}}
+            {{--            console.error('AJAX Error:', status, error);--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--});--}}
 
 
         });
     </script>
-    <script>
-        $(document).ready(function(){
-            $('#vendor_select_field').hide();
-            $('#vendor_input_field').hide();
+    {{--    <script>--}}
+    {{--        $(document).ready(function(){--}}
+    {{--            $('#vendor_select_field').hide();--}}
+    {{--            $('#vendor_input_field').hide();--}}
 
-            $("input[type='radio']").click(function(){
-                var radioValue = $("input[name='vendor_type']:checked").val();
-                console.log('sarowar');
-                if(radioValue != 'other'){
-                    $('#vendor_input_field').hide();
-                    $('#vendor_select_field').show();
-                    $.ajax({
-                        url:base_url+'/get_vendor/'+radioValue,
-                        type:'get',
-                        dataType:'json',
-                        success: function(success) {
-                            // console.log(success.data);
+    {{--            $("input[type='radio']").click(function(){--}}
+    {{--                var radioValue = $("input[name='vendor_type']:checked").val();--}}
+    {{--                console.log('sarowar');--}}
+    {{--                if(radioValue != 'other'){--}}
+    {{--                    $('#vendor_input_field').hide();--}}
+    {{--                    $('#vendor_select_field').show();--}}
+    {{--                    $.ajax({--}}
+    {{--                        url:base_url+'/get_vendor/'+radioValue,--}}
+    {{--                        type:'get',--}}
+    {{--                        dataType:'json',--}}
+    {{--                        success: function(success) {--}}
+    {{--                            // console.log(success.data);--}}
 
-                            var options = ''; // Initialize options variable
+    {{--                            var options = ''; // Initialize options variable--}}
 
-                            $.each(success.data, function(index, vendor) {
-                                // Set the value attribute to vendor.id or another unique identifier
-                                options += `<option value="${vendor.id}">${vendor.name}</option>`;
-                            });
+    {{--                            $.each(success.data, function(index, vendor) {--}}
+    {{--                                // Set the value attribute to vendor.id or another unique identifier--}}
+    {{--                                options += `<option value="${vendor.id}">${vendor.name}</option>`;--}}
+    {{--                            });--}}
 
-                            $('#select_vendor').html(options); // Update the select element with new options
+    {{--                            $('#select_vendor').html(options); // Update the select element with new options--}}
 
-                            $('#select_vendor').select2();
-                        },
-                    })
-                }else {
-                    $('#vendor_select_field').hide();
-                    $('#vendor_input_field').show();
-                }
-                // alert(radioValue)
-                // if(radioValue){
-                //     alert("Your are a - " + radioValue);
-                // }
-            });
-        });
-    </script>
+    {{--                            $('#select_vendor').select2();--}}
+    {{--                        },--}}
+    {{--                    })--}}
+    {{--                }else {--}}
+    {{--                    $('#vendor_select_field').hide();--}}
+    {{--                    $('#vendor_input_field').show();--}}
+    {{--                }--}}
+    {{--                // alert(radioValue)--}}
+    {{--                // if(radioValue){--}}
+    {{--                //     alert("Your are a - " + radioValue);--}}
+    {{--                // }--}}
+    {{--            });--}}
+    {{--        });--}}
+    {{--    </script>--}}
+
+    {{--    <script>--}}
+    {{--        // function removeSerial(productId, index) {--}}
+    {{--            // Perform AJAX request or update the session to remove the serial number--}}
+    {{--            // Example:--}}
+    {{--            // updateQuantity(productId, currentQty);--}}
+    {{--            // console.log(index);--}}
+    {{--            // $.ajax({--}}
+    {{--            //     url: '/remove-serial',--}}
+    {{--            //     method: 'POST',--}}
+    {{--            //     data: {--}}
+    {{--            //         product_id: productId,--}}
+    {{--            //         index: index--}}
+    {{--            //     },--}}
+    {{--            //     success: function(response) {--}}
+    {{--            //         // Update the UI accordingly--}}
+    {{--            //     }--}}
+    {{--            // });--}}
+
+    {{--            // For demonstration purposes, directly remove the row--}}
+    {{--            // document.getElementById(`serial_number_${productId}_${index}`).closest('.row.mb-2').remove();--}}
+    {{--        // }--}}
+
+    {{--        function generateSerial(productId) {--}}
+    {{--            // Perform AJAX request or update the session to generate a new serial number--}}
+    {{--            // Example:--}}
+    {{--            // $.ajax({--}}
+    {{--            //     url: '/generate-serial',--}}
+    {{--            //     method: 'POST',--}}
+    {{--            //     data: { product_id: productId },--}}
+    {{--            //     success: function(response) {--}}
+    {{--            //         // Add the new serial number to the UI--}}
+    {{--            //         var newSerial = response.new_serial;--}}
+    {{--            //         var container = document.getElementById(`serialContainer_${productId}`);--}}
+    {{--            //         var index = container.children.length;--}}
+    {{--            //         var html = `--}}
+    {{--            //             <div class="row mb-2">--}}
+    {{--            //                 <div class="col-4">--}}
+    {{--            //                     <label for="serial_number_${productId}_${index}" class="form-label">Serial ${index + 1}:</label>--}}
+    {{--            //                 </div>--}}
+    {{--            //                 <div class="col-8">--}}
+    {{--            //                     <div class="d-flex">--}}
+    {{--            //                         <input type="text" id="serial_number_${productId}_${index}" name="serial_number_${productId}[]" class="form-control me-2" placeholder="Enter Serial ${index + 1}" value="${newSerial}" required>--}}
+    {{--            //                         <a href="javascript:void(0);" class="text-danger me-2" onclick="removeSerial('${productId}', ${index})">--}}
+    {{--            //                             <i class="fas fa-times-circle"></i>--}}
+    {{--            //                         </a>--}}
+    {{--            //                         <a href="javascript:void(0);" class="text-success" onclick="generateSerial('${productId}')">--}}
+    {{--            //                             <i class="fas fa-plus-circle"></i>--}}
+    {{--            //                         </a>--}}
+    {{--            //                     </div>--}}
+    {{--            //                 </div>--}}
+    {{--            //             </div>--}}
+    {{--            //         `;--}}
+    {{--            //         container.insertAdjacentHTML('beforeend', html);--}}
+    {{--            //     }--}}
+    {{--            // });--}}
+
+    {{--            // For demonstration purposes, directly add a new serial field--}}
+    {{--            var container = document.getElementById(`serialContainer_${productId}`);--}}
+    {{--            var index = container.children.length;--}}
+    {{--            var html = `--}}
+    {{--        <div class="row mb-2">--}}
+    {{--            <div class="col-4">--}}
+    {{--                <label for="serial_number_${productId}_${index}" class="form-label">Serial ${index + 1}:</label>--}}
+    {{--            </div>--}}
+    {{--            <div class="col-8">--}}
+    {{--                <div class="d-flex">--}}
+    {{--                    <input type="text" id="serial_number_${productId}_${index}" name="serial_number_${productId}[]" class="form-control me-2" placeholder="Enter Serial ${index + 1}" required>--}}
+    {{--                    <a href="javascript:void(0);" class="text-danger me-2" onclick="removeSerial('${productId}', ${index})">--}}
+    {{--                        <i class="fas fa-times-circle"></i>--}}
+    {{--                    </a>--}}
+    {{--                    <a href="javascript:void(0);" class="text-success" onclick="generateSerial('${productId}')">--}}
+    {{--                        <i class="fas fa-plus-circle"></i>--}}
+    {{--                    </a>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    `;--}}
+    {{--            container.insertAdjacentHTML('beforeend', html);--}}
+    {{--        }--}}
+    {{--    </script>--}}
 
 
 @endsection
+

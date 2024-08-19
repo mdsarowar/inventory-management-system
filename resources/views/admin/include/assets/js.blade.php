@@ -132,5 +132,14 @@
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        $('#bank_type').select2();
+        $('#product_search').select2();
+        $('.select2').select2();
+    });
+</script>
+<!-- Select2 JS -->
+
 
 @yield('js')
