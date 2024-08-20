@@ -147,7 +147,17 @@ class PaymentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        abort_if(!auth()->user()->can('update accountreceive'),403,__('User does not have the right permissions.'));
+        $pay=AccountPayment::find($id);
+        $paymentData = AccountPaymentDetails::where('payment_id',$id)->get();
+        return view('admin.account.payment.view',[
+            'payment'=>AccountPayment::find($id),
+            'details'=>$paymentData,
+            'customers'=>Customer::get(),
+            'suppliers'=>Supplier::get(),
+            'branches' => Branch::get(),
+            'companies' => Company::get()
+        ]);
     }
 
     /**

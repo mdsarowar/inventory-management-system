@@ -106,6 +106,11 @@
                                             <img src="{{asset('/')}}admin/assets/img/icons/edit.svg" alt="img">
                                         </a>
                                     @endcan
+                                    @can('update accountpayment')
+                                        <a class="me-3" href="{{route('account_payment.show',$payment->id)}}">
+                                            <i class="fa fa-eye" data-bs-toggle="tooltip" title="view Product"></i>
+                                        </a>
+                                    @endcan
                                     @can('delete accountpayment')
                                         <form action="{{route('account_payment.destroy', $payment->id)}}" method="POST" class="sr-dl" >
                                             @csrf
