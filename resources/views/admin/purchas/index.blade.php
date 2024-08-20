@@ -174,17 +174,17 @@
                                 <td><span class="{{$purchas->invoice->status == 'paid'?'badges bg-lightgreen':($purchas->invoice->status == 'unpaid'?'badges bg-lightred':'badges bg-lightyellow')}}">{{$purchas->invoice->status}}</span></td>
                                 <td>
 
-                                    @can('update product')
+                                    @can('update purchase')
                                         <a class="me-3" href="{{route('purchases.show',$purchas->id)}}">
                                             <i class="fa fa-eye" data-bs-toggle="tooltip" title="Return Product"></i>
                                         </a>
                                     @endcan
-                                    @can('update product')
+                                    @can('update purchase')
                                         <a class="me-3" href="{{route('purchas_return',$purchas->id)}}">
                                             <i class="fa fa-share" data-bs-toggle="tooltip" title="Return Product"></i>
                                         </a>
                                     @endcan
-                                    @can('update product')
+                                    @can('edit purchase')
                                         <a class="me-3" href="{{route('purchases.edit',$purchas->id)}}">
                                             <img src="{{asset('/')}}admin/assets/img/icons/edit.svg" alt="img">
                                         </a>
@@ -194,7 +194,7 @@
 {{--                                            <img src="{{asset('/')}}admin/assets/img/icons/eye.svg" alt="img">--}}
 {{--                                        </a>--}}
 {{--                                    @endcan--}}
-                                    @can('delete product')
+                                    @can('delete purchase')
                                         <form action="{{route('purchases.destroy',$purchas->id)}}" method="POST" class="sr-dl" >
                                             @csrf
                                             @method('delete')

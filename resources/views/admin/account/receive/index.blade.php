@@ -106,6 +106,11 @@
                                             <img src="{{asset('/')}}admin/assets/img/icons/edit.svg" alt="img">
                                         </a>
                                     @endcan
+                                    @can('view accountreceive')
+                                        <a class="me-3" href="{{route('account_receive.show',$receive->id)}}">
+                                            <i class="fa fa-eye" data-bs-toggle="tooltip" title="view Product"></i>
+                                        </a>
+                                    @endcan
                                     @can('delete accountreceive')
                                         <form action="{{route('account_receive.destroy', $receive->id)}}" method="POST" class="sr-dl" >
                                             @csrf

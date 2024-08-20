@@ -122,8 +122,8 @@ class ReceiveController extends Controller
                     $paymentDetail->receive_id      = $store->id;
                     $paymentDetail->inv_number      = $store->inv_number ?? null;
                     $paymentDetail->note            = $store->note ?? null;
-                    $paymentDetail->received_to       = $detail['received_to'] ?? null;
-                    $paymentDetail->received_form        = $detail['received_form'] ?? null;
+                    $paymentDetail->received_to     = $detail['received_to'] ?? null;
+                    $paymentDetail->received_form   = $detail['received_form'] ?? null;
                     $paymentDetail->amount          = $detail['amount'] ?? null;
                     $paymentDetail->reference       = $detail['ref'] ?? null;
                     $paymentDetail->date            = $store->date ?? null;
@@ -154,7 +154,17 @@ class ReceiveController extends Controller
      */
     public function show(string $id)
     {
-        //
+        abort_if(!auth()->user()->can('update accountreceive'),403,__('User does not have the right permissions.'));
+        $pay=AccountReceive::find($id);
+        $paymentData = AccountReceiveDetails::where('receive_id',$id)->get();
+        return view('admin.account.receive.view',[
+            'receive'=>AccountReceive::find($id),
+            'details'=>$paymentData,
+            'customers'=>Customer::get(),
+            'suppliers'=>Supplier::get(),
+            'branches' => Branch::get(),
+            'companies' => Company::get()
+        ]);
     }
 
     /**
