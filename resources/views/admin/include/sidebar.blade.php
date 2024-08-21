@@ -195,13 +195,13 @@
                     <li class="submenu-open">
 {{--                        <h6 class="submenu-hdr">Peoples</h6>--}}
                         <ul>
-                            <li class="submenu slide {{request()->is('suppliers*') || request()->is('customers*')  ?'is-expanded':''}}">
-                                <a href="javascript:void(0);" class="{{request()->is('customers*') || request()->is('suppliers*') ?'active subdrop':''}}"><i data-feather="shopping-cart"></i><span>{{__('Sales')}}</span><span class="menu-arrow"></span>
+                            <li class="submenu slide {{request()->is('sales*') || request()->is('sales*')  ?'is-expanded':''}}">
+                                <a href="javascript:void(0);" class="{{request()->is('sales*') || request()->is('sales*') ?'active subdrop':''}}"><i data-feather="shopping-cart"></i><span>{{__('Sales')}}</span><span class="menu-arrow"></span>
                                 </a>
                                 <ul>
-                                    @can('view product')
-                                        <li><a href="{{ route('customers.index') }}" class="{{request()->is('customers*') ? 'active':''}}"><i data-feather="shopping-cart"></i><span>{{__('Sales')}}</span></a></li>
-                                    @endcan
+{{--                                    @can('view product')--}}
+                                        <li><a href="{{ route('sales.index') }}" class="{{request()->is('sales*') ? 'active':''}}"><i data-feather="shopping-cart"></i><span>{{__('Sales')}}</span></a></li>
+{{--                                    @endcan--}}
 {{--                                    @can('view brand')--}}
 {{--                                        <li><a href="{{route('suppliers.index')}}" class="{{request()->is('suppliers*') ? 'active':''}}" ><i data-feather="file-text"></i><span>{{__('Invoices')}}</span></a></li>--}}
 {{--                                    @endcan--}}

@@ -790,9 +790,10 @@
                         <div class="row" id="product_serial_div">
                             @foreach($ssn_products as $key => $product)
                                 <div  class="serial-numbers" >
-                                    <h4>Serial Numbers for {{ $product['name'] }}:</h4>
+{{--                                    <h4>Serial Numbers for {{ $product['name'] }}:</h4>--}}
                                     <div>
-                                        @if(isset($product['serial']) && is_array($product['serial']))
+                                        @if(!empty($product['serial']))
+                                            <h4>Serial Numbers for {{ $product['name'] }}:</h4>
                                             @foreach ($product['serial'] as $index => $serial)
                                                 <div class="row mb-2">
                                                     <div class="col-4">
@@ -801,7 +802,6 @@
                                                     <div class="col-8">
                                                         <div class="d-flex align-items-center">
                                                             <input type="text" id="serial_number_{{ $product['id'] }}_{{ $index }}" name="serial_number_{{ $product['id'] }}[]" class="form-control me-2 serial-input" placeholder="Enter Serial {{ $index  }}" value="{{$serial}}" required data-product-id="{{ $product['id'] }}" data-index="{{ $index }}">
-
                                                             <a href="javascript:void(0);" class="text-danger me-2 remove-serial" data-product-id="{{ $product['id'] }}" data-index="{{ $index }}">
                                                                 <i class="fas fa-times-circle"></i>
                                                             </a>
@@ -809,8 +809,8 @@
                                                     </div>
                                                 </div>
                                             @endforeach
-                                        @else
-                                            <p>{{__('No serial numbers available.')}}</p>
+{{--                                        @else--}}
+{{--                                            <p>{{__('No serial numbers available.')}}</p>--}}
                                         @endif
                                     </div>
                                 </div>
@@ -1470,14 +1470,18 @@
 
                         serialHtml += `
 
-                <div class="serial-numbers">
-                    <h4>Serial Numbers for ${product.name}:</h4>
-                    <div>
-            `;
+                        <div class="serial-numbers">
 
-                        if (product.serial && Array.isArray(product.serial)) {
+                            <div>
+                        `;
+
+                        if (product.serial != '') {
+                            serialHtml += `
+                                   <h4>Serial Numbers for ${product.name}:</h4>
+                                `;
                             $.each(product.serial, function(serialIndex, serial) {
                                 serialHtml += `
+
                         <div class="row mb-2 serial-row" data-product-id="${product.id}" data-index="${serialIndex}">
                             <div class="col-4">
                                 <label for="serial_number_${product.id}_${serialIndex}" class="form-label">${product.name}-${serialIndex + 1}:</label>
@@ -1493,8 +1497,6 @@
                         </div>
                     `;
                             });
-                        } else {
-                            serialHtml += `<p>No serial numbers available.</p>`;
                         }
 
                         serialHtml += `
