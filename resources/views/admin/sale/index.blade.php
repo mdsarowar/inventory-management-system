@@ -1,16 +1,16 @@
 @extends('admin.master')
 
-@section('title',__('Purchase'))
+@section('title',__('Sales'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>{{__('Purchase')}} {{__('List')}}</h4>
-                <h6>{{__('Manage your')}} {{__('Purchase')}}</h6>
+                <h4>{{__('Sales')}} {{__('List')}}</h4>
+                <h6>{{__('Manage your')}} {{__('Sales')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('purchasOrderCreate')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img" class="me-1">{{__('Purchase Create')}}</a>
+                <a href="{{route('sales.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img" class="me-1">{{__('Sales Create')}}</a>
             </div>
         </div>
 
@@ -30,7 +30,7 @@
                                 </label>
                             </th>
                             <th>{{__('Date')}}</th>
-{{--                            <th>{{__('Branch')}}</th>--}}
+                            {{--                            <th>{{__('Branch')}}</th>--}}
                             <th>{{__('Supplier')}}</th>
                             <th>{{__('Walk Supplier')}}</th>
                             <th>{{__('Total Amount')}}</th>
@@ -42,7 +42,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($purchases as $purchas)
+                        @foreach($sales as $sale)
                             <tr>
                                 <td>
                                     <label class="checkboxs">
@@ -50,12 +50,12 @@
                                         <span class="checkmarks"></span>
                                     </label>
                                 </td>
-                                <td>{{$purchas->issue_date}}</td>
-{{--                                <td>SMCE</td>--}}
-{{--                                <td>{{$purchas->vendor}}</td>--}}
-                                @if(empty($purchas->wkname))
+                                <td>{{$sale->issue_date}}</td>
+                                {{--                                <td>SMCE</td>--}}
+                                {{--                                <td>{{$sale->vendor}}</td>--}}
+                                @if(empty($sale->wkname))
                                     @php
-                                        $sup = explode("-", $purchas->vendor);
+                                        $sup = explode("-", $sale->vendor);
                                                if (isset($sup[1])) {
                                                     if ($sup[0] == 'sup') {
                                                         $name = \App\Models\Supplier::find($sup[1]);
@@ -67,46 +67,51 @@
                                                 }
                                     @endphp
                                     <td>{{ $name ? $name->name : 'Unknown' }}</td>
-{{--                                @elseif($purchas->vendor_type == 'cus')--}}
-{{--                                    @php--}}
-{{--                                        $name=\App\Models\Customer::find($purchas->vendor)--}}
-{{--                                     @endphp--}}
-{{--                                    <td>{{$name->name}}</td>--}}
-{{--                                @elseif($purchas->vendor_type == 'sup')--}}
-{{--                                    @php--}}
-{{--                                        $name=\App\Models\Supplier::find($purchas->vendor)--}}
-{{--                                    @endphp--}}
-{{--                                    <td>{{$name->name}}</td>--}}
+                                    {{--                                @elseif($sale->vendor_type == 'cus')--}}
+                                    {{--                                    @php--}}
+                                    {{--                                        $name=\App\Models\Customer::find($sale->vendor)--}}
+                                    {{--                                     @endphp--}}
+                                    {{--                                    <td>{{$name->name}}</td>--}}
+                                    {{--                                @elseif($sale->vendor_type == 'sup')--}}
+                                    {{--                                    @php--}}
+                                    {{--                                        $name=\App\Models\Supplier::find($sale->vendor)--}}
+                                    {{--                                    @endphp--}}
+                                    {{--                                    <td>{{$name->name}}</td>--}}
                                 @else
-                                    <td>{{$purchas->wkname}}</td>
+                                    <td>{{$sale->wkname}}</td>
                                 @endif
-{{--                                <td>{{$purchas->vendor_type == 'other'? $purchas->vendor:($purchas->vendor_type == 'cus'?$purchas->Customer->vendor:$purchas->Supplier->vendor)}}</td>--}}
-                                <td>{{$purchas->wkphone}}</td>
+                                {{--                                <td>{{$sale->vendor_type == 'other'? $sale->vendor:($sale->vendor_type == 'cus'?$sale->Customer->vendor:$sale->Supplier->vendor)}}</td>--}}
+                                <td>{{$sale->wkphone}}</td>
 
-                                <td>{{$purchas->total}}</td>
-                                <td>{{$purchas->total - $purchas->due}}</td>
-                                <td>{{$purchas->due}}</td>
-                                <td><span class="{{ $purchas->status == 0? 'badges bg-lightred':($purchas->status == 1?'badges bg-lightgreen':'badges bg-lightyellow') }}">{{ $purchas->status == 0? 'Pending':($purchas->status == 1?'Received':'Ordered') }}</span></td>
-                                <td><span class="{{$purchas->invoice->status == 'paid'?'badges bg-lightgreen':($purchas->invoice->status == 'unpaid'?'badges bg-lightred':'badges bg-lightyellow')}}">{{$purchas->invoice->status}}</span></td>
+                                <td>{{$sale->total}}</td>
+                                <td>{{$sale->total - $sale->due}}</td>
+                                <td>{{$sale->due}}</td>
+                                <td><span class="{{ $sale->status == 0? 'badges bg-lightred':($sale->status == 1?'badges bg-lightgreen':'badges bg-lightyellow') }}">{{ $sale->status == 0? 'Pending':($sale->status == 1?'Received':'Ordered') }}</span></td>
+                                <td><span class="{{$sale->invoice->status == 'paid'?'badges bg-lightgreen':($sale->invoice->status == 'unpaid'?'badges bg-lightred':'badges bg-lightyellow')}}">{{$sale->invoice->status}}</span></td>
                                 <td>
 
                                     @can('update purchase')
-                                        <a class="me-3" href="{{route('purchases.show',$purchas->id)}}">
+                                        <a class="me-3" href="{{route('sales.show',$sale->id)}}">
                                             <i class="fa fa-eye" data-bs-toggle="tooltip" title="Return Product"></i>
                                         </a>
                                     @endcan
-                                    @can('update purchase')
-                                        <a class="me-3" href="{{route('purchas_return',$purchas->id)}}">
-                                            <i class="fa fa-share" data-bs-toggle="tooltip" title="Return Product"></i>
-                                        </a>
-                                    @endcan
-                                    @can('update purchase')
-                                        <a class="me-3" href="{{route('purchases.edit',$purchas->id)}}">
+{{--                                    @can('update purchase')--}}
+{{--                                        <a class="me-3" href="{{route('purchas_return',$sale->id)}}">--}}
+{{--                                            <i class="fa fa-share" data-bs-toggle="tooltip" title="Return Product"></i>--}}
+{{--                                        </a>--}}
+{{--                                    @endcan--}}
+                                    @can('edit purchase')
+                                        <a class="me-3" href="{{route('sales.edit',$sale->id)}}">
                                             <img src="{{asset('/')}}admin/assets/img/icons/edit.svg" alt="img">
                                         </a>
                                     @endcan
+                                    {{--                                    @can('view product')--}}
+                                    {{--                                        <a class="me-3" href="{{route('product.show',$sale->id)}}">--}}
+                                    {{--                                            <img src="{{asset('/')}}admin/assets/img/icons/eye.svg" alt="img">--}}
+                                    {{--                                        </a>--}}
+                                    {{--                                    @endcan--}}
                                     @can('delete purchase')
-                                        <form action="{{route('purchases.destroy',$purchas->id)}}" method="POST" class="sr-dl" >
+                                        <form action="{{route('sales.destroy',$sale->id)}}" method="POST" class="sr-dl" >
                                             @csrf
                                             @method('delete')
                                             <a class="delete_confirm" href="javascript:void(0);">
@@ -123,7 +128,7 @@
                                 {{--                                        <img src="{{asset('/')}}admin/assets/img/icons/edit.svg" alt="img">--}}
                                 {{--                                    </a>--}}
                                 {{--                                    @can('delete brand')--}}
-                                {{--                                        <form action="{{route('product.destroy',$purchas->id)}}" method="POST" class="sr-dl" >--}}
+                                {{--                                        <form action="{{route('product.destroy',$sale->id)}}" method="POST" class="sr-dl" >--}}
                                 {{--                                            @csrf--}}
                                 {{--                                            @method('delete')--}}
                                 {{--                                            <a class="delete_confirm" href="javascript:void(0);">--}}

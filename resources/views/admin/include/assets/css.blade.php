@@ -6,6 +6,8 @@
 <!-- Summernote CSS -->
 <link rel="stylesheet" href="{{asset('/')}}admin/assets/plugins/summernote/summernote-bs4.min.css">
 
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+
 <!-- Owl Carousel CSS -->
 <link rel="stylesheet" href="{{asset('/')}}admin/assets/plugins/owlcarousel/owl.carousel.min.css">
 

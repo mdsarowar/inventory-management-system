@@ -2,6 +2,10 @@
 
 @section('title',__('Account Receive Vouchers'))
 
+@section('custom_css')
+    <!-- Add any custom CSS if needed -->
+@endsection
+
 @section('content')
     <div class="content">
         <div class="page-header">
@@ -10,66 +14,17 @@
                 <h6>{{__('Manage Your Receive Vouchers')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('account_receive.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">{{_('Add
-                    Receive Voucher')}}</a>
+                <a href="{{route('account_receive.create')}}" class="btn btn-added">
+                    <img src="{{asset('/')}}admin/assets/img/icons/plus.svg" class="me-2" alt="img">
+                    {{__('Add Receive Voucher')}}
+                </a>
             </div>
         </div>
 
-
-        <!-- /product list -->
         <div class="card">
             <div class="card-body">
-                <div class="table-top">
-                    <div class="search-set">
-                        <div class="search-path">
-                            <a class="btn btn-filter" id="filter_search">
-                                <img src="{{asset('/')}}admin/assets/img/icons/filter.svg" alt="img">
-                                <span><img src="{{asset('/')}}admin/assets/img/icons/closes.svg" alt="img"></span>
-                            </a>
-                        </div>
-                        <div class="search-input">
-                            <a class="btn btn-searchset"><img src="{{asset('/')}}admin/assets/img/icons/search-white.svg" alt="img"></a>
-                        </div>
-                    </div>
-                    <div class="wordset">
-                        <ul>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="{{asset('/')}}admin/assets/img/icons/pdf.svg" alt="img"></a>
-                            </li>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="{{asset('/')}}admin/assets/img/icons/excel.svg" alt="img"></a>
-                            </li>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="{{asset('/')}}admin/assets/img/icons/printer.svg" alt="img"></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /Filter -->
-                <div class="card" id="filter_inputs">
-                    <div class="card-body pb-0">
-                        <div class="row">
-                            <div class="col-lg-3 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <input type="text" placeholder="Enter Class Name">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <input type="text" placeholder="Enter Class Bname">
-                                </div>
-                            </div>
-                            <div class="col-lg-1 col-sm-6 col-12 ms-auto">
-                                <div class="form-group">
-                                    <a class="btn btn-filters ms-auto"><img src="{{asset('/')}}admin/assets/img/icons/search-whites.svg" alt="img"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Filter -->
                 <div class="table-responsive">
-                    <table class="table datanew">
+                    <table class="table datatable">
                         <thead>
                         <tr>
                             <th>
@@ -112,7 +67,7 @@
                                         </a>
                                     @endcan
                                     @can('delete accountreceive')
-                                        <form action="{{route('account_receive.destroy', $receive->id)}}" method="POST" class="sr-dl" >
+                                        <form action="{{route('account_receive.destroy', $receive->id)}}" method="POST" class="sr-dl">
                                             @csrf
                                             @method('delete')
                                             <a class="delete_confirm" href="javascript:void(0);">
@@ -128,10 +83,10 @@
                 </div>
             </div>
         </div>
-        <!-- /receive voucher list -->
     </div>
 @endsection
-
 @section('js')
-{{--    @include('admin.include.plugin.datatable')--}}
+
 @endsection
+
+

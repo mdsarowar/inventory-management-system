@@ -47,6 +47,23 @@
 <script src="{{asset('/')}}admin/assets/plugins/sweetalert/sweetalerts.min.js"></script>
 
 
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+<!-- DataTables Buttons JS -->
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+
+<!-- JSZip for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<!-- PDFMake for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- Datatable JS -->
+
+
 <!-- Custom JS -->
 <script src="{{asset('/')}}admin/assets/js/script.js"></script>
 
@@ -139,7 +156,124 @@
         $('.select2').select2();
     });
 </script>
-<!-- Select2 JS -->
+<!-- end Select2 JS -->
 
 
+<!-- Datatable JS -->
+<style>
+    .dataTables_paginate {
+        margin-top: 10px; /* Space above pagination controls */
+        text-align: right; /* Align controls to the right */
+    }
+
+    .dataTables_paginate .paginate_button {
+        padding: 5px 10px;
+        margin: 0 2px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        color: #333;
+        cursor: pointer;
+    }
+
+    .dataTables_paginate .paginate_button.current {
+        background-color: #007bff;
+        color: white;
+        border: 1px solid #007bff;
+    }
+
+    .dataTables_paginate .paginate_button:hover {
+        background-color: #ddd;
+    }
+
+    .dataTables_paginate .paginate_button.previous,
+    .dataTables_paginate .paginate_button.next {
+        font-weight: bold;
+    }
+
+    .dataTables_paginate .paginate_button.disabled {
+        display: none;
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        // Check if the table has already been initialized
+        if ($.fn.DataTable.isDataTable('.datatable')) {
+            // If yes, destroy the existing instance
+            $('.datatable').DataTable().destroy();
+        }
+
+        // Initialize the DataTable
+        $('.datatable').DataTable({
+            "paging": true,
+            // "pagingType": 'full_numbers', // Full pagination controls
+            // "pageLength": 25, // Number of rows per page
+            "lengthMenu": [10, 25, 50, 100], // Options for page lengths
+            "bFilter": true,
+            "sDom": 'fBtlpi',
+            "ordering": true,
+            "language": {
+                search: ' ',
+                sLengthMenu: '_MENU_',
+                searchPlaceholder: "Search ...",
+                info: "_START_ - _END_ of _TOTAL_ items",
+                paginate: {
+                    first: "First",
+                    last: "Last",
+                    next: "Next",
+                    previous: "Previous"
+                }
+            },
+            initComplete: function(settings, json) {
+                // Move the DataTables filter to a custom container
+                $('.dataTables_filter').appendTo('.search-input');
+            },
+            dom: 'Bfrtip', // Define where the buttons and pagination controls should be placed
+            buttons: [
+                {
+                    extend: 'copy',
+                    text: '<img src="{{asset('/')}}admin/assets/img/icons/menu-icon-05.svg" alt="Copy">',
+                    titleAttr: 'Copy',
+                    className: 'btn btn-excel'
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: '<img src="{{asset('/')}}admin/assets/img/icons/excel.svg" alt="Excel">',
+                    titleAttr: 'Export to Excel',
+                    className: 'btn btn-excel'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<img src="{{asset('/')}}admin/assets/img/icons/pdf.svg" alt="PDF">',
+                    titleAttr: 'Export to PDF',
+                    className: 'btn btn-excel'
+                }
+                // Uncomment if you need CSV export
+                // {
+                //     extend: 'csvHtml5',
+                //     text: '<img src="{{asset('/')}}admin/assets/img/icons/csv.svg" alt="CSV">',
+                //     titleAttr: 'Export to CSV',
+                //     className: 'btn btn-excel'
+                // },
+            ],
+        });
+
+        // Handle custom Excel button click
+        $('#excelButton').on('click', function() {
+            $('.datatable').DataTable().button('.buttons-excelHtml5').trigger();
+        });
+
+        // Handle custom PDF button click
+        $('#pdfButton').on('click', function() {
+            $('.datatable').DataTable().button('.buttons-pdfHtml5').trigger();
+        });
+
+        // Handle custom Print button click
+        $('#printButton').on('click', function() {
+            $('.datatable').DataTable().button('.buttons-print').trigger();
+        });
+    });
+</script>
+
+<!--  End Datatable JS -->
 @yield('js')
