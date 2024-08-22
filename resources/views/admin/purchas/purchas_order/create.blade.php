@@ -792,7 +792,7 @@
                                 <div  class="serial-numbers" >
 {{--                                    <h4>Serial Numbers for {{ $product['name'] }}:</h4>--}}
                                     <div>
-                                        @if(!empty($product['serial']))
+                                        @if(!empty($product['serial_method']))
                                             <h4>Serial Numbers for {{ $product['name'] }}:</h4>
                                             @foreach ($product['serial'] as $index => $serial)
                                                 <div class="row mb-2">
@@ -1475,7 +1475,7 @@
                             <div>
                         `;
 
-                        if (product.serial != '') {
+                        if (product.serial_method != '') {
                             serialHtml += `
                                    <h4>Serial Numbers for ${product.name}:</h4>
                                 `;

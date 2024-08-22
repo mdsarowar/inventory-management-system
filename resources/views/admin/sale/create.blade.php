@@ -1,15 +1,17 @@
 @extends('admin.master')
-@section('title',__('Create Purchase'))
+
+@section('title', __('Create Purchase'))
+
 @section('custom_css')
     <style>
         .custom-gap {
-            padding-right: 30px; /* Adjust as needed */
+            padding-right: 30px;
         }
 
         .serial-numbers-header {
-            background-color: #f8f9fa; /* Light background color for the header */
+            background-color: #f8f9fa;
             padding: 10px;
-            border-bottom: 1px solid #dee2e6; /* Border to separate header from content */
+            border-bottom: 1px solid #dee2e6;
             margin-bottom: 10px;
         }
 
@@ -24,68 +26,57 @@
             align-items: center;
         }
 
-        .serial-numbers-header .col-4 {
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .serial-numbers-header .col-6 {
+        .serial-numbers-header .col-4,
+        .serial-numbers-header .col-6,
+        .serial-numbers-header .col-2 {
             font-weight: bold;
             font-size: 16px;
         }
 
         .serial-numbers-header .col-2 {
-            font-weight: bold;
-            font-size: 16px;
-            text-align: right; /* Align text to the right for a better look */
+            text-align: right;
         }
 
         .serial-numbers .row {
-            align-items: center; /* Center items vertically within each row */
+            align-items: center;
         }
 
         .serial-numbers .col-4 span {
-            font-size: 14px; /* Adjust font size if needed */
+            font-size: 14px;
         }
 
         .serial-numbers .col-6 .form-control {
-            width: 100%; /* Ensure input field takes full width of its container */
+            width: 100%;
         }
 
         .serial-numbers .col-2 {
-            text-align: center; /* Center the action icons */
+            text-align: center;
         }
-
 
         .btn-group-flex-wrap {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
         }
+
         .pos-products .product-info {
             padding: 10px;
             color: #b8bcc9;
-            -webkit-transition: all 0.5s ease;
-            -ms-transition: all 0.5s ease;
             transition: all 0.5s ease;
             border-radius: 10px;
         }
+
         .pos-products .product-info .img-bg {
             height: 117px;
             background-color: #f3f6f9;
             border-radius: 10px;
-            display: -webkit-box;
-            display: -ms-flexbox;
             display: flex;
             align-items: center;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
             justify-content: center;
-            -webkit-justify-content: center;
-            -ms-flex-pack: center;
             margin-bottom: 10px;
             position: relative;
         }
+
         .pos-products .product-info .img-bg i {
             position: absolute;
             top: 5px;
@@ -94,119 +85,137 @@
             font-size: 18px;
             display: none;
         }
+
         .pos-products .product-info .img-bg:hover i {
             display: block;
         }
+
         .custom-product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 10px;
-            padding: 0 13px 13px 13px;
+            padding: 0 13px 13px;
             height: 70vh;
             overflow-y: auto;
             border-bottom: 1px solid #ebebeb;
         }
+
         .custom-product-img {
             transform: scale(1);
             transition: transform 0.5s ease;
         }
+
         .custom-product-img:hover {
             transform: scale(1.2);
         }
+
         .product-info.default-cover.card {
             margin-bottom: 10px;
         }
+
         .pos-products .product-info h6 {
             font-size: 15px;
             font-weight: 700;
         }
+
         .pos-products .product-info h6.cat-name a {
             color: #b8bcc9;
         }
+
         .pos-categories h5,
         .pos-categories h6,
         .order-list h5,
         .order-list h6 {
             color: #092c4c;
         }
+
         .pos-products .product-info h6.product-name {
             color: #092c4c;
         }
+
         .pos-products .product-info .price {
             margin-top: 10px;
         }
+
         .pos-products .product-info .price span {
             color: #888888;
         }
+
         .pos-products .product-info .price p {
             color: #ff9f43;
         }
+
         .btn-outline-primary {
             color: #6e6e6e;
         }
+
         input {
             border-color: #dbe0e6 !important;
         }
+
         aside {
             height: 100%;
-            padding: 15px 23px 23px 23px;
+            padding: 15px 23px;
             background-color: #ffffff;
             border-left: 1px solid #f3f6f9;
         }
+
         aside.product-order-list .head {
             background-color: #fafbfe;
             border-radius: 8px;
             padding: 10px;
             margin-bottom: 13px;
         }
+
         aside.product-order-list h6 {
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 10px;
             color: #1b2850;
         }
+
         aside.product-order-list .customer-info .input-block {
             margin-bottom: 10px;
         }
+
         p.placeholder-glow span.placeholder {
             min-height: 21px;
             border-radius: 10px;
             cursor: progress;
         }
+
         img.customer_img_circle {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             margin-right: 10px;
         }
+
         aside.product-order-list .product-added h6 .count {
             width: 15px;
             height: 15px;
-            display: -webkit-box;
-            display: -ms-flexbox;
             display: flex;
             align-items: center;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
             justify-content: center;
-            -webkit-justify-content: center;
-            -ms-flex-pack: center;
             background: #ff9f43;
             border-radius: 100%;
             color: #ffffff;
             font-size: 10px;
             font-weight: 600;
-            margin: 0 0 0 7px;
+            margin-left: 7px;
         }
+
         .product-wrap {
             height: fit-content;
             max-height: 30vh;
             overflow: auto;
         }
+
         .product-wrap .qty-item {
             position: relative;
             margin-right: 7px;
         }
+
         .product-wrap .qty-item input {
             padding: 1px 9px;
             background: #fafbfe;
@@ -216,30 +225,31 @@
             text-align: center;
             font-size: 13px;
         }
-        .product-wrap .qty-item .dec {
-            left: 9px;
-        }
+
         .product-wrap .qty-item .dec,
         .product-wrap .qty-item .inc {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            -webkit-transform: translateY(-50%);
-            -ms-transform: translateY(-50%);
             color: #092c4c;
-            -webkit-transition: all 0.5s ease;
-            -ms-transition: all 0.5s ease;
             transition: all 0.5s ease;
         }
+
+        .product-wrap .qty-item .dec {
+            left: 9px;
+        }
+
         .product-wrap .qty-item .inc {
             right: 9px;
         }
+
         .product-wrap input.product_cost_field {
             width: 110px;
             padding: 3px 5px;
             border: 1px solid #efefef;
             border-radius: 5px;
         }
+
         aside.product-order-list .order-total {
             background-color: #f3f6f9;
             padding: 15px;
@@ -247,27 +257,31 @@
             margin: 20px 0;
             border: 1px dotted #b1b1b1;
         }
+
         aside.product-order-list .order-total ul li {
             color: #5b6670;
             font-size: 15px;
             font-weight: 500;
-            background: transparent;
-            border: none;
         }
+
         aside.product-order-list .btn-row .btn {
             margin-right: 5px;
             border-radius: 4px;
             font-size: 14px;
         }
+
         div.popover {
             max-width: fit-content;
         }
+
         h3.popover-header {
             text-align: center;
         }
+
         div.popover-body {
             padding: 0.5rem;
         }
+
         div.color_plate_btn {
             width: 20px;
             height: 20px;
@@ -276,65 +290,72 @@
             margin: 0 5px;
             box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
         }
+
         div.color_plate_btn.color_green {
             background-color: green;
-            border: green;
         }
+
         div.color_plate_btn.color_red {
             background-color: red;
-            border-color: red;
         }
+
         div.color_plate_btn.color_blue {
             background-color: blue;
-            border-color: blue;
         }
+
         div.color_plate_btn.color_yellow {
             background-color: yellow;
-            border-color: yellow;
         }
+
         div.color_plate_btn.color_orange {
             background-color: orange;
-            border-color: orange;
         }
+
         div.color_plate_btn.color_purple {
             background-color: purple;
-            border-color: purple;
         }
+
         div.color_plate_btn.color_cyan {
             background-color: cyan;
-            border-color: cyan;
         }
+
         div.color_plate_btn.color_magenta {
             background-color: magenta;
-            border-color: magenta;
         }
+
         div.color_plate_btn.color_black {
             background-color: black;
-            border-color: black;
         }
+
         div.color_plate_btn.color_white {
             background-color: white;
             border: 1px solid #d7d7d7;
         }
+
         div.save_progress i {
             color: #ff9f43;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
         }
+
         #alphabet-filter button {
             border-left: none;
             border-radius: 0;
         }
+
         #alphabet-filter button.all_btn {
             border-left: 1px solid #ff9f43;
         }
+
         #alphabet-filter button.active_alphabet {
             color: #ffffff;
             background-color: #ff9f43;
@@ -350,12 +371,12 @@
 
         .grand_total_container .row {
             display: flex;
-            align-items: center; /* Center items vertically */
+            align-items: center;
         }
 
         .grand_total_container .col-md-6 {
             display: flex;
-            align-items: center; /* Center items vertically within each column */
+            align-items: center;
         }
 
         .grand_total_container .col-md-6:first-child {
@@ -366,40 +387,43 @@
         }
 
         .grand_total_container .form-control {
-            width: 100%; /* Ensure input field takes full width of its container */
+            width: 100%;
         }
-
 
         .cursor_pointer {
             cursor: pointer;
         }
+
         .cursor_not_allowed {
             cursor: not-allowed;
         }
 
-        /* area collapse/expand */
         .area_product_browser,
         .area_product_calculation {
             transition: width 0.5s ease;
         }
 
-        /* serial offcanvas */
         @keyframes spin {
-            0% { transform: rotate(0deg) scale(1); }
-            100% { transform: rotate(360deg) scale(1.1); }
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1.1);
+            }
         }
+
         .input-group-text.auto_generate_serial_btn:hover i {
             animation: spin 1s linear infinite;
         }
-
-
     </style>
 @endsection
+
 @section('content')
     @php
         $ssn_walkin = session()->get('purchase_walkin', []);
-        $ssn_additional = session()->get('purchase_additional', []);
-        $ssn_products = array_reverse(session()->get('purchase_products', []));
+        $ssn_additional = session()->get('sale_additional', []);
+        $ssn_products = array_reverse(session()->get('sale_products', []));
         $ssn_product_ids = array_column($ssn_products, 'id');
     @endphp
     <div class="content pt-0">
@@ -413,10 +437,13 @@
         <div class="row">
             <div class="col-md-6 area_product_browser">
                 <div class="pos-products">
+                    <!-- Search Field -->
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                         <input type="text" class="form-control" id="search_field" placeholder="Search by product...">
                     </div>
+
+                    <!-- Alphabet Filter -->
                     <div class="d-flex justify-content-center align-items-center mb-4">
                         <div class="btn-group-flex-wrap" role="group" id="alphabet-filter">
                             <button type="button" class="btn btn-outline-primary btn-sm all_btn active_alphabet" data-letter="All">All</button>
@@ -425,6 +452,8 @@
                             @endforeach
                         </div>
                     </div>
+
+                    <!-- Product Tabs Container -->
                     <div class="tabs_container">
                         <div id="product-container" class="custom-product-grid">
                             @foreach($products as $product)
@@ -439,7 +468,6 @@
                                         </div>
                                         <h6 class="product-name">{{ $product->name }}</h6>
                                         <div class="d-flex align-items-center justify-content-between price">
-                                            {{--                                            <span>{{ $product->quantity }} Qty</span>--}}
                                             <p>৳{{ $product->price }}</p>
                                         </div>
                                     </div>
@@ -449,72 +477,72 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-6 area_product_calculation">
                 <aside class="product-order-list">
-                    <form action="{{route('purchases.store')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('sales.store')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="customer-info block-section mb-2">
-                            {{--                            <h6>Walk-in Information</h6>--}}
+                            <!-- Customer Information Header and Controls -->
+                            <div class="d-flex flex-row align-items-center mb-3">
+                                <a href="javascript:void(0)" class="area_toggler_btn me-3">
+                                    <i class="fas fa-chevron-circle-left fa-2x"></i>
+                                </a>
+                                <button type="button" class="btn btn-primary btn-icon me-2" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                    <i class="fas fa-luggage-cart"></i> {{ __('Walk-in') }}
+                                </button>
+                                <select class="form-control nested" name="vendor">
+                                    <option selected="selected" value="">--Select--</option>
+                                    <optgroup label="Supplier">
+                                        @foreach($suppliers as $supplier)
+                                            <option value="sup-{{ $supplier->id }}">sup-{{ $supplier->name }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                    <optgroup label="Customer">
+                                        @foreach($customers as $customer)
+                                            <option value="cus-{{ $customer->id }}">cus-{{ $customer->name }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                </select>
+                            </div>
 
-                            <div>
-                                <div class="d-flex flex-row align-items-center mb-3">
-                                    <a href="javascript:void(0)" class="area_toggler_btn me-3"><i class="fas fa-chevron-circle-left fa-2x"></i></a>
-                                    <button type="button" class="btn btn-primary btn-icon me-2" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                        <i class="fas fa-luggage-cart"></i> {{__('Walk-in')}}
-                                    </button>
-                                    <select class="form-control nested" name="vendor" >
-                                        <option selected="selected" value="">--Select--</option>
-                                        <optgroup label="Supplier">
-                                            @foreach($suppliers as $supplier)
-                                                <option value="sup-{{$supplier->id}}">sup-{{$supplier->name}}</option>
-                                            @endforeach
-                                        </optgroup>
-                                        <optgroup label="Customer">
-                                            @foreach($customers as $customer)
-                                                <option value="cus-{{$customer->id}}">cus-{{$customer->name}}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    </select>
-                                    {{--                                    <select class="form-select" name="vendor" id="select_vendor" >--}}
-                                    {{--                                        <option>Select</option>--}}
-                                    {{--                                        --}}{{--                                                    @foreach($companies as $company)--}}
-                                    {{--                                        <option value="">select</option>--}}
-                                    {{--                                        --}}{{--                                                    @endforeach--}}
-                                    {{--                                    </select>--}}
-                                </div>
-                                <div class="collapse" id="collapseExample">
-                                    <div class="card card-body">
-                                        <div class="selling-info">
-                                            <div class="row mt-2">
-                                                <div class="col-md-6 mb-2">
-                                                    <label>{{__('Name')}}</label>
-                                                    <input type="text" class="form-control form-control-sm" name="wkname" id="" value="">
-                                                </div>
-                                                <div class="col-md-6 mb-2">
-                                                    <label>{{__('Phone')}}</label>
-                                                    <input type="text" class="form-control form-control-sm" name="wkphone" id="" value="">
-                                                </div>
-                                                <div class="col-md-6 mb-2">
-                                                    <label>{{__('Email')}}</label>
-                                                    <input type="text" class="form-control form-control-sm" name="wkemail" id="" value="">
-                                                </div>
-                                                <div class="col-md-6 mb-2">
-                                                    <label>{{__('Address')}}</label>
-                                                    <input type="text" class="form-control form-control-sm" name="wkaddress" id="" value="">
-                                                </div>
-                                                <div class="col-md-6 mb-2">
-                                                    <label for="districtSelect" class="form-label">{{ __('District') }}</label>
-                                                    <select class="form-select form-select-sm select2" id="districtSelect" name="wkdistrict" >
-                                                        <option value="" disabled selected>Select District</option>
-                                                    </select>
-                                                </div>
+                            <!-- Validation Error Message -->
+                            @if($errors->has('vendor'))
+                                <div class="text-danger">{{ $errors->first('vendor') }}</div>
+                            @endif
+
+                            <!-- Collapsible Section for Additional Customer Information -->
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    <div class="selling-info">
+                                        <div class="row mt-2">
+                                            <div class="col-md-6 mb-2">
+                                                <label>{{ __('Name') }}</label>
+                                                <input type="text" class="form-control form-control-sm" name="wkname" value="">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <label>{{ __('Phone') }}</label>
+                                                <input type="text" class="form-control form-control-sm" name="wkphone" value="">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <label>{{ __('Email') }}</label>
+                                                <input type="text" class="form-control form-control-sm" name="wkemail" value="">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <label>{{ __('Address') }}</label>
+                                                <input type="text" class="form-control form-control-sm" name="wkaddress" value="">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <label for="districtSelect" class="form-label">{{ __('District') }}</label>
+                                                <select class="form-select form-select-sm select2" id="districtSelect" name="wkdistrict">
+                                                    <option value="" disabled selected>Select District</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
 
                         <div class="row">
                             <!-- Product Search Field -->
@@ -524,7 +552,7 @@
                                     <select class="form-select select2" name="" id="product_search1">
                                         <option value="">Product search</option>
                                         @foreach($products as $product)
-                                            <option value="{{$product->id}}">{{$product->name}}</option>
+                                            <option value="{{ $product->id }}">{{ $product->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -540,23 +568,27 @@
                         </div>
 
 
+
                         <div class="product-added block-section mb-2">
                             <div class="head-text d-flex align-items-center justify-content-between mb-3">
-                                <h6 class="d-flex align-items-center mb-0">Product Added<span class="count" id="product_len_counter">{{ count($ssn_products) }}</span></h6>
+                                <h6 class="d-flex align-items-center mb-0">
+                                    Product Added
+                                    <span class="count" id="product_len_counter">{{ count($ssn_products) }}</span>
+                                </h6>
                                 <a href="javascript:void(0);" class="d-flex align-items-center text-danger" id="clear_all_btn">
-                             <span class="me-1">
-                                <i class="fas fa-times"></i>
-                             </span>
+            <span class="me-1">
+                <i class="fas fa-times"></i>
+            </span>
                                     Clear all
                                 </a>
                             </div>
-                            <div class="product-wrap" >
+                            <div class="product-wrap">
                                 <!-- Main Product Table -->
                                 <table class="table table-border text-center">
                                     <thead>
                                     <tr>
                                         <th><i class="fas fa-boxes"></i></th>
-                                        {{--                                        <th>Serial/EMEI</th>--}}
+                                        {{-- <th>Serial/EMEI</th> --}}
                                         <th>Qty</th>
                                         <th>Price</th>
                                         <th>SubTotal</th>
@@ -568,15 +600,15 @@
                                         @foreach($ssn_products as $key => $product)
                                             <tr>
                                                 <td class="py-1">
-                                                    <a href="javascript:void(0);" class="product_modal_btn cursor_pointer" role="button" data-bs-toggle="modal" data-bs-target="#serialModal{{ $product['id'] }}">{{ $product['name'] }}</a>
+                                                    <a href="javascript:void(0);" class="product_modal_btn cursor_pointer" role="button">{{ $product['name'] }}</a>
                                                     <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">Edit</a>
                                                 </td>
                                                 <td class="py-1">
                                                     <div class="d-flex justify-content-center">
                                                         <div class="qty-item text-center">
-                                                            <a class="dec d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}" ><i class="far fa-minus-square"></i></a>
+                                                            <a class="dec d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}"><i class="far fa-minus-square"></i></a>
                                                             <input type="text" class="form-control text-center qty-input" id="product_qty_{{ $product['id'] }}" data-id="{{ $product['id'] }}" name="qty" value="{{ $product['quantity'] }}">
-                                                            <a class="inc d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}" ><i class="far fa-plus-square"></i></a>
+                                                            <a class="inc d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}"><i class="far fa-plus-square"></i></a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -588,115 +620,73 @@
                                                 </td>
                                                 <td class="py-1">{{ $product['price'] * $product['quantity'] }}</td>
                                                 <td class="py-1">
-                                                    <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="{{ $product['id'] }}" >
+                                                    <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="{{ $product['id'] }}">
                                                         <i class="fas fa-times-circle text-danger"></i>
                                                     </a>
                                                 </td>
                                             </tr>
-
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="text-center">There are no products selected</td>
+                                            <td colspan="5" class="text-center">There are no products selected</td>
                                         </tr>
                                     @endif
                                     </tbody>
                                 </table>
-
-                                {{--                                <table class="table table-border text-center" >--}}
-                                {{--                                    <thead>--}}
-                                {{--                                    <tr>--}}
-                                {{--                                        <th><i class="fas fa-boxes"></i></th>--}}
-                                {{--                                        <th>Serial/EMEI</th>--}}
-                                {{--                                        <th>Qty</th>--}}
-                                {{--                                        <th>Price</th>--}}
-                                {{--                                        <th>SubTotal</th>--}}
-                                {{--                                        <th><i class="fas fa-trash-alt"></i></th>--}}
-                                {{--                                    </tr>--}}
-                                {{--                                    </thead>--}}
-                                {{--                                    <tbody id="product_list_tbody">--}}
-                                {{--                                    @if(count($ssn_products) > 0)--}}
-                                {{--                                        @foreach($ssn_products as $key=> $product)--}}
-
-
-                                {{--                                                                                        <tr>--}}
-                                {{--                                                <td class="py-1">--}}
-                                {{--                                                    <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">{{ $product['name'] }}</a>--}}
-                                {{--                                                    <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id="{{ $product['id'] }}">Edit</a>--}}
-                                {{--                                                </td>--}}
-
-                                {{--                                                <td class="py-1">--}}
-                                {{--                                                    <div class="d-flex justify-content-center">--}}
-                                {{--                                                        <div class="qty-item text-center">--}}
-                                {{--                                                            <a class="dec d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}"><i class="far fa-minus-square"></i></a>--}}
-                                {{--                                                            <input type="text" class="form-control text-center qty-input" id="product_qty" data-id="{{ $product['id'] }}" name="qty" value="{{ $product['quantity'] }}" >--}}
-                                {{--                                                            <a class="inc d-flex justify-content-center align-items-center" data-id="{{ $product['id'] }}"><i class="far fa-plus-square"></i></a>--}}
-                                {{--                                                        </div>--}}
-                                {{--                                                    </div>--}}
-                                {{--                                                </td>--}}
-                                {{--                                                <td class="py-1">--}}
-                                {{--                                                    <input type="tel" class="product_cost_field" value="{{ $product['price'] }}" data-id="{{ $product['id'] }}">--}}
-                                {{--                                                    <div class="save_progress d-none">--}}
-                                {{--                                                        <i class="fas fa-spinner"></i>--}}
-                                {{--                                                    </div>--}}
-                                {{--                                                </td>--}}
-                                {{--                                                <td class="py-1">{{ $product['price'] * $product['quantity'] }}</td>--}}
-                                {{--                                                <td class="py-1">--}}
-                                {{--                                                    <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="{{ $product['id'] }}">--}}
-                                {{--                                                        <i class="fas fa-times-circle text-danger"></i>--}}
-                                {{--                                                    </a>--}}
-                                {{--                                                </td>--}}
-                                {{--                                            </tr>--}}
-                                {{--                                        @endforeach--}}
-                                {{--                                    @else--}}
-                                {{--                                        <tr>--}}
-                                {{--                                            <td colspan="6" class="text-center">there are no products selected</td>--}}
-                                {{--                                        </tr>--}}
-                                {{--                                    @endif--}}
-                                {{--                                    </tbody>--}}
-                                {{--                                </table>--}}
                             </div>
                         </div>
+
                         @php
-                            $ssn_additional=session()->get('purchase_additional');
-                            $bank_pay=session()->get('bank_info');
+                            $ssn_additional = session()->get('sale_additional');
+                            $bank_pay = session()->get('bank_info');
                         @endphp
+
                         <div class="block-section">
                             <div class="order-total">
                                 <div class="row">
-                                    {{--                                    <div class="col-6 d-flex align-items-center mb-2">SubTotal--}}
-                                    {{--                                        <div class="save_progress d-none ms-1">--}}
-                                    {{--                                            <i class="fas fa-spinner"></i>--}}
-                                    {{--                                        </div>--}}
-                                    {{--                                    </div>--}}
+                                    <!-- SubTotal -->
                                     <div class="col-6 mb-2">
                                         <label>SubTotal</label>
                                         <input type="tel" class="form-control form-control-sm text-center" name="all_subtotal" id="sub_total_field" value="{{ isset($ssn_additional) ? $ssn_additional['subtotal'] : 0 }}">
                                     </div>
+
+                                    <!-- Discount -->
                                     <div class="col-6 mb-2">
                                         <label>Discount</label>
                                         <input type="tel" class="form-control form-control-sm text-center" name="all_discount" id="discount_field" value="{{ isset($ssn_additional) ? $ssn_additional['discount'] : 0 }}">
                                     </div>
+
+                                    <!-- Vat -->
                                     <div class="col-6 mb-2">
                                         <label>Vat</label>
                                         <input type="tel" class="form-control form-control-sm text-center" name="all_vat" id="vat_field" value="{{ isset($ssn_additional) ? $ssn_additional['vat'] : 0 }}">
                                     </div>
+
+                                    <!-- Tax -->
                                     <div class="col-6 mb-2">
                                         <label>Tax</label>
                                         <input type="tel" class="form-control form-control-sm text-center" name="all_tax" id="tax_field" value="{{ isset($ssn_additional) ? $ssn_additional['tax'] : 0 }}">
                                     </div>
+
+                                    <!-- Speed Money -->
                                     <div class="col-6 mb-2">
                                         <label>Speed Money</label>
                                         <input type="tel" class="form-control form-control-sm text-center" name="all_speedmoney" id="speed_money_field" value="{{ isset($ssn_additional) && isset($ssn_additional['speed_money']) ? $ssn_additional['speed_money'] : 0 }}">
                                     </div>
+
+                                    <!-- Freight -->
                                     <div class="col-6 mb-2">
                                         <label>Freight</label>
                                         <input type="tel" class="form-control form-control-sm text-center" name="all_freight" id="freight_field" value="{{ isset($ssn_additional) && isset($ssn_additional['freight']) ? $ssn_additional['freight'] : 0 }}">
                                     </div>
+
+                                    <!-- Fractional Discount -->
                                     <div class="col-6 mb-2">
                                         <label>Fractional Discount</label>
                                         <input type="tel" class="form-control form-control-sm text-center" name="fractional_dis" id="fractional_discount_field" value="{{ isset($ssn_additional) && isset($ssn_additional['fractional_discount']) ? $ssn_additional['fractional_discount'] : 0 }}">
                                     </div>
+
+                                    <!-- Grand Total -->
                                     <div class="row mb-2">
                                         <div class="col-md-12 mb-4">
                                             <div class="grand_total_container">
@@ -712,36 +702,46 @@
                                         </div>
                                     </div>
 
+                                    <!-- Payment Method -->
                                     <div class="col-6 mb-2">
                                         <label>Payment Method</label>
                                         <select class="form-select form-select-sm" name="payment_type" id="payment_type">
                                             <option selected disabled>-- select one --</option>
                                             <option value="cash">Cash</option>
-                                            <option value="bank" {{isset($bank_pay)? 'selected':''}}>Online</option>
+                                            <option value="bank" {{ isset($bank_pay) ? 'selected' : '' }}>Online</option>
                                         </select>
                                     </div>
+
+                                    <!-- Received Amount -->
                                     <div class="col-6 mb-2">
                                         <label>Received Amount</label>
                                         <input type="text" class="form-control form-control-sm text-center" name="payment_amount" id="payment_amount" value="{{ isset($bank_pay) ? $bank_pay['payment_amount'] : 0 }}">
                                     </div>
+
+                                    <!-- Due Amount -->
                                     <div class="col-6 mb-2">
                                         <label>Due Amount</label>
-                                        <input type="text" class="form-control form-control-sm text-center" name="due_amount" id="due_amount" value="{{(isset($ssn_additional) ? $ssn_additional['grand_total'] : 0) - (isset($bank_pay) ? $bank_pay['payment_amount'] : 0) }}" readonly>
+                                        <input type="text" class="form-control form-control-sm text-center" name="due_amount" id="due_amount" value="{{ (isset($ssn_additional) ? $ssn_additional['grand_total'] : 0) - (isset($bank_pay) ? $bank_pay['payment_amount'] : 0) }}" readonly>
                                     </div>
+
+                                    <!-- Issue Date -->
                                     <div class="col-6 mb-2">
                                         <label>Issue Date</label>
                                         <input type="date" class="form-control form-control-sm text-center" name="issue_date" id="" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                     </div>
+
+                                    <!-- Due Date -->
                                     <div class="col-6 mb-2">
                                         <label>Due Date</label>
                                         <input type="date" class="form-control form-control-sm text-center" name="due_date" id="" value="">
                                     </div>
-
                                 </div>
                             </div>
                         </div>
 
+
                         <div class="row">
+                            <!-- Reference Field -->
                             <div class="col-sm-6 mb-2">
                                 <div class="input-block">
                                     <label>Reference
@@ -751,10 +751,12 @@
                                     </label>
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text bg-white"><i class="fas fa-retweet"></i></span>
-                                        <input type="text" class="form-control form-control-sm" name="ref" id="" value="{{ $ssn_additional['reference'] ?? '' }}">
+                                        <input type="text" class="form-control form-control-sm" name="ref" value="{{ $ssn_additional['reference'] ?? '' }}">
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Note Field -->
                             <div class="col-sm-6 mb-2">
                                 <div class="input-block">
                                     <label>Note
@@ -764,11 +766,12 @@
                                     </label>
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text bg-white"><i class="fas fa-pen-alt"></i></span>
-                                        <input type="text" class="form-control form-control-sm" name="note" id="" value="{{ $ssn_additional['note'] ?? '' }}">
+                                        <input type="text" class="form-control form-control-sm" name="note" value="{{ $ssn_additional['note'] ?? '' }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="row mb-2">
                             <!-- Header Row -->
                             <div class="col-12">
@@ -787,43 +790,44 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row" id="product_serial_div">
                             @foreach($ssn_products as $key => $product)
-                                <div  class="serial-numbers" >
-                                    {{--                                    <h4>Serial Numbers for {{ $product['name'] }}:</h4>--}}
-                                    <div>
-                                        @if(!empty($product['serial']))
-                                            <h4>Serial Numbers for {{ $product['name'] }}:</h4>
-                                            @foreach ($product['serial'] as $index => $serial)
-                                                <div class="row mb-2">
-                                                    <div class="col-4">
-                                                        <label for="serial_number_{{ $product['id'] }}_{{ $index }}" class="form-label">{{ $product['name'] }} {{ $index }}:</label>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <div class="d-flex align-items-center">
-                                                            <input type="text" id="serial_number_{{ $product['id'] }}_{{ $index }}" name="serial_number_{{ $product['id'] }}[]" class="form-control me-2 serial-input" placeholder="Enter Serial {{ $index  }}" value="{{$serial}}" required data-product-id="{{ $product['id'] }}" data-index="{{ $index }}">
-                                                            <a href="javascript:void(0);" class="text-danger me-2 remove-serial" data-product-id="{{ $product['id'] }}" data-index="{{ $index }}">
-                                                                <i class="fas fa-times-circle"></i>
-                                                            </a>
-                                                        </div>
+                                @if(!empty($product['serial_method']))
+                                    <div class="serial-numbers mb-3">
+                                        <h4>Serial Numbers for {{ $product['name'] }}:</h4>
+                                        @foreach ($product['serial'] as $index => $serial)
+                                            <div class="row mb-2">
+                                                <div class="col-4">
+                                                    <label for="serial_number_{{ $product['id'] }}_{{ $index }}" class="form-label">{{ $product['name'] }} {{ $index }}:</label>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="d-flex align-items-center">
+                                                        <input type="text" id="serial_number_{{ $product['id'] }}_{{ $index }}" name="serial_number_{{ $product['id'] }}[]" class="form-control me-2 serial-input" placeholder="Enter Serial {{ $index }}" value="{{ $serial }}" required data-product-id="{{ $product['id'] }}" data-index="{{ $index }}">
+                                                        <a href="javascript:void(0);" class="text-danger me-2 remove-serial" data-product-id="{{ $product['id'] }}" data-index="{{ $index }}">
+                                                            <i class="fas fa-times-circle"></i>
+                                                        </a>
                                                     </div>
                                                 </div>
-                                            @endforeach
-                                            {{--                                        @else--}}
-                                            {{--                                            <p>{{__('No serial numbers available.')}}</p>--}}
-                                        @endif
+                                            </div>
+                                        @endforeach
                                     </div>
-                                </div>
+                                @endif
                             @endforeach
                         </div>
 
                         <div class="btn-row d-flex align-items-center justify-content-between mt-2">
-                            <button type="button" class="btn btn-danger btn-lg flex-fill" id="destroy_all_ssn_btn"><i class="fas fa-trash-alt"></i>
-                                {{__('Empty')}}</button>
-                            {{--                            <button type="button" class="btn btn-success btn-lg flex-fill" data-bs-toggle="offcanvas" data-bs-target="#payment_offcanvas"><i class="fas fa-credit"></i> Payment</button>--}}
-                            <button type="submit" class="btn btn-success btn-lg flex-fill"><i class="fas fa-credit-card"></i>
-                                {{__('Checkout')}}</button>
+                            <!-- Empty Button -->
+                            <button type="button" class="btn btn-danger btn-lg flex-fill" id="destroy_all_ssn_btn">
+                                <i class="fas fa-trash-alt"></i> {{ __('Empty') }}
+                            </button>
+
+                            <!-- Checkout Button -->
+                            <button type="submit" class="btn btn-success btn-lg flex-fill">
+                                <i class="fas fa-credit-card"></i> {{ __('Checkout') }}
+                            </button>
                         </div>
+
                     </form>
                 </aside>
             </div>
@@ -984,25 +988,26 @@
 @endsection
 @section('js')
     <script>
-        // area collapse/expand
         $(document).ready(function() {
             let toggled = false;
 
             $('.area_toggler_btn').click(function() {
                 if (!toggled) {
-                    // Slide out and hide the browser area, expand the calculation area
+                    // Collapse: Slide out the browser area, expand the calculation area
                     $('.area_product_browser').animate({ width: '0' }, 800, function() {
                         $(this).hide();
                     });
                     $('.area_product_calculation').animate({ width: '100%' }, 800);
                     $('.col-md-6').removeClass('col-md-6').addClass('col-md-12');
+
                     // Change button icon to chevron right
                     $(this).find('i').removeClass('fa-chevron-circle-left').addClass('fa-chevron-circle-right');
                 } else {
-                    // Show and slide back the browser area, reset the calculation area
+                    // Expand: Show and slide back the browser area, reset the calculation area
                     $('.area_product_browser').show().animate({ width: '50%' }, 800);
                     $('.area_product_calculation').animate({ width: '50%' }, 800);
                     $('.col-md-12').removeClass('col-md-12').addClass('col-md-6');
+
                     // Change button icon to chevron left
                     $(this).find('i').removeClass('fa-chevron-circle-right').addClass('fa-chevron-circle-left');
                 }
@@ -1011,6 +1016,7 @@
             });
         });
     </script>
+
     <script>
         // walk-in district & zone selector
         const districtZoneData = {
@@ -1322,7 +1328,7 @@
                 let productId = $(this).data('product-id');
                 let index = $(this).data('index');
                 $.ajax({
-                    url: '/remove-serial',
+                    url: '/remove_sell_serial',
                     method: 'POST',
                     data: {
                         product_id: productId,
@@ -1374,7 +1380,7 @@
             $(document).on('change','#product_search1',function(){
                 var $search=this.value;
                 $.ajax({
-                    url: "{{ route('get_product_data') }}",
+                    url: "{{ route('get_sale_product_data') }}",
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -1389,12 +1395,12 @@
                 });
             });
 
-            // add product into session purchase_products[]
+            // add product into session sale_products[]
             $(document).on('click', '.custom-product-item', function() {
                 let productId = $(this).data('id');
 
                 $.ajax({
-                    url: "{{ route('get_product_data') }}",
+                    url: "{{ route('get_sale_product_data') }}",
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -1409,14 +1415,14 @@
                 });
             });
 
-            // delete product from session purchase_products[]
+            // delete product from session sale_products[]
             $(document).on('click', '.dlt_pd_ssn', function(event) {
                 event.stopPropagation(); // prevent the click event from bubbling up to the .custom-product-item handler
 
                 let productId = $(this).data('id');
 
                 $.ajax({
-                    url: "{{ route('delete_product_data') }}",
+                    url: "{{ route('delete_sale_product_data') }}",
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -1431,78 +1437,26 @@
                 });
             });
 
-            // will call this function after any CRUD on purchase_products[] session, to refresh table data
+            // will call this function after any CRUD on sale_products[] session, to refresh table data
             function displayProducts(products) {
                 let productRows = '';
                 let serialHtml = '';
 
                 if (products.length === 0) {
-                    $('#product_list_tbody').html(`<tr><td colspan="6" class="text-center">There are no products selected</td></tr>`);
+                    // No products selected, display a message
+                    $('#product_list_tbody').html(`
+            <tr>
+                <td colspan="6" class="text-center">There are no products selected</td>
+            </tr>
+        `);
                 } else {
+                    // Iterate through each product and generate rows for the table and serial numbers
                     $.each(products, function(index, product) {
-                        productRows += `
-                <tr>
-                    <td class="py-1">
-                        <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>${product.name}</a>
-                        <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>Edit</a>
-                    </td>
+                        // Generate product row HTML
+                        productRows += generateProductRow(product);
 
-                    <td class="py-1">
-                        <div class="d-flex justify-content-center">
-                            <div class="qty-item text-center">
-                                <a class="dec d-flex justify-content-center align-items-center" data-id="${product.id}"><i class="far fa-minus-square"></i></a>
-                                <input type="text" class="form-control text-center qty-input" id="product_qty" data-id="${product.id}" name="qty" value="${product.quantity}">
-                                <a class="inc d-flex justify-content-center align-items-center" data-id="${product.id}"><i class="far fa-plus-square"></i></a>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="py-1">
-                        <input type="tel" class="product_cost_field" value="${product.price}" data-id="${product.id}">
-                    </td>
-                    <td class="py-1">${product.price * product.quantity}</td>
-                    <td class="py-1">
-                        <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="${product.id}">
-                            <i class="fas fa-times-circle text-danger"></i>
-                        </a>
-                    </td>
-                </tr>
-            `;
-
-                        serialHtml += `
-
-                        <div class="serial-numbers">
-
-                            <div>
-                        `;
-
-                        if (product.serial != '') {
-                            serialHtml += `
-                                   <h4>Serial Numbers for ${product.name}:</h4>
-                                `;
-                            $.each(product.serial, function(serialIndex, serial) {
-                                serialHtml += `
-
-                        <div class="row mb-2 serial-row" data-product-id="${product.id}" data-index="${serialIndex}">
-                            <div class="col-4">
-                                <label for="serial_number_${product.id}_${serialIndex}" class="form-label">${product.name}-${serialIndex + 1}:</label>
-                            </div>
-                            <div class="col-8">
-                                <div class="d-flex align-items-center">
-                                    <input type="text" id="serial_number_${product.id}_${serialIndex}" name="serial_number_${product.id}[]" class="form-control me-2 serial-input" placeholder="Enter Serial ${serialIndex + 1}" value="${serial}" data-product-id="${product.id}" data-index="${serialIndex}" required>
-                                    <a href="javascript:void(0);" class="text-danger me-2 remove-serial" data-product-id="${product.id}" data-index="${serialIndex}">
-                                        <i class="fas fa-times-circle"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                            });
-                        }
-
-                        serialHtml += `
-                    </div>
-                </div>
-            `;
+                        // Generate serial numbers HTML if available
+                        serialHtml += generateSerialNumbers(product);
                     });
 
                     // Replace the table body content with the new product rows
@@ -1511,11 +1465,75 @@
                     // Inject the serial numbers HTML into the designated container
                     $('#product_serial_div').html(serialHtml);
 
-                    // Re-attach event listeners to the newly added elements
+                    // Re-attach event listeners to the newly added elements (if necessary)
                     // attachSerialNumberEvents();
                 }
-
             }
+
+// Function to generate HTML for each product row
+            function generateProductRow(product) {
+                return `
+        <tr>
+            <td class="py-1">
+                <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>${product.name}</a>
+                <a href="javascript:void(0);" class="product_offcanvas_btn cursor_pointer ml-3 text-warning" role="button" data-bs-toggle="offcanvas" data-bs-target="#product_offcanvas" data-id='${product.id}'>Edit</a>
+            </td>
+            <td class="py-1">
+                <div class="d-flex justify-content-center">
+                    <div class="qty-item text-center">
+                        <a class="dec d-flex justify-content-center align-items-center" data-id="${product.id}">
+                            <i class="far fa-minus-square"></i>
+                        </a>
+                        <input type="text" class="form-control text-center qty-input" id="product_qty" data-id="${product.id}" name="qty" value="${product.quantity}">
+                        <a class="inc d-flex justify-content-center align-items-center" data-id="${product.id}">
+                            <i class="far fa-plus-square"></i>
+                        </a>
+                    </div>
+                </div>
+            </td>
+            <td class="py-1">
+                <input type="tel" class="product_cost_field" value="${product.price}" data-id="${product.id}">
+            </td>
+            <td class="py-1">${product.price * product.quantity}</td>
+            <td class="py-1">
+                <a href="javascript:void(0);" class="btn-icon dlt_pd_ssn" data-id="${product.id}">
+                    <i class="fas fa-times-circle text-danger"></i>
+                </a>
+            </td>
+        </tr>
+    `;
+            }
+
+// Function to generate HTML for serial numbers associated with a product
+            function generateSerialNumbers(product) {
+                let serialHtml = `<div class="serial-numbers"><div>`;
+
+                if (product.serial_method != '') {
+                    serialHtml += `<h4>Serial Numbers for ${product.name}:</h4>`;
+
+                    $.each(product.serial, function(serialIndex, serial) {
+                        serialHtml += `
+                <div class="row mb-2 serial-row" data-product-id="${product.id}" data-index="${serialIndex}">
+                    <div class="col-4">
+                        <label for="serial_number_${product.id}_${serialIndex}" class="form-label">${product.name}-${serialIndex + 1}:</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <input type="text" id="serial_number_${product.id}_${serialIndex}" name="serial_number_${product.id}[]" class="form-control me-2 serial-input" placeholder="Enter Serial ${serialIndex + 1}" value="${serial}" data-product-id="${product.id}" data-index="${serialIndex}" required>
+                            <a href="javascript:void(0);" class="text-danger me-2 remove-serial" data-product-id="${product.id}" data-index="${serialIndex}">
+                                <i class="fas fa-times-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+                    });
+                }
+
+                serialHtml += `</div></div>`;
+                return serialHtml;
+            }
+
 
 
             // update check icons based on product presence in session
@@ -1542,7 +1560,7 @@
             async function calculateAndUpdateSummary() {
                 try {
                     const response = await $.ajax({
-                        url: "{{ route('pur_calculate_summary') }}",
+                        url: "{{ route('sale_calculate_summary') }}",
                         method: 'POST',
                         data: { _token: '{{ csrf_token() }}' }
                     });
@@ -1573,7 +1591,7 @@
                 $(this).closest('div').find('.save_progress').removeClass('d-none').addClass('d-inline');
                 $(this).closest('.col-6').prev('.col-6').find('.save_progress').removeClass('d-none').addClass('d-inline');
                 $.ajax({
-                    url: "{{ route('pur_update_summary') }}",
+                    url: "{{ route('sell_update_summary') }}",
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -1606,38 +1624,65 @@
 
             // update quantity on click + - buttons
             // handle click on minus button
+            // Flag to prevent duplicate AJAX calls
+            let isUpdating = false; // Flag to track AJAX call status
+
+// Debounce function to limit the rate of function calls
+            function debounce(func, wait) {
+                let timeout;
+                return function(...args) {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(this, args), wait);
+                };
+            }
+
+// Handle click on minus button
             $(document).on('click', '.dec', function() {
+                if (isUpdating) return; // Prevent triggering if an AJAX call is in progress
+
                 let $input = $(this).siblings('.qty-input');
                 let currentQty = parseInt($input.val(), 10);
                 let productId = $(this).data('id');
+
                 if (currentQty > 1) {
                     currentQty--;
-                    updateQuantity(productId, currentQty);
                     $input.val(currentQty).focus();
+                    updateQuantity(productId, currentQty);
                 }
             });
 
+// Handle blur event on quantity input
             $(document).on('blur', '.qty-input', function () {
+                if (isUpdating) return; // Prevent triggering if an AJAX call is in progress
+
                 let product_qty = $(this).val();
                 let productId = $(this).data('id');
                 let currentQty = parseInt(product_qty, 10);
+
                 updateQuantity(productId, currentQty);
             });
 
-            // handle click on plus button
-            $(document).on('click', '.inc', function() {
+// Handle click on plus button
+            $(document).on('click', '.inc', debounce(function() {
+                if (isUpdating) return; // Prevent triggering if an AJAX call is in progress
+
                 let $input = $(this).siblings('.qty-input');
                 let currentQty = parseInt($input.val(), 10);
                 let productId = $(this).data('id');
+
                 currentQty++;
-                updateQuantity(productId, currentQty);
                 $input.val(currentQty).focus();
-            });
+                updateQuantity(productId, currentQty);
+            }, 300)); // Debounce time of 300ms
 
-
+// Function to update quantity
             function updateQuantity(productId, quantity) {
+                if (isUpdating) return; // Prevent initiating a new AJAX call if one is in progress
+
+                isUpdating = true; // Set the flag to indicate AJAX call in progress
+
                 $.ajax({
-                    url: "{{ route('update_quantity') }}",
+                    url: "{{ route('sale_update_quantity') }}",
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -1645,14 +1690,27 @@
                         quantity: quantity
                     },
                     success: function(response) {
+                        console.log('AJAX Success Response'); // Log to track successful response
 
-                        displayProducts(response.products);
-                        // serialTableGenerator(response.products);
-                        calculateAndUpdateSummary();
-                        // populateOffcanvas(response.products.find(p => p.id === productId));
+                        if (response.status === true) {
+                            toastr.success('Quantity updated successfully.');
+                            displayProducts(response.products);
+                            calculateAndUpdateSummary();
+                        } else {
+                            toastr.error(response.message || 'Failed to update quantity.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        toastr.error('An error occurred while processing your request.');
+                    },
+                    complete: function() {
+                        isUpdating = false; // Reset the flag after AJAX call completes
                     }
                 });
             }
+
+
+
 
 
             $(document).on('input', '.product_cost_field', function() {
@@ -1668,7 +1726,7 @@
 
                 // Perform AJAX request to update the product price
                 $.ajax({
-                    url: "{{ route('pur_update_product_price') }}",
+                    url: "{{ route('sale_update_product_price') }}",
                     method: 'POST',
                     data: {
                         product_id: productId,
@@ -1689,7 +1747,7 @@
 
                 // Perform AJAX request to fetch the product data
                 $.ajax({
-                    url: "{{ route('pur_fetch_product_data') }}",
+                    url: "{{ route('sale_fetch_product_data') }}",
                     method: 'POST',
                     data: {
                         id: productId,
@@ -1773,7 +1831,7 @@
 
                 // Perform AJAX request to update the session
                 $.ajax({
-                    url: "{{ route('pur_update_pdata') }}",
+                    url: "{{ route('sale_update_pdata') }}",
                     method: 'POST',
                     data: {
                         product_id: productId,
@@ -1804,7 +1862,7 @@
 
             $('#clear_all_btn').on('click', function() {
                 $.ajax({
-                    url: "{{ route('product_clear_all') }}",
+                    url: "{{ route('sale_product_clear_all') }}",
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}'
@@ -1823,7 +1881,7 @@
 
             $('#destroy_all_ssn_btn').on('click', function() {
                 $.ajax({
-                    url: "{{ route('pur_destroy_all_ssn') }}",
+                    url: "{{ route('sale_destroy_all_ssn') }}",
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}'

@@ -94,9 +94,9 @@ class Sale extends Model
         self::$sale->due                     = $request->due_amount ?? '';
         self::$sale->sub_total               = $request->all_subtotal ?? '';
         self::$sale->total                   = $request->total ?? '';
-//        self::$sale->company_id                   = 1;
-//        self::$sale->branch_id                   = 1;
-        self::$sale->status                  = $request->status ?? '';
+        self::$sale->company_id                   = 1;
+        self::$sale->branch_id                   = 1;
+        self::$sale->status                  = $request->status ?? '1';
         self::$sale->save();
         return self::$sale;
     }
