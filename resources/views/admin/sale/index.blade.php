@@ -90,7 +90,7 @@
                                             <i class="fa fa-eye" data-bs-toggle="tooltip" title="View Sale"></i>
                                         </a>
                                     @endcan
-                                    @can('edit purchase')
+                                    @can('update purchase')
                                         <a class="me-3" href="{{ route('sales.edit', $sale->id) }}">
                                             <img src="{{ asset('admin/assets/img/icons/edit.svg') }}" alt="img">
                                         </a>

@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', __('Create Purchase'))
+@section('title', __('Edit Sale'))
 
 @section('custom_css')
     <style>
@@ -421,7 +421,7 @@
 
 @section('content')
     @php
-//        $ssn_walkin = session()->get('purchase_walkin', []);
+        $ssn_walkin = session()->get('purchase_walkin', []);
         $ssn_additional = session()->get('sale_additional', []);
         $ssn_products = array_reverse(session()->get('sale_products', []));
         $ssn_product_ids = array_column($ssn_products, 'id');
@@ -480,8 +480,9 @@
 
             <div class="col-md-6 area_product_calculation">
                 <aside class="product-order-list">
-                    <form action="{{route('sales.store')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('sales.update',$purchas->id)}}" method="post" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <div class="customer-info block-section mb-2">
                             <!-- Customer Information Header and Controls -->
                             <div class="d-flex flex-row align-items-center mb-3">
@@ -491,18 +492,32 @@
                                 <button type="button" class="btn btn-primary btn-icon me-2" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                     <i class="fas fa-luggage-cart"></i> {{ __('Walk-in') }}
                                 </button>
-                                <select class="form-control nested" name="vendor">
+                                @php
+                                    if (empty($purchas->wkname)){
+                                       $sup=explode('-',$purchas->vendor);
+                                       if ($sup[0] == 'sup'){
+                                           $supplier=\App\Models\Supplier::find($sup[1])->first();
+                                       }else{
+                                           $supplier=\App\Models\Customer::find($sup[1])->first();
+                                       }
+                                   }else{
+                                       $supplier='';
+                                   }
+                                @endphp
+                                <select class="form-control nested" name="vendor" >
                                     <option selected="selected" value="">--Select--</option>
-                                    <optgroup label="Supplier">
-                                        @foreach($suppliers as $supplier)
-                                            <option value="sup-{{ $supplier->id }}">sup-{{ $supplier->name }}</option>
-                                        @endforeach
-                                    </optgroup>
-                                    <optgroup label="Customer">
-                                        @foreach($customers as $customer)
-                                            <option value="cus-{{ $customer->id }}">cus-{{ $customer->name }}</option>
-                                        @endforeach
-                                    </optgroup>
+                                    @if($supplier != null)
+                                        <optgroup label="Supplier">
+                                            @foreach($suppliers as $supplier)
+                                                <option value="sup-{{$supplier->id}}" {{(isset($sup) && $sup[0]=='sup' && $sup[1]==$supplier->id)?'selected':''}}>sup-{{$supplier->name}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                        <optgroup label="Customer">
+                                            @foreach($customers as $customer)
+                                                <option value="cus-{{$customer->id}}" {{(isset($sup) && $sup[0]=='cus' && $sup[1]==$customer->id)?'selected':''}}>cus-{{$customer->name}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    @endif
                                 </select>
                             </div>
 
@@ -517,24 +532,24 @@
                                     <div class="selling-info">
                                         <div class="row mt-2">
                                             <div class="col-md-6 mb-2">
-                                                <label>{{ __('Name') }}</label>
-                                                <input type="text" class="form-control form-control-sm" name="wkname" value="">
+                                                <label>{{__('Name')}}</label>
+                                                <input type="text" class="form-control form-control-sm" name="wkname" id="" value="{{isset($purchas->wkname)?$purchas->wkname:''}}">
                                             </div>
                                             <div class="col-md-6 mb-2">
-                                                <label>{{ __('Phone') }}</label>
-                                                <input type="text" class="form-control form-control-sm" name="wkphone" value="">
+                                                <label>{{__('Phone')}}</label>
+                                                <input type="text" class="form-control form-control-sm" name="wkphone" id="" value="{{isset($purchas->wkphone)?$purchas->wkphone:''}}">
                                             </div>
                                             <div class="col-md-6 mb-2">
-                                                <label>{{ __('Email') }}</label>
-                                                <input type="text" class="form-control form-control-sm" name="wkemail" value="">
+                                                <label>{{__('Email')}}</label>
+                                                <input type="text" class="form-control form-control-sm" name="wkemail" id="" value="{{isset($purchas->wkemail)?$purchas->wkemail:''}}">
                                             </div>
                                             <div class="col-md-6 mb-2">
-                                                <label>{{ __('Address') }}</label>
-                                                <input type="text" class="form-control form-control-sm" name="wkaddress" value="">
+                                                <label>{{__('Address')}}</label>
+                                                <input type="text" class="form-control form-control-sm" name="wkaddress" id="" value="{{isset($purchas->wkaddress)?$purchas->wkaddress:''}}">
                                             </div>
                                             <div class="col-md-6 mb-2">
                                                 <label for="districtSelect" class="form-label">{{ __('District') }}</label>
-                                                <select class="form-select form-select-sm select2" id="districtSelect" name="wkdistrict">
+                                                <select class="form-select form-select-sm select2" id="districtSelect" name="wkdistrict" >
                                                     <option value="" disabled selected>Select District</option>
                                                 </select>
                                             </div>
@@ -1101,8 +1116,9 @@
             // console.log('sarowar');
             $(document).on('input','#payment_amount',function (){
                 let $total=$('#grand_total').val();
+                let $due=$('#due_amount').val();
                 let $amount= $(this).val();
-                let $due= $total - $amount;
+                 $due= $due - $amount;
                 $('#due_amount').val($due);
                 // console.log($total);
             })
@@ -1252,8 +1268,9 @@
                         $('#payment_amount').val(amount);
 
                         let $total=$('#grand_total').val();
+                        let $due=$('#due_amount').val();
                         // let $amount= $(this).val();
-                        let $due= $total - amount;
+                         $due= $due - amount;
                         $('#due_amount').val($due);
                     },
                     error: function(xhr, status, error) {
@@ -1664,7 +1681,7 @@
 
                 if (currentQty > 1) {
                     currentQty--;
-                    // $input.val(currentQty).focus();
+                    $input.val(currentQty).focus();
                     updateQuantity(productId, currentQty);
                 }
             }, 300)); // Debounce time of 300ms
@@ -1689,7 +1706,7 @@
                 let productId = $(this).data('id');
 
                 currentQty++;
-                // $input.val(currentQty).focus();
+                $input.val(currentQty).focus();
                 updateQuantity(productId, currentQty);
             }, 300)); // Debounce time of 300ms
 
@@ -1715,8 +1732,8 @@
                             displayProducts(response.products);
                             calculateAndUpdateSummary();
                         } else {
-                            displayProducts(response.products);
-                            calculateAndUpdateSummary();
+                            // displayProducts(response.products);
+                            // calculateAndUpdateSummary();
                             toastr.error(response.message || 'Failed to update quantity.');
                         }
                     },

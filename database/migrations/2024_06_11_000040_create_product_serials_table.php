@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('pur_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->string('serial_number')->nullable();
-            $table->string('emei_number')->nullable();
+            $table->unsignedBigInteger('sale_id')->nullable();
             $table->string('is_sold')->nullable();
             $table->string('status')->nullable();
 
