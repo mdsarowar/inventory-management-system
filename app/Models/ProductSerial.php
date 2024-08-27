@@ -16,7 +16,7 @@ class ProductSerial extends Model
         'pur_id',
         'product_id',
         'serial_number',
-        'emei_number',
+        'sale_id',
         'is_sold',
         'status',
     ];
@@ -35,10 +35,10 @@ class ProductSerial extends Model
         } else {
             self::$product_serial = new ProductSerial();
         }
-        self::$product_serial->pur_id                   = $pur_id;
+        self::$product_serial->pur_id                       = $pur_id;
         self::$product_serial->product_id                   = $request['product_id'] ?? '';
         self::$product_serial->serial_number                = $request['serial_number'] ?? '';
-        self::$product_serial->emei_number                  = $request['emei_number'] ?? '';
+        self::$product_serial->sale_id                  = $request['sale_id'] ?? 0;
         self::$product_serial->is_sold                      = $request['is_sold'] ?? '';
         self::$product_serial->status                       = $request['status'] ?? '';
         self::$product_serial->save();

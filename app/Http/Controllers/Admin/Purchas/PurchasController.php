@@ -173,7 +173,7 @@ class PurchasController extends Controller
             $serial=ProductSerial::createOrUpdateUser($serial,$store->id);
             }
 
-            $tranjection=ProductTransection::createOrUpdateUser($data,'pur',$store->id);
+            $tranjection=ProductTransection::createOrUpdateUser($data,'PUR',$store->id);
             $stock=Stock::createOrUpdateUser($data);
         }
         session()->forget('purchase_walkin');
@@ -522,18 +522,18 @@ $pur=Purchas::find($id);
             return redirect()->route('purchases.index')->with('error','Product delete successfully');
     }
 
-    public function get_sub_cat(string $id)
-    {
-        $sub_cat=SubCategory::where('category_id',$id)->get();
-
-        return response(['data'=>$sub_cat]);
-    }
-    public function get_child_cat(string $id)
-    {
-        $child_cat=ChildCategory::where('sub_cat_id',$id)->get();
-
-        return response(['data'=>$child_cat]);
-    }
+//    public function get_sub_cat(string $id)
+//    {
+//        $sub_cat=SubCategory::where('category_id',$id)->get();
+//
+//        return response(['data'=>$sub_cat]);
+//    }
+//    public function get_child_cat(string $id)
+//    {
+//        $child_cat=ChildCategory::where('sub_cat_id',$id)->get();
+//
+//        return response(['data'=>$child_cat]);
+//    }
 
     public function purchasOrderCreate()
     {
@@ -554,14 +554,6 @@ $pur=Purchas::find($id);
     public function filter_products(Request $request)
     {
         $query = $request->input('query', '');
-
-//        $products = Product::where('name', 'LIKE', "%{$query}%")
-//            ->orWhere('description', 'LIKE', "%{$query}%")
-//            ->orWhere('category', 'LIKE', "%{$query}%")
-//            ->orWhere('sub_category_id', 'LIKE', "%{$query}%")
-//            ->orWhere('child_category_id', 'LIKE', "%{$query}%")
-//            ->get();
-
         if ($query === 'All') {
             $products = Product::all();
         } else {
@@ -955,16 +947,36 @@ $pur=Purchas::find($id);
 
         // Check for uniqueness
         foreach ($ssn_products as $product) {
+            // Check if the current product matches the provided product ID
             if ($product['id'] == $productId) {
+                // Check if the serial number already exists in the product's serial list
                 if (in_array($serialNumber, $product['serial'])) {
                     return response()->json(['unique' => false]);
                 } else {
-                    $ssn_products[$productId]['serial'][$index] = $serialNumber;
-                    session()->put('purchase_products', $ssn_products);
-                    return response()->json(['unique' => true,'products' => array_reverse($ssn_products)]);
+                    // Check if the serial number exists in the database
+                    $pro_serial = ProductSerial::where('product_id', $productId)
+                        ->where('serial_number', $serialNumber)
+                        ->first();
+
+                    // If the serial number does not exist in the database
+                    if (!$pro_serial) {
+                        // Update the serial number in the session
+                        $ssn_products[$productId]['serial'][$index] = $serialNumber;
+                        session()->put('purchase_products', $ssn_products);
+
+                        // Return a JSON response indicating success and return the updated products array
+                        return response()->json([
+                            'unique' => true,
+                            'products' => array_reverse($ssn_products)
+                        ]);
+                    }else{
+                        return response()->json(['unique' => false]);
+                    }
+
                 }
             }
         }
+
 
         return response()->json(['unique' => true]);
     }

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('product_id')->nullable();
             $table->string('sotck_qty')->nullable();
             $table->string('pur_id')->nullable();
+            $table->string('pur_qty')->nullable();
             $table->string('sell_qty')->nullable();
             $table->string('purches_ret')->nullable();
             $table->string('sell_ret')->nullable();

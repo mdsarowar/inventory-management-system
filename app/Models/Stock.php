@@ -15,6 +15,7 @@ class Stock extends Model
         'product_id',
         'sotck_qty',
         'pur_id',
+        'pur_qty',
         'sell_qty',
         'purches_ret',
         'sell_ret',
