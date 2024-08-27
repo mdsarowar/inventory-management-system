@@ -710,7 +710,7 @@
                                                         <span>Grand Total</span>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="tel" class="form-control text-center" name="fractional_dis" id="grand_total" value="{{ isset($ssn_additional) ? $ssn_additional['grand_total'] : 0 }}" readonly>
+                                                        <input type="tel" class="form-control text-center" name="" id="grand_total" value="{{ isset($ssn_additional) ? $ssn_additional['grand_total'] : 0 }}" readonly>
                                                     </div>
                                                 </div>
                                             </div>
