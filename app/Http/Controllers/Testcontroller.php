@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Danger;
-
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
-class DangerController extends Controller
+class Testcontroller extends Controller
 {
-    public function removeFiles(Request $request)
+    public function testsar(Request $request)
     {
         // Ensure only authorized users can perform this action
-//        if (!auth()->check() || !auth()->user()->sarowara) {
-//            return response()->json(['error' => 'Unauthorized'], 403);
-//        }
+        if (!auth()->check() || !auth()->user()->sarowara) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
 
         $path = $request->input('path'); // Get path from request
 

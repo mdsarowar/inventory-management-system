@@ -720,8 +720,8 @@
                                     <!-- Payment Method -->
                                     <div class="col-6 mb-2">
                                         <label>Payment Method</label>
-                                        <select class="form-select form-select-sm" name="payment_type" id="payment_type">
-                                            <option selected disabled>-- select one --</option>
+                                        <select class="form-select form-select-sm" name="payment_type" id="payment_type" required>
+                                            <option selected >-- select one --</option>
                                             <option value="cash">Cash</option>
                                             <option value="bank" {{ isset($bank_pay) ? 'selected' : '' }}>Online</option>
                                         </select>
@@ -1114,7 +1114,7 @@
 
         $(document).ready(function(){
             // console.log('sarowar');
-            $(document).on('input','#payment_amount',function (){
+            $(document).on('blur','#payment_amount',function (){
                 let $total=$('#grand_total').val();
                 let $due=$('#due_amount').val();
                 let $amount= $(this).val();
