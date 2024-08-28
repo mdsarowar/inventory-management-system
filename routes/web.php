@@ -40,7 +40,7 @@ use App\Http\Controllers\Admin\Bank\BankTransferController;
 use App\Http\Controllers\Admin\Bank\BankChequeController;
 use App\Http\Controllers\Admin\Purchas\PurchasController;
 use App\Http\Controllers\Admin\Sales\SalesController;
-use App\Http\Controllers\Danger\DangerController;
+use App\Http\Controllers\Testcontroller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,35 +51,28 @@ use App\Http\Controllers\Danger\DangerController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//Danger
-Route::get('/removefiles', [DangerController::class, 'removeFiles']);
+
 //Branch
 Route::get('/', function () {
     return redirect(route('dashboard'));
 });
-
 Route::get('/change_lang/{val}',function ($val){
 //    app()->setLocale($val);
     session()->put('local',$val);
-});
-
+});//Danger
 Route::get('/dashboard', function () {
     return view('admin.dashboard.home');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/testsar', [Testcontroller::class, 'testsar']);
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
 });
-
 Route::group(['middleware' => ['admin_access']], function() {
 //Route::group(['middleware' => ['role:super-admin|admin|user']], function() {
-
     Route::resource('permissions', App\Http\Controllers\PermissionController::class);
     Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
-
     Route::resource('roles', App\Http\Controllers\RoleController::class);
     Route::get('roles/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
     Route::get('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);

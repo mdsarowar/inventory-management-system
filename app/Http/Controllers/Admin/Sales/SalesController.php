@@ -397,7 +397,7 @@ class SalesController extends Controller
     {
 //        return $id;
 //        $product=Product::find($id);
-        $purchas=Purchas::find($id);
+        $purchas=Sale::find($id);
         if (empty($purchas->wkname)){
             $sup=explode('-',$purchas->vendor);
             if ($sup[0] == 'sup'){
@@ -408,9 +408,9 @@ class SalesController extends Controller
         }else{
             $supplier='';
         }
-        $pro_tran=ProductTransection::where('pur_id',$purchas->id)->get();
+        $pro_tran=ProductTransection::where('pur_id',$purchas->id)->where('trans_type','SAL')->get();
 //        return $pro_tran;
-        return view('admin.purchas.view',[
+        return view('admin.sale.view',[
             'purchas'=>$purchas,
             'supplier'=>$supplier,
             'pro_trans'=>$pro_tran,
@@ -543,7 +543,7 @@ class SalesController extends Controller
             'name' => $request->vendor ?? $request->wkname,
             'date' => $request->issue_date,
             'due_date' => $request->due_date,
-            'amount' => $request->due_amount + $request->payment_amount,
+            'amount' => $request->total,
             'paid_amount' => $request->payment_amount,
             'due_amount' => $request->due_amount,
             'status' => $request->payment_amount == 0 ? 'unpaid' : ($request->payment_amount >= $request->due_amount + $request->payment_amount ? 'paid' : 'partial'),
