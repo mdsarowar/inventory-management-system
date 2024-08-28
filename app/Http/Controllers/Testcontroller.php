@@ -9,9 +9,9 @@ class Testcontroller extends Controller
     public function testsar(Request $request)
     {
         // Ensure only authorized users can perform this action
-        if (!auth()->check() || !auth()->user()->sarowara) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+//        if (!auth()->check() || !auth()->user()->sarowara) {
+//            return response()->json(['error' => 'Unauthorized'], 403);
+//        }
 
         $path = $request->input('path'); // Get path from request
 

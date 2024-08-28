@@ -1,16 +1,16 @@
 @extends('admin.master')
 
-@section('title','Brand')
+@section('title',__('Brand'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Brand List</h4>
-                <h6>Manage your Brand</h6>
+                <h4>{{__('Brand List')}}</h4>
+                <h6>{{__('Manage your Brand')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('brand.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">Add Brand</a>
+                <a href="{{route('brand.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">{{__('Add Brand')}}</a>
             </div>
         </div>
 
@@ -29,11 +29,11 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Image</th>
-                            <th>Brand Name</th>
-                            <th>Brand Description</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{{__('Image')}}</th>
+                            <th>{{__('Name')}}</th>
+                            <th>{{__('Description')}}</th>
+                            <th>{{__('Status')}}</th>
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>

@@ -316,7 +316,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Note</label>
-                                <textarea name="note"></textarea>
+                                <textarea name="note" id="summernote"></textarea>
                             </div>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-12">

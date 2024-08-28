@@ -32,7 +32,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea name="description">{{ $class->description }}</textarea>
+                                <textarea name="description" id="summernote">{{ $class->description }}</textarea>
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">

@@ -1,12 +1,12 @@
 @extends('admin.master')
 
-@section('title','Product')
+@section('title',__('Product'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>{{__('Product')}} {{__('Add')}}</h4>
+                <h4>{{__('Add Product')}}</h4>
                 <h6>{{__('Create New Product')}}</h6>
             </div>
         </div>
@@ -24,7 +24,7 @@
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>{{__('Bengali')}} {{__('Name')}}</label>
+                                <label>{{__('Name')}} (বাংলা)</label>
                                 <input type="text" name="bname" required>
                             </div>
                         </div>
@@ -159,7 +159,7 @@
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>{{__('Barcode (Optional)')}}</label>
+                                <label>{{__('Barcode')}} ({{__('Optional')}})</label>
                                 <input type="text" name="barcode">
                             </div>
                         </div>

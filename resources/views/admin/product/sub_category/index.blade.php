@@ -1,17 +1,17 @@
 @extends('admin.master')
 
-@section('title','sub category')
+@section('title',__('sub category'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Product Sub Category list</h4>
-                <h6>View/Search product Sub Category</h6>
+                <h4>{{__('Sub Category list')}}</h4>
+                <h6>{{__('View/Search Sub Category')}}</h6>
             </div>
             <div class="page-btn">
                 <a href="{{route('sub_category.create')}}" class="btn btn-added">
-                    <img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-1" alt="img">Add Sub Category
+                    <img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-1" alt="img">{{__('Add Sub Category')}}
                 </a>
             </div>
         </div>
@@ -31,14 +31,13 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Code</th>
-                            <th>Description</th>
-                            <th>Created By</th>
-                            <th>status</th>
-                            <th>Action</th>
+                            <th>{{__('Image')}}</th>
+                            <th>{{__('Name')}}</th>
+                            <th>{{__('Category')}}</th>
+                            <th>{{__('Code')}}</th>
+                            <th>{{__('Description')}}</th>
+                            <th>{{__('status')}}</th>
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -60,7 +59,6 @@
                                 <td>{{$sub_cat->category->name}}</td>
                                 <td>SUB-CA-00{{$sub_cat->sub_cat_code}}</td>
                                 <td>{{$sub_cat->description}}</td>
-                                <td>{{$sub_cat->created_by}}</td>
                                 <td>{{ $sub_cat->status == 1? 'Active':'Inactive' }}</td>
                                 <td>
                                     @can('update brand')

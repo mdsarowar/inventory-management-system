@@ -1,12 +1,12 @@
 @extends('admin.master')
 
-@section('title','Size')
+@section('title',__('Size'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Size Edit</h4>
+                <h4>{{__('Edit Size')}}</h4>
                 <h6>Update Size</h6>
             </div>
         </div>
@@ -17,42 +17,42 @@
                     @csrf
                     @method('put')
                     <div class="row">
-                        <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>size Name</label>
+                                <label>{{__('Name')}}</label>
                                 <input type="text" name="name" value="{{$size->name}}" required>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>size Name (বাংলা)</label>
+                                <label>{{__('Name')}} (বাংলা)</label>
                                 <input type="text" name="bname" value="{{$size->bname}}">
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Symbol</label>
+                                <label>{{__('Symbol')}}</label>
                                 <input type="text" name="symbol" value="{{$size->symbol}}">
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label class="d-block">Status</label>
+                                <label class="d-block">{{__('Status')}}</label>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="status" id="active"
                                            value="1" {{$size->status == 1 ? 'checked':''}}>
-                                    <label class="form-check-label" for="active">Active</label>
+                                    <label class="form-check-label" for="active">{{__('Active')}}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="status" id="inactive"
                                            value="0" {{$size->status == 0 ? 'checked':''}}>
-                                    <label class="form-check-label" for="inactive">Inactive</label>
+                                    <label class="form-check-label" for="inactive">{{__('Inactive')}}</label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <button type="submit" class="btn btn-submit me-2">Submit</button>
-                            <a href="{{route('size.index')}}" class="btn btn-cancel">Cancel</a>
+                            <button type="submit" class="btn btn-submit me-2">{{__('Submit')}}</button>
+                            <a href="{{route('size.index')}}" class="btn btn-cancel">{{__('Cancel')}}</a>
                         </div>
                     </div>
 

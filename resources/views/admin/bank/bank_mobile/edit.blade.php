@@ -99,7 +99,7 @@ button.selected_mfs{
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Note</label>
-                                <textarea name="note">{{ $account->note }}</textarea>
+                                <textarea name="note" id="summernote">{{ $account->note }}</textarea>
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">

@@ -1,12 +1,12 @@
 @extends('admin.master')
 
-@section('title','Product')
+@section('title',__('Product'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>{{__('Product Edit')}}</h4>
+                <h4>{{__('Edit Product')}}</h4>
                 <h6>{{__('Update your Product')}}</h6>
             </div>
         </div>
@@ -166,7 +166,7 @@
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>{{__('Barcode (Optional)')}}</label>
+                                <label>{{__('Barcode')}} ({{__('Optional')}})</label>
                                 <input type="text" name="barcode" value="{{$product->barcode}}" >
                             </div>
                         </div>
