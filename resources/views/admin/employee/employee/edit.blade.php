@@ -104,7 +104,7 @@
                         <div class="col-lg-4 col-12">
                             <div class="form-group">
                                 <label>{{__('Address')}}</label>
-                                <textarea class="form-control" name="address">{!! $employee->address !!}</textarea>
+                                <textarea class="form-control" id="summernote" name="address">{!! $employee->address !!}</textarea>
                             </div>
                         </div>
 
@@ -127,7 +127,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>{{__('Permanent Address')}}</label>
-                                <textarea class="form-control" name="per_address">{!! $employee->per_address !!}</textarea>
+                                <textarea class="form-control" id="summernote" name="per_address">{!! $employee->per_address !!}</textarea>
                             </div>
                         </div>
 

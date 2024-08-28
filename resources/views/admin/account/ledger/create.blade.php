@@ -29,7 +29,7 @@
                         <div class="col-lg-8 col-sm-6 col-12">
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea name="description" rows="5" style="height: 135px"></textarea>
+                                <textarea name="description" id="summernote" rows="5" style="height: 135px"></textarea>
                             </div>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-12">

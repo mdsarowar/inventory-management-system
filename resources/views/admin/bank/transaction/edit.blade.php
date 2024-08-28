@@ -317,7 +317,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Note</label>
-                                <textarea name="note">{{ $transaction->note }}</textarea>
+                                <textarea name="note" id="summernote">{{ $transaction->note }}</textarea>
                             </div>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-12">

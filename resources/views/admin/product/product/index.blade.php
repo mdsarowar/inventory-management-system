@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title',__('Manufacture'))
+@section('title',__('Product'))
 
 @section('content')
     <div class="content">

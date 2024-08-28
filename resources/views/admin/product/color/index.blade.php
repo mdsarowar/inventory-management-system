@@ -1,16 +1,16 @@
 @extends('admin.master')
 
-@section('title','Color')
+@section('title',__('Color'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Color List</h4>
-                <h6>Manage your Color</h6>
+                <h4>{{__('Color List')}}</h4>
+                <h6>{{__('Manage your Color')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('color.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">Add Color</a>
+                <a href="{{route('color.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">{{__('Add Color')}}</a>
             </div>
         </div>
 
@@ -29,11 +29,11 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Name</th>
+                            <th>{{__('Name')}}</th>
                             <th>বাংলা</th>
-                            <th>Symbol</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{{__('Symbol')}}</th>
+                            <th>{{__('Status')}}</th>
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>
