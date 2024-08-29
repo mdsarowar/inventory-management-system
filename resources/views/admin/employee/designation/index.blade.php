@@ -7,7 +7,7 @@
         <div class="page-header">
             <div class="page-title">
                 <h4>{{__('Designation List')}}</h4>
-                <h6>{{__('Manage your Designation')}}</h6>
+                <h6>{{__('Manage Designation')}}</h6>
             </div>
             <div class="page-btn">
                 <a href="{{route('designation.create')}}" class="btn btn-added"> <img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img">{{__('Add Designation')}}</a>

@@ -7,7 +7,7 @@
         <div class="page-header">
             <div class="page-title">
                 <h4>{{__('Designation Management')}}</h4>
-                <h6>{{__('Add/Update Designation')}}</h6>
+                <h6>{{__('Add a Designation')}}</h6>
             </div>
         </div>
         <!-- /add -->

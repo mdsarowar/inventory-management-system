@@ -6,8 +6,7 @@
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>{{__('Product Edit Category')}}</h4>
-                <h6>{{__('Edit a product Category')}}</h6>
+                <h6>{{__('Edit Employee')}}</h6>
             </div>
         </div>
         <!-- /add -->
@@ -84,15 +83,15 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
+                            <div class="form-group date">
                                 <label>{{__('Date Of Birth')}}</label>
-                                <input type="date" name="dob" value="{{$employee->dob}}">
+                                <input type="date" class="form-control" name="dob" value="{{$employee->dob}}">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
+                            <div class="form-group date">
                                 <label>{{__('Joining Date')}}</label>
-                                <input type="date" name="joining_date" value="{{$employee->joining_date}}">
+                                <input type="date" class="form-control" name="joining_date" value="{{$employee->joining_date}}">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
@@ -101,12 +100,13 @@
                                 <input type="text" name="salary" value="{{$employee->salary}}">
                             </div>
                         </div>
-                        <div class="col-lg-4 col-12">
+                        <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label>{{__('Address')}}</label>
-                                <textarea class="form-control" id="summernote" name="address">{!! $employee->address !!}</textarea>
+                                <input type="text" name="address" value="{{$employee->address}}">
                             </div>
                         </div>
+
 
                         <div class="col-lg-4 col-sm-6 col-12">
                             <div class="form-group">
@@ -123,14 +123,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>{{__('Permanent Address')}}</label>
-                                <textarea class="form-control" id="summernote" name="per_address">{!! $employee->per_address !!}</textarea>
-                            </div>
-                        </div>
-
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>{{__('Image')}}</label>
@@ -142,25 +134,36 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="product-list">
-                            <ul class="row">
-                                <li>
-                                    <div class="productviews">
-                                        <div class="productviewsimg">
-                                            <img src="{{asset($employee->image)}}" alt="img">
-                                        </div>
-                                        <div class="productviewscontent">
-                                            <div class="productviewsname">
-                                                <h2>{{$employee->name}}</h2>
-                                                {{--                                                    <h3>581kb</h3>--}}
+                            <div class="product-list">
+                                <ul class="row">
+                                    <li>
+                                        <div class="productviews">
+                                            <div class="productviewsimg">
+                                                <img src="{{asset($employee->image)}}" alt="img">
                                             </div>
-                                            <a href="javascript:void(0);" class="hideset">x</a>
+                                            <div class="productviewscontent">
+                                                <div class="productviewsname">
+                                                    <h2>{{$employee->name}}</h2>
+                                                    {{--                                                    <h3>581kb</h3>--}}
+                                                </div>
+                                                <a href="javascript:void(0);" class="hideset">x</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
+
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>{{__('Permanent Address')}}</label>
+                                <textarea class="form-control" id="summernote2" name="per_address">{!! $employee->per_address !!}</textarea>
+                            </div>
+                        </div>
+
+
+
                         <div class="col-lg-12">
                             <button type="submit"  class="btn btn-submit me-2">{{__('Update')}}</button>
                             <a href="{{route('employee.index')}}"  class="btn btn-cancel">{{__('Cancel')}}</a>

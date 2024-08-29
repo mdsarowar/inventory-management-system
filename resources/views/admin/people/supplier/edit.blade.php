@@ -6,8 +6,8 @@
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>{{__('Supplier Edit')}} </h4>
-                <h6>{{__('Edit a Supplier')}} </h6>
+{{--                <h4>{{__('Supplier Edit')}} </h4>--}}
+                <h6>{{__('Edit Supplier')}} </h6>
             </div>
         </div>
         <!-- /add -->
@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>{{__('Supplier Name')}}</label>
+                                <label>{{__('Name')}}</label>
                                 <input type="text" name="name" value="{{$supplier->name}}">
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>{{__('Description')}}</label>
-                                <textarea class="form-control" id="summernote" name="note">{!! $supplier->note !!}</textarea>
+                                <textarea class="form-control" id="summernote1" name="note">{!! $supplier->note !!}</textarea>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -111,24 +111,24 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="product-list">
-                            <ul class="row">
-                                <li>
-                                    <div class="productviews">
-                                        <div class="productviewsimg">
-                                            <img src="{{asset($supplier->image)}}" alt="img">
-                                        </div>
-                                        <div class="productviewscontent">
-                                            <div class="productviewsname">
-                                                <h2>{{$supplier->name}}</h2>
-                                                {{--                                                    <h3>581kb</h3>--}}
+                            <div class="product-list">
+                                <ul class="row">
+                                    <li>
+                                        <div class="productviews">
+                                            <div class="productviewsimg">
+                                                <img src="{{asset($supplier->image)}}" alt="img">
                                             </div>
-                                            <a href="javascript:void(0);" class="hideset">x</a>
+                                            <div class="productviewscontent">
+                                                <div class="productviewsname">
+                                                    <h2>{{$supplier->name}}</h2>
+                                                    {{--                                                    <h3>581kb</h3>--}}
+                                                </div>
+                                                <a href="javascript:void(0);" class="hideset">x</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="col-lg-12">
                             <button type="submit"  class="btn btn-submit me-2">{{__('update')}}</button>

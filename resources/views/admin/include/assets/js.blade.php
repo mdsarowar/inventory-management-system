@@ -64,9 +64,26 @@
 <!-- Datatable JS -->
 
 
+<!-- Fileupload JS -->
+<script src="{{('/')}}admin/assets/plugins/fileupload/fileupload.min.js"></script>
+
+<!-- Slimscroll JS -->
+<script src="{{('/')}}admin/assets/js/jquery.slimscroll.min.js"></script>
+
+
 <!-- Custom JS -->
 <script src="{{asset('/')}}admin/assets/js/script.js"></script>
 
+<script>
+    $(document).ready(function() {
+        $('#summernote2').summernote({
+            height: 200,   // set the height of the editor
+        });
+        $('#summernote1').summernote({
+            height: 200,   // set the height of the editor
+        });
+    });
+</script>
 
 <script>
     @if(Session::has('success'))

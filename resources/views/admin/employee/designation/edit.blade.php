@@ -6,8 +6,8 @@
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4> {{__('Edit Designation')}}</h4>
-                <h6>{{__('Edit a Designation')}}</h6>
+{{--                <h4> {{__('Edit Designation')}}</h4>--}}
+                <h6>{{__('Update Designation')}}</h6>
             </div>
         </div>
         <!-- /add -->

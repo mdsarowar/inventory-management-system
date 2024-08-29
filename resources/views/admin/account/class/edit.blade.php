@@ -1,13 +1,11 @@
 @extends('admin.master')
-
-@section('title','Class Edit')
+@section('title',__('Account Classes'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Class Edit</h4>
-                <h6>Update Class</h6>
+                <h6>{{__("Update Account Classes")}}</h6>
             </div>
         </div>
         <!-- /edit -->
@@ -29,53 +27,66 @@
                                 <input type="text" name="bname" value="{{ $class->bname }}">
                             </div>
                         </div>
+                        <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label>{{__('Type')}}</label>
+                                <select name="type" class="form-select">
+                                    <option selected disabled>-- select one --</option>
+                                    <option value="asset" {{$class->type == 'asset'? 'selected':''}}>{{__('Asset')}}</option>
+                                    <option value="liability" {{$class->type == 'liability'? 'selected':''}}>{{__('Liability')}}</option>
+                                    <option value="equity" {{$class->type == 'equity'? 'selected':''}}>{{__('Equity')}}</option>
+                                    <option value="income" {{$class->type == 'income'? 'selected':''}}>{{__('Income')}}</option>
+                                    <option value="expense" {{$class->type == 'expense'? 'selected':''}}>{{__('Expense')}}</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea name="description" id="summernote">{{ $class->description }}</textarea>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Publisher</label>
-                                <input type="text" value="{{ $class->user->name }}" readonly>
-                                <input type="hidden" name="user_id" value="{{ $class->user->id }}" required>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Select Branch</label>
-                                <select name="branch_id" class="form-select">
-                                    @if($class->branch_id)
-                                        @foreach($branches as $branch)
-                                            <option value="{{ $branch->id }}" {{ $class->branch_id == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
-                                        @endforeach
-                                    @else
-                                        <option selected disabled>-- select one --</option>
-                                        @foreach($branches as $branch)
-                                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Select Compnay</label>
-                                <select name="company_id" class="form-select">
-                                    @if($class->company_id)
-                                        @foreach($companies as $company)
-                                            <option value="{{ $company->id }}" {{ $class->branch_id == $branch->id ? 'selected' : '' }}>{{ $company->name }}</option>
-                                        @endforeach
-                                    @else
-                                        <option selected disabled>-- select one --</option>
-                                        @foreach($companies as $company)
-                                            <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
+{{--                        <div class="col-lg-3 col-sm-6 col-12">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label>Publisher</label>--}}
+{{--                                <input type="text" value="{{ $class->user->name }}" readonly>--}}
+{{--                                <input type="hidden" name="user_id" value="{{ $class->user->id }}" required>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-4 col-sm-6 col-12">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label>Select Branch</label>--}}
+{{--                                <select name="branch_id" class="form-select">--}}
+{{--                                    @if($class->branch_id)--}}
+{{--                                        @foreach($branches as $branch)--}}
+{{--                                            <option value="{{ $branch->id }}" {{ $class->branch_id == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    @else--}}
+{{--                                        <option selected disabled>-- select one --</option>--}}
+{{--                                        @foreach($branches as $branch)--}}
+{{--                                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    @endif--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-4 col-sm-6 col-12">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label>Select Compnay</label>--}}
+{{--                                <select name="company_id" class="form-select">--}}
+{{--                                    @if($class->company_id)--}}
+{{--                                        @foreach($companies as $company)--}}
+{{--                                            <option value="{{ $company->id }}" {{ $class->branch_id == $branch->id ? 'selected' : '' }}>{{ $company->name }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    @else--}}
+{{--                                        <option selected disabled>-- select one --</option>--}}
+{{--                                        @foreach($companies as $company)--}}
+{{--                                            <option value="{{ $company->id }}">{{ $company->name }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    @endif--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="col-lg-12">
                             <button type="submit" class="btn btn-submit me-2">Submit</button>
                             <a href="{{route('class.index')}}" class="btn btn-cancel">Cancel</a>
