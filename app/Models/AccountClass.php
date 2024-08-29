@@ -13,6 +13,7 @@ class AccountClass extends Model
     protected $fillable = [
         'name',
         'bname',
+        'type',
         'description',
         'user_id',
         'branch_id',
@@ -35,6 +36,7 @@ class AccountClass extends Model
         }
         self::$class->name                       = $request->name ?? '';
         self::$class->bname                      = $request->bname ?? '';
+        self::$class->type                      = $request->type ?? '';
         self::$class->description                = $request->description ?? '';
         self::$class->user_id                    = $request->user_id ?? null;
         self::$class->branch_id                  = $request->branch_id ?? null;

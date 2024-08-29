@@ -7,7 +7,7 @@
         <div class="page-header">
             <div class="page-title">
                 <h4>{{__('Employee Management')}}</h4>
-                <h6>{{__('Add/Update Employee')}}</h6>
+                <h6>{{__('Add a Employee')}}</h6>
             </div>
         </div>
         <!-- /add -->
@@ -83,15 +83,15 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
+                            <div class="form-group date">
                                 <label>{{__('Date Of Birth')}}</label>
-                                <input type="date" name="dob" >
+                                <input type="date" class="form-control" name="dob" >
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
+                            <div class="form-group date">
                                 <label>{{__('Joining Date')}}</label>
-                                <input type="date" name="joining_date" >
+                                    <input class="form-control" type="date" name="joining_date" >
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
@@ -125,12 +125,6 @@
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>{{__('Permanent Address')}}</label>
-                                <textarea class="form-control" id="summernote" name="per_address"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
                                 <label>{{__('Image')}}</label>
                                 <div class="image-upload">
                                     <input type="file" name="image">
@@ -141,6 +135,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>{{__('Permanent Address')}}</label>
+                                <textarea class="form-control" id="summernote1" name="per_address"></textarea>
+                            </div>
+                        </div>
+
                         <div class="col-lg-12">
                             <button type="submit"  class="btn btn-submit me-2">{{__('Submit')}}</button>
                             <a href="{{route('employee.index')}}"  class="btn btn-cancel">{{__('Cancel')}}</a>
@@ -152,3 +153,4 @@
         <!-- /add -->
     </div>
 @endsection
+

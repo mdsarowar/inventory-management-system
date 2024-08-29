@@ -3,10 +3,10 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="submenu-open">
-                    <h6 class="submenu-hdr">Main</h6>
+{{--                    <h6 class="submenu-hdr">Main</h6>--}}
                     <ul>
                         <li class="{{request()->is('dashboard')?'active':''}}">
-                            <a href="{{route('dashboard')}}" ><i data-feather="grid"></i><span>Dashboard</span></a>
+                            <a href="{{route('dashboard')}}" ><i data-feather="grid"></i><span>{{__('Dashboard')}}</span></a>
                         </li>
 {{--                        <li class="submenu">--}}
 {{--                            <a href="javascript:void(0);"><i data-feather="smartphone"></i><span>Application</span><span class="menu-arrow"></span></a>--}}
@@ -19,17 +19,17 @@
                         <li class="submenu slide {{request()->is('admins*') || request()->is('roles*') || request()->is('permissions*') ?'is-expanded':''}}">
                             @can('role management')
                                 <a href="javascript:void(0);" class="{{request()->is('admins*') || request()->is('roles*') || request()->is('permissions*') ?'active subdrop':''}}"><i data-feather="smartphone"></i>
-                                    <span>Role Management</span><span class="menu-arrow"></span>
+                                    <span>{{__('Role Management')}}</span><span class="menu-arrow"></span>
                                 </a>
                                 <ul>
                                     @can('view user')
-                                        <li><a href="{{route('admins.index')}}" class="{{request()->is('admins*')?'active':''}}">User</a></li>
+                                        <li><a href="{{route('admins.index')}}" class="{{request()->is('admins*')?'active':''}}">{{__('User')}}</a></li>
                                     @endcan
                                     @can('view role')
-                                        <li><a href="{{route('roles.index')}}" class="{{request()->is('roles*')?'active':''}}">Role</a></li>
+                                        <li><a href="{{route('roles.index')}}" class="{{request()->is('roles*')?'active':''}}">{{__('Role')}}</a></li>
                                     @endcan
                                     @can('view permission')
-                                        <li><a href="{{route('permissions.index')}}" class="{{request()->is('permissions*')?'active':''}}">Permission</a></li>
+                                        <li><a href="{{route('permissions.index')}}" class="{{request()->is('permissions*')?'active':''}}">{{__('Permission')}}</a></li>
                                     @endcan
                                 </ul>
                             @endcan
@@ -297,22 +297,22 @@
 
                 @can('account management')
                     <li class="submenu-open">
-                        <h6 class="submenu-hdr">Accounts Setup</h6>
+{{--                        <h6 class="submenu-hdr">Accounts Setup</h6>--}}
                         <ul>
                             <li class="submenu slide {{ request()->is('class*') || request()->is('group*')|| request()->is('sub_group*') || request()->is('journal*') || request()->is('ledger*') || request()->is('account_payment*') || request()->is('account_receive*') || request()->is('transaction*') || request()->is('expense_details*') || request()->is('transaction_details*') ? 'is-expanded' : '' }}">
                                 {{--                                @can('role management')--}}
                                 <a href="javascript:void(0);" class="{{ request()->is('class*') || request()->is('group*')|| request()->is('sub_group*') || request()->is('journal*') || request()->is('ledger*') || request()->is('account_payment*') || request()->is('account_receive*') || request()->is('transaction*') || request()->is('expense_details*') || request()->is('transaction_details*') ? 'active subdrop' : ''}}"><i class="far fa-money-bill-alt me-2"></i>
-                                    <span>Accounts</span><span class="menu-arrow"></span>
+                                    <span>{{__('Accounts')}}</span><span class="menu-arrow"></span>
                                 </a>
                                 <ul>
                                     @can('view class')
-                                        <li><a class="{{request()->is('class*') ? 'active':''}}" href="{{route('class.index')}}"><i class="fas fa-list-ol me-2"></i><span>Class</span></a></li>
+                                        <li><a class="{{request()->is('class*') ? 'active':''}}" href="{{route('class.index')}}"><i class="fas fa-list-ol me-2"></i><span>{{__('Account Class')}}</span></a></li>
                                     @endcan
                                     @can('view group')
-                                        <li><a class="{{request()->is('group*') ? 'active':''}}" href="{{route('group.index')}}"><i class="fas fa-object-ungroup me-2"></i><span>Group</span></a></li>
+                                        <li><a class="{{request()->is('group*') ? 'active':''}}" href="{{route('group.index')}}"><i class="fas fa-object-ungroup me-2"></i><span>{{__('Account Group')}}</span></a></li>
                                     @endcan
                                     @can('view subgroup')
-                                        <li><a class="{{request()->is('sub_group*') ? 'active':''}}" href="{{route('sub_group.index')}}"><i class="far fa-object-ungroup me-2"></i><span>Sub-Group</span></a></li>
+                                        <li><a class="{{request()->is('sub_group*') ? 'active':''}}" href="{{route('sub_group.index')}}"><i class="far fa-object-ungroup me-2"></i><span>{{__('Account Sub-Group')}}</span></a></li>
                                     @endcan
                                     @can('view ledger')
                                         <li><a class="{{request()->is('ledger*') ? 'active':''}}" href="{{route('ledger.index')}}"><i class="fas fa-file-invoice-dollar me-2"></i><span>Ledger</span></a></li>

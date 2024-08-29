@@ -1,16 +1,16 @@
 @extends('admin.master')
 
-@section('title','Manufacture')
+@section('title',__('Manufacture'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Manufacture List</h4>
-                <h6>Manage your Manufacture</h6>
+                <h4>{{__('Manufacture List')}}</h4>
+                <h6>{{__('Manage your Manufacture')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{ route('manufacture.create') }}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">Add Manufacture</a>
+                <a href="{{ route('manufacture.create') }}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">{{__('Add Manufacture')}}</a>
             </div>
         </div>
 
@@ -29,12 +29,12 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Name</th>
-                            <th>Contact</th>
-                            <th>Address</th>
-                            <th>Main Product</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{{__('Name')}}</th>
+                            <th>{{__('Contact')}}</th>
+                            <th>{{__('Address')}}</th>
+                            <th>{{__('Main Product')}}</th>
+                            <th>{{__('Status')}}</th>
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>

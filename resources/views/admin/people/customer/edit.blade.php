@@ -7,7 +7,7 @@
         <div class="page-header">
             <div class="page-title">
                 <h4>{{__('Edit Customer')}}</h4>
-                <h6>{{__('Edit a Customer')}}</h6>
+{{--                <h6>{{__('Edit a Customer')}}</h6>--}}
             </div>
         </div>
         <!-- /add -->
@@ -71,6 +71,12 @@
                                 <input type="text" name="rank" value="{{$customer->rank}}">
                             </div>
                         </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="form-group">
+                                <label>{{__('Address')}}</label>
+                                <input type="text" name="address" value="{{$customer->address}}">
+                            </div>
+                        </div>
 
                         <div class="col-lg-4 col-sm-6 col-12">
                             <div class="form-group">
@@ -87,48 +93,46 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-12">
-                            <div class="form-group">
-                                <label>{{__('Address')}}</label>
-                                <input type="text" name="address" value="{{$customer->address}}">
-                            </div>
-                        </div>
+
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>{{__('Description')}}</label>
-                                <textarea class="form-control" id="summernote" name="note">{!! $customer->note !!}</textarea>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label> {{__('Avatar')}}</label>
+                                <label> {{__('Image')}}</label>
                                 <div class="image-upload">
                                     <input type="file" name="image">
                                     <div class="image-uploads">
                                         <img src="{{asset('/')}}admin/assets/img/icons/upload.svg" alt="img">
-                                        <h4>Drag and drop a file to upload</h4>
+                                        <h4>{{__('Drag and drop a file to upload')}}</h4>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="product-list">
-                            <ul class="row">
-                                <li>
-                                    <div class="productviews">
-                                        <div class="productviewsimg">
-                                            <img src="{{asset($customer->image)}}" alt="img">
-                                        </div>
-                                        <div class="productviewscontent">
-                                            <div class="productviewsname">
-                                                <h2>{{$customer->name}}</h2>
-                                                {{--                                                    <h3>581kb</h3>--}}
+                            <div class="product-list">
+                                <ul class="row">
+                                    <li>
+                                        <div class="productviews">
+                                            <div class="productviewsimg">
+                                                <img src="{{asset($customer->image)}}" alt="img">
                                             </div>
-                                            <a href="javascript:void(0);" class="hideset">x</a>
+                                            <div class="productviewscontent">
+                                                <div class="productviewsname">
+{{--                                                    <h2>{{$customer->name}}</h2>--}}
+                                                    {{--                                                    <h3>581kb</h3>--}}
+                                                </div>
+                                                <a href="javascript:void(0);" class="hideset">x</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
+
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>{{__('Description')}}</label>
+                                <textarea class="form-control" id="summernote1" name="note">{!! $customer->note !!}</textarea>
+                            </div>
+                        </div>
+
                         <div class="col-lg-12">
                             <button type="submit"  class="btn btn-submit me-2">{{__('update')}}</button>
                             <a href="{{route('customers.index')}}"  class="btn btn-cancel">{{__('Cancel')}}</a>

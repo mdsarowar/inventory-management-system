@@ -7,7 +7,7 @@
         <div class="page-header">
             <div class="page-title">
                 <h4>{{__('Supplier Management')}}</h4>
-                <h6>{{__('Add/Update Supplier')}}</h6>
+                <h6>{{__('Add a Supplier')}}</h6>
             </div>
         </div>
         <!-- /add -->
@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>{{__('Supplier Name')}}</label>
+                                <label>{{__('Name')}}</label>
                                 <input type="text" name="name" >
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>{{__('Description')}}</label>
-                                <textarea class="form-control" id="summernote" name="note"></textarea>
+                                <textarea class="form-control" id="summernote1" name="note"></textarea>
                             </div>
                         </div>
                         <div class="col-lg-6">

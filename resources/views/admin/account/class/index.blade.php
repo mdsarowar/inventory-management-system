@@ -1,16 +1,16 @@
 @extends('admin.master')
 
-@section('title','Account Classes')
+@section('title',__('Account Classes'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Class List</h4>
-                <h6>Manage Your Class</h6>
+                <h4>{{__('Account Classes list')}}</h4>
+                <h6>{{__('Manage Your Account Classes')}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('class.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">Add Class</a>
+                <a href="{{route('class.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">{{__('Add Account Classes')}}</a>
             </div>
         </div>
 
@@ -28,9 +28,10 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Action</th>
+                            <th>{{__('Name')}}</th>
+                            <th>{{__('Name')}} (বাংলা)</th>
+                            <th>{{__('Type')}} (বাংলা)</th>
+                            <th>{{__('Action')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -42,8 +43,9 @@
                                         <span class="checkmarks"></span>
                                     </label>
                                 </td>
-                                <td>{{ $class->name }}</td>
-                                <td>{{ Str::limit($class->description, 150) }}</td>
+                                <td>{{ __($class->name) }}</td>
+                                <td>{{$class->bname}}</td>
+                                <td>{{__($class->type)}}</td>
                                 <td>
                                     @can('update class')
                                         <a class="me-3" href="{{route('class.edit',$class->id)}}">

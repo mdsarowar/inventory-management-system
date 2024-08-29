@@ -7,7 +7,7 @@
         <div class="page-header">
             <div class="page-title">
                 <h4>{{__('Supplier List')}}</h4>
-                <h6>{{__('Manage your Suppliers')}}</h6>
+                <h6>{{__('Manage Suppliers')}}</h6>
             </div>
             <div class="page-btn">
                 <a href="{{route('suppliers.create')}}" class="btn btn-added"> <img src="{{asset('/')}}admin/assets/img/icons/plus.svg" alt="img">{{__('Add Supplier')}}</a>
