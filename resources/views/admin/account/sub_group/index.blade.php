@@ -1,16 +1,16 @@
 @extends('admin.master')
 
-@section('title','Account Sub-Groups')
+@section('title',__('Account Sub-Group'))
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h4>Sub-Groups List</h4>
-                <h6>Manage Your Sub-Groups</h6>
+                <h4>{{__("Account Sub-Group List")}}</h4>
+                <h6>{{__("Manage Your Account Sub-Group")}}</h6>
             </div>
             <div class="page-btn">
-                <a href="{{route('sub_group.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">Add Sub-Group</a>
+                <a href="{{route('sub_group.create')}}" class="btn btn-added"><img src="{{asset('/')}}admin/assets/img/icons/plus.svg"  class="me-2" alt="img">{{__('Add Account Sub-Group')}}</a>
             </div>
         </div>
 
@@ -28,10 +28,10 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Name</th>
-                            <th>Group</th>
-                            <th>Description</th>
-                            <th>Action</th>
+                            <th>{{__("Name")}}</th>
+                            <th>{{__("Group")}}</th>
+                            <th>{{__("Description")}}</th>
+                            <th>{{__("Action")}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -45,7 +45,7 @@
                                 </td>
                                 <td>{{ $group->name }}</td>
                                 <td>{{ $group->group_id ? $group->group->name : '' }}</td>
-                                <td>{{ Str::limit($group->description, 150) }}</td>
+                                <td>{!! $group->description !!}</td>
                                 <td>
                                     @can('update group')
                                         <a class="me-3" href="{{route('sub_group.edit',$group->id)}}">
